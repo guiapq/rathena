@@ -124,3 +124,4 @@ Thumbs.db
 /libmysql.dll
 /pcre8.dll
 /zlib.dll
+*.vanilla_pre_re
