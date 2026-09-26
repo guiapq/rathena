@@ -63,6 +63,17 @@ menu	"Last Warp ^777777["+lastwarp$+"]^000000",-,
 // --------------------------------------------------
 
 function Go {
+	.@dest_map$ = getarg(0);
+	if (getgmlevel() < 99) {
+		.@conquered = 0;
+		query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@dest_map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
+		if (.@conquered == 0) {
+			mes "[Teleportadora Roguelike]";
+			mes "A região ^FF0000" + .@dest_map$ + "^000000 ainda está dominada por forças hostis!";
+			mes "Você precisa marchar a pé e purificar a vanguarda do mapa antes de poder usar o teletransporte rápido para lá.";
+			close;
+		}
+	}
 	set lastwarp$, getarg(0);
 	set lastwarpx, getarg(1,0);
 	set lastwarpy, getarg(2,0);

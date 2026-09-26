@@ -1,0 +1,168 @@
+//===== rAthena Script =======================================
+//= RagnaRogue v3 — Sistema de Reconquista Territorial & Névoa de Guerra
+//===== Descrição: ============================================
+//= - Pune/bloqueia o uso do @warp e Teleportadora para mapas ainda não libertados a pé.
+//= - Mapas com monstros exigem expulsar a vanguarda inimiga (15 abates ou 1 MVP) para purificar.
+//= - Mapas sem monstros são conquistados automaticamente na primeira visita com mensagem especial.
+//= - Emite anúncio global informando o nome do mapa e novos caminhos abertos.
+//= - Registra o progresso do mundo procedural no MariaDB.
+//============================================================
+
+-	script	MapConquest	-1,{
+
+OnInit:
+	bindatcmd("warp", "MapConquest::OnWarpCommand", 0, 99);
+	bindatcmd("go", "MapConquest::OnGoCommand", 0, 99);
+
+	// Carregar seed ativa do mundo
+	$@current_world_seed$ = "v3-world";
+	.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+	if (.@row_count > 0 && .@seed$[0] != "") {
+		$@current_world_seed$ = .@seed$[0];
+	}
+
+	// Cidades capitais seguras (conquistadas por padrão)
+	setarray .@safe_cities$[0], "prontera", "izlude", "geffen", "morocc", "payon", "alberta", "aldebaran", "comodo", "yuno", "amatsu", "gonryun", "umbala", "lighthalzen", "louyang", "ayothaya", "einbroch", "einbech", "hugel", "rachel", "veins", "lutie", "jawaii";
+	for (.@i = 0; .@i < getarraysize(.@safe_cities$); .@i++) {
+		query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('" + .@safe_cities$[.@i] + "', '" + $@current_world_seed$ + "', 'Sistema', NOW())");
+	}
+	end;
+
+OnPCLoadMapEvent:
+	if (getgmlevel() == 99) end;
+	.@map$ = strcharinfo(3);
+
+	// Se for cidade inicial ou interior/castelo/instancia protegida, ignorar
+	if (compare(.@map$, "_in") || compare(.@map$, "cas") || compare(.@map$, "sec_in") || compare(.@map$, "job_") || compare(.@map$, "gld_") || compare(.@map$, "pvp_")) end;
+
+	.@conquered = 0;
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
+	if (.@conquered > 0) end;
+
+	// Verificar se este mapa possui monstros cadastrados ou ativos
+	.@mob_spawns = 0;
+	query_sql("SELECT ifnull(max(`total_spawns`), 0) FROM `world_map_has_mobs` WHERE `map_name` = '" + .@map$ + "'", .@mob_spawns);
+	.@active_mobs = mobcount("this", "all");
+
+	if (.@mob_spawns == 0 && .@active_mobs <= 0) {
+		// Mapas sem monstros são conquistados automaticamente com mensagem pacífica!
+		query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('" + .@map$ + "', '" + $@current_world_seed$ + "', '" + escape_sql(strcharinfo(0)) + "', NOW())");
+
+		// Contar quantas novas rotas foram abertas a partir daqui
+		.@new_maps_count = 0;
+		query_sql("SELECT count(DISTINCT `to_map`) FROM `world_map_connections` WHERE `from_map` = '" + .@map$ + "' AND `seed` = '" + $@current_world_seed$ + "' AND `to_map` NOT IN (SELECT `map_name` FROM `world_map_conquests` WHERE `seed` = '" + $@current_world_seed$ + "')", .@new_maps_count);
+
+		specialeffect2 568; // Coluna de Luz Sagrada
+		dispbottom "[SANTUÁRIO PACÍFICO] A região de " + .@map$ + " não possui forças hostis e foi anexada aos territórios seguros!", 0x00FFFF;
+		dispbottom "Fast Travel e rotas conectadas foram desbloqueados com sucesso!", 0x00FF00;
+
+		// Mensagem diferenciada para mapas sem monstros
+		if (.@new_maps_count > 0) {
+			announce "Aventureiros, a pacífica região de " + .@map$ + " foi mapeada por " + strcharinfo(0) + ", " + .@new_maps_count + " novos mapas foram abertos!", bc_all, 0x00FFFF;
+		} else {
+			announce "Aventureiros, a pacífica região de " + .@map$ + " foi mapeada e integrada aos territórios livres por " + strcharinfo(0) + "!", bc_all, 0x00FFFF;
+		}
+		end;
+	}
+
+	// Se possui monstros: entrar em modo expedição e guerra de atrito
+	@conquest_map_kills = 0;
+	dispbottom "[EXPEDIÇÃO ROGUELIKE] Você adentrou " + .@map$ + "!", 0xFFAA00;
+	dispbottom "Esta região está sob domínio inimigo. Elimine 15 monstros ou 1 MVP para expulsar a vanguarda e libertar as rotas!", 0xFFFF55;
+	end;
+
+OnNPCKillEvent:
+	if (getgmlevel() == 99) end;
+	.@map$ = strcharinfo(3);
+
+	// Cidades ou mapas especiais protegidos não contam
+	if (compare(.@map$, "_in") || compare(.@map$, "cas") || compare(.@map$, "gld_") || compare(.@map$, "job_") || compare(.@map$, "sec_in")) end;
+
+	.@conquered = 0;
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
+	if (.@conquered > 0) end;
+
+	// Abate de MVP purifica o mapa imediatamente
+	.@is_mvp = 0;
+	if (getmonsterinfo(killedrid, MOB_MVPEXP) > 0) {
+		.@is_mvp = 1;
+	}
+
+	@conquest_map_kills = @conquest_map_kills + 1;
+
+	if (.@is_mvp == 1 || @conquest_map_kills >= 15) {
+		// Conquista de combate concluída com sucesso!
+		query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('" + .@map$ + "', '" + $@current_world_seed$ + "', '" + escape_sql(strcharinfo(0)) + "', NOW())");
+		@conquest_map_kills = 0;
+
+		// Quantos novos mapas ainda não conquistados foram abertos a partir deste mapa?
+		.@new_maps_count = 0;
+		query_sql("SELECT count(DISTINCT `to_map`) FROM `world_map_connections` WHERE `from_map` = '" + .@map$ + "' AND `seed` = '" + $@current_world_seed$ + "' AND `to_map` NOT IN (SELECT `map_name` FROM `world_map_conquests` WHERE `seed` = '" + $@current_world_seed$ + "')", .@new_maps_count);
+
+		// Efeitos visuais e recompensa
+		specialeffect2 568; // Coluna de Luz Sagrada
+		specialeffect2 569;
+		set Zeny, Zeny + 5000;
+		dispbottom "Você purificou " + .@map$ + "! Recompensa da Coroa: +5.000 Zeny e Fast Travel desbloqueado!", 0x00FF00;
+
+		// Anúncio global de combate
+		if (.@new_maps_count > 0) {
+			announce "Bravos guerreiros, " + .@map$ + " foi limpa por " + strcharinfo(0) + ", " + .@new_maps_count + " novos mapas foram abertos!", bc_all, 0x00FF00;
+		} else {
+			announce "Bravos guerreiros, " + .@map$ + " foi limpa por " + strcharinfo(0) + "!", bc_all, 0x00FF00;
+		}
+	} else {
+		if (@conquest_map_kills % 3 == 0 || @conquest_map_kills >= 12) {
+			dispbottom "[Vanguarda Inimiga] " + @conquest_map_kills + "/15 monstros eliminados em " + .@map$ + "...", 0xFFFF88;
+		}
+	}
+	end;
+
+OnWarpCommand:
+	// GM 99 tem livre acesso para testes e administração
+	if (getgmlevel() == 99) {
+		if (.@atcmd_numparameters < 1) {
+			message strcharinfo(0), "Uso: @warp <nome_do_mapa> [x] [y]";
+			end;
+		}
+		.@dest$ = .@atcmd_parameters$[0];
+		.@x = (.@atcmd_numparameters > 1) ? atoi(.@atcmd_parameters$[1]) : 0;
+		.@y = (.@atcmd_numparameters > 2) ? atoi(.@atcmd_parameters$[2]) : 0;
+		warp .@dest$, .@x, .@y;
+		end;
+	}
+
+	if (.@atcmd_numparameters < 1) {
+		message strcharinfo(0), "Uso: @warp <nome_do_mapa>";
+		end;
+	}
+
+	.@dest$ = .@atcmd_parameters$[0];
+	.@conquered = 0;
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@dest$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
+
+	if (.@conquered == 0) {
+		// Punição do @warp: teleporte bloqueado pela névoa de guerra!
+		message strcharinfo(0), "=========================================================";
+		message strcharinfo(0), "[NÉVOA DE GUERRA] A região '" + .@dest$ + "' ainda está sob domínio hostil!";
+		message strcharinfo(0), "Você precisa marchar a pé e purificar o mapa antes de usar Fast Travel.";
+		message strcharinfo(0), "=========================================================";
+		specialeffect2 458; // Fumaça negra / debuff visual de bloqueio
+		end;
+	}
+
+	// Mapa já conquistado: Fast Travel liberado com sucesso!
+	.@x = (.@atcmd_numparameters > 1) ? atoi(.@atcmd_parameters$[1]) : 0;
+	.@y = (.@atcmd_numparameters > 2) ? atoi(.@atcmd_parameters$[2]) : 0;
+	message strcharinfo(0), "[Fast Travel] Teleportando para o mapa reconquistado: " + .@dest$;
+	warp .@dest$, .@x, .@y;
+	end;
+
+OnGoCommand:
+	// O comando @go leva para cidades seguras
+	if (.@atcmd_numparameters < 1) {
+		message strcharinfo(0), "Uso: @go <cidade/numero>";
+		end;
+	}
+	return;
+}
