@@ -1,0 +1,407 @@
+//==============================================================================
+// RagnaRogue - Sistema de Efeitos & Buffs a cada Level Up (Pufs Automáticos)
+//==============================================================================
+// A cada Level Up de Base (2 ao 99):
+// 1. Um "puf" de efeito especial visual diferente e exclusivo para cada nível!
+// 2. Um buff positivo automático de suporte (skills ou comidas gourmet) que dura
+//    de 3 a 5 minutos, garantindo que cada nível conceda uma vantagem diferente!
+// 3. Níveis de marco (10, 20, 30, 40, 50, 60, 70, 80, 90, 99) recebem combos
+//    festivos especiais e anúncios na tela!
+//==============================================================================
+
+-	script	LevelUpPuffBuff	-1,{
+OnInit:
+	// -------------------------------------------------------------------------
+	// 98 Efeitos Visuais Únicos ("Pufs"), um para cada BaseLevel (2 a 99)
+	// -------------------------------------------------------------------------
+	// Níveis 2 a 10: Pufs sutis, fumaça, bolhas, brilhos e o primeiro rojão no 10
+	setarray .puf_effects[2],
+		EF_SMOKE,        // Lv 2: Puf clássico de fumaça
+		EF_PEONG,        // Lv 3: Puf cômico de estouro
+		EF_BANJJAKII,    // Lv 4: Brilho dourado cintilante
+		EF_ENHANCE,      // Lv 5: Anel de luz ascendente
+		EF_COIN,         // Lv 6: Chuva de moedas douradas
+		EF_BUBBLE,       // Lv 7: Bolhas mágicas flutuantes
+		EF_FIREFLY,      // Lv 8: Enxame de vaga-lumes reluzentes
+		EF_FLOWERLEAF,   // Lv 9: Pétalas de flores esvoaçantes
+		EF_POKJUK;       // Lv 10: MARCO 10 - Rojão festivo de comemoração!
+
+	// Níveis 11 a 20: Elementos, luzes sagradas e confete no 20
+	setarray .puf_effects[11],
+		EF_SANDWIND,     // Lv 11: Redemoinho de areia
+		EF_HEALSP,       // Lv 12: Esfera azul de mana
+		EF_AQUA,         // Lv 13: Ondulações aquáticas
+		EF_SIGHT,        // Lv 14: Chama orbital
+		EF_FORESTLIGHT,  // Lv 15: Feixes místicos da floresta
+		EF_TORCH,        // Lv 16: Labareda incandescente
+		EF_SPRAYPOND,    // Lv 17: Gêiser de água brilhante
+		EF_RUWACH,       // Lv 18: Esfera sagrada radiante
+		EF_FIRSTAID,     // Lv 19: Pulso de cruz medicinal
+		EF_COLORPAPER;   // Lv 20: MARCO 20 - Chuva de confetes coloridos!
+
+	// Níveis 21 a 30: Auras divinas, bênçãos e Asas de Santo no 30
+	setarray .puf_effects[21],
+		EF_INCAGILITY,   // Lv 21: Rastro veloz de penas
+		EF_BLESSING,     // Lv 22: Cruz dourada de bênção
+		EF_ANGELUS,      // Lv 23: Círculo de proteção azul
+		EF_SIGNUM,       // Lv 24: Brilho sacro do Signum Crucis
+		EF_GLORIA,       // Lv 25: Anjo cantando Glória
+		EF_MAGNIFICAT,   // Lv 26: Sino ressonante do Magnificat
+		EF_IMPOSITIO,    // Lv 27: Forja sagrada do Impositio
+		EF_SUFFRAGIUM,   // Lv 28: Anéis sagrados de oração
+		EF_KYRIE,        // Lv 29: Asas celestiais do Kyrie
+		EF_SAINTWING;    // Lv 30: MARCO 30 - Asas de Santo resplandecentes!
+
+	// Níveis 31 a 40: Artes marciais, escudos e o Arco-Íris no 40
+	setarray .puf_effects[31],
+		EF_CARTREVOLUTION, // Lv 31: Rotação veloz de impacto
+		EF_TWOHANDQUICKEN, // Lv 32: Clarão veloz do espadachim
+		EF_CONCENTRATION,  // Lv 33: Olho da águia concentrada
+		EF_OVERTHRUST,     // Lv 34: Onda de choque rubra de força
+		EF_PERFECTION,     // Lv 35: Engrenagem do manejo perfeito
+		EF_MAXPOWER,       // Lv 36: Explosão de poder máximo
+		EF_ENERGYCOAT,     // Lv 37: Escudo arcano arroxeado
+		EF_POISONREACT,    // Lv 38: Puf de névoa venenosa
+		EF_GUARD,          // Lv 39: Escudo prateado reluzente
+		EF_RAINBOW;        // Lv 40: MARCO 40 - Arco-íris radiante sobre a cabeça!
+
+	// Níveis 41 a 50: Forças primordiais dos magos e Pilar Dourado no 50
+	setarray .puf_effects[41],
+		EF_EARTHSPIKE,   // Lv 41: Erupção de espinhos de terra
+		EF_FROSTDIVER,   // Lv 42: Estilhaços de gelo cristalino
+		EF_LIGHTBOLT,    // Lv 43: Relâmpago trovejante
+		EF_FIREBALL,     // Lv 44: Bola de fogo flamejante
+		EF_SOULSTRIKE,   // Lv 45: Lâminas de almas etéreas
+		EF_MAGNUMBREAK,  // Lv 46: Anel de fogo ardente
+		EF_CRASHEARTH,   // Lv 47: Impacto telúrico
+		EF_BOWLINGBASH,  // Lv 48: Impacto explosivo quádruplo
+		EF_TURNUNDEAD,   // Lv 49: Raio divino exorcista
+		EF_JOBLVUP50;    // Lv 50: MARCO 50 - Coluna mística dourada do Job 50!
+
+	// Níveis 51 a 60: Efeitos festivos, lúdicos e Pilar Alquímico no 60
+	setarray .puf_effects[51],
+		EF_HEARTCASTING, // Lv 51: Corações apaixonados em órbita
+		EF_VALLENTINE,   // Lv 52: Laços e corações comemorativos
+		EF_MINI_TETRIS,  // Lv 53: Blocos mágicos de Tetris caindo
+		EF_GHOST,        // Lv 54: Espírito amistoso flutuante
+		EF_BAT,          // Lv 55: Revoada de morcegos do crepúsculo
+		EF_SPHEREWIND,   // Lv 56: Turbilhão de ventos cortantes
+		EF_LIGHTSPHERE,  // Lv 57: Supernova esférica radiante
+		EF_DRAGONSMOKE,  // Lv 58: Fumaça mítica de dragão
+		EF_BABY,         // Lv 59: Chocalho alegre cintilante
+		EF_POTIONPILLAR; // Lv 60: MARCO 60 - Pilar alquímico reluzente!
+
+	// Níveis 61 a 70: Habilidades transcendentais e Basílica Sagrada no 70
+	setarray .puf_effects[61],
+		EF_AURABLADE,    // Lv 61: Lâmina de pura aura incandescente
+		EF_LKCONCENTRATION, // Lv 62: Rugido de guerra do Lorde
+		EF_PRESSURE,     // Lv 63: Cruz colossal caindo dos céus
+		EF_ASSUMPTIO,    // Lv 64: Bolha de bênção divina do Assumptio
+		EF_TRUESIGHT,    // Lv 65: Olhar iluminado do Atirador de Elite
+		EF_CARTBOOST,    // Lv 66: Fumaça de escape turbinada
+		EF_MELTDOWN,     // Lv 67: Brasas ardentes da forja mágica
+		EF_SOULLINK,     // Lv 68: Espírito ancestral do Espiritualista
+		EF_MEMORIZE,     // Lv 69: Runas arcanas da sabedoria
+		EF_BOTTOM_BASILICA; // Lv 70: MARCO 70 - Selo dourado sagrado da Basílica!
+
+	// Níveis 71 a 80: Magias supremas, tempestades e Círculo do Evangelho no 80
+	setarray .puf_effects[71],
+		EF_SANCTUARY,    // Lv 71: Raios de sol do Santuário
+		EF_STORMGUST,    // Lv 72: Nevasca congelante de Nevasca
+		EF_LORD,         // Lv 73: Cúpula elétrica de Fúria do Trovão
+		EF_METEORSTORM,  // Lv 74: Chuva de meteoros incandescentes
+		EF_GRANDCROSS,   // Lv 75: Luz sagrada ofuscante do Grand Cross
+		EF_HOLYCROSS,    // Lv 76: Cruz sagrada do Cruzado
+		EF_PROVIDENCE,   // Lv 77: Proteção divina da Providência
+		EF_DEVOTION,     // Lv 78: Escudo áureo da Redenção
+		EF_STEELBODY,    // Lv 79: Corpo de ferro dourado indestrutível
+		EF_BOTTOM_GOSPEL;// Lv 80: MARCO 80 - Círculo majestoso do Evangelho!
+
+	// Níveis 81 a 90: Técnicas lendárias e Emblema de Campeão no 90
+	setarray .puf_effects[81],
+		EF_SOULBREAKER,  // Lv 81: Anéis de destruição do Destruidor de Almas
+		EF_MAGICCRASHER, // Lv 82: Cristal prismático esmagador
+		EF_ACIDDEMON,    // Lv 83: Frascos voláteis de fogo e ácido
+		EF_FALCONASSAULT,// Lv 84: Rasante veloz do falcão dourado
+		EF_ELECTRIC,     // Lv 85: Faíscas elétricas de alta voltagem
+		EF_DEVIL,        // Lv 86: Asas sombrias do submundo
+		EF_RO2YEAR,      // Lv 87: Brasão comemorativo de gala
+		EF_TWILIGHT1,    // Lv 88: Estrelas cintilantes do crepúsculo
+		EF_POK_LOVE,     // Lv 89: Rojão em forma de coração ardente
+		EF_TOPRANK;      // Lv 90: MARCO 90 - Explosão triunfal de Top Rank Mundial!
+
+	// Níveis 91 a 98: As 7 auras místicas de preparação para a lenda
+	setarray .puf_effects[91],
+		EF_POK_CHRISTMAS,// Lv 91: Rojão estelar natalino
+		EF_POK_BIRTH,    // Lv 92: Salva de tiros de artilharia
+		EF_LEVEL99,      // Lv 93: Aura de transcendência mística I
+		EF_LEVEL99_2,    // Lv 94: Aura de transcendência mística II
+		EF_LEVEL99_3,    // Lv 95: Aura de transcendência mística III
+		EF_LEVEL99_4,    // Lv 96: Aura de transcendência mística IV
+		EF_LEVEL99_6,    // Lv 97: Aura de transcendência mística V
+		EF_LEVEL99_5;    // Lv 98: Aura de transcendência mística VI
+
+	// Nível 99: O Puf Supremo do MVP e Ascensão!
+	.puf_effects[99] = EF_MVP;
+
+	// -------------------------------------------------------------------------
+	// Catálogo de 34 Buffs Automáticos Positivos
+	// -------------------------------------------------------------------------
+	.total_buffs = 34;
+
+	// 1. AGI Up Lv 10 (5 min)
+	.buff_sc[0] = SC_INCREASEAGI; .buff_dur[0] = 300000; .buff_val[0] = 10;
+	.buff_names$[0] = "Aceleração Temporal"; .buff_descs$[0] = "+12 AGI e +25% Velocidade de Movimento";
+
+	// 2. Bênção Lv 10 (5 min)
+	.buff_sc[1] = SC_BLESSING; .buff_dur[1] = 300000; .buff_val[1] = 10;
+	.buff_names$[1] = "Graça Divina"; .buff_descs$[1] = "+10 FOR, +10 INT e +10 DES";
+
+	// 3. Kyrie Eleison Lv 10 (3 min)
+	.buff_sc[2] = SC_KYRIE; .buff_dur[2] = 180000; .buff_val[2] = 10;
+	.buff_names$[2] = "Aegis Celestial"; .buff_descs$[2] = "Bloqueia até 10 ataques físicos recebidos";
+
+	// 4. Glória Lv 5 (3 min)
+	.buff_sc[3] = SC_GLORIA; .buff_dur[3] = 180000; .buff_val[3] = 5;
+	.buff_names$[3] = "Sorte Lendária"; .buff_descs$[3] = "+30 SOR (Golpes Críticos e Esquiva Perfeita)";
+
+	// 5. Magnificat Lv 5 (4 min)
+	.buff_sc[4] = SC_MAGNIFICAT; .buff_dur[4] = 240000; .buff_val[4] = 5;
+	.buff_names$[4] = "Chama Espiritual"; .buff_descs$[4] = "Recuperação de HP e SP acelerada em 200%";
+
+	// 6. Impositio Manus Lv 5 (5 min)
+	.buff_sc[5] = SC_IMPOSITIO; .buff_dur[5] = 300000; .buff_val[5] = 5;
+	.buff_names$[5] = "Forja Sagrada"; .buff_descs$[5] = "+25 de Ataque da arma";
+
+	// 7. Assumptio Lv 5 (3 min)
+	.buff_sc[6] = SC_ASSUMPTIO; .buff_dur[6] = 180000; .buff_val[6] = 5;
+	.buff_names$[6] = "Manto do Assumptio"; .buff_descs$[6] = "Dano recebido reduzido pela metade";
+
+	// 8. Caminho do Vento Lv 10 (5 min)
+	.buff_sc[7] = SC_WINDWALK; .buff_dur[7] = 300000; .buff_val[7] = 10;
+	.buff_names$[7] = "Passo dos Ventos"; .buff_descs$[7] = "+20% Velocidade de Movimento e +5 Esquiva";
+
+	// 9. Melhorar Concentração Lv 10 (4 min)
+	.buff_sc[8] = SC_CONCENTRATION; .buff_dur[8] = 240000; .buff_val[8] = 10;
+	.buff_names$[8] = "Foco do Predador"; .buff_descs$[8] = "+12% de AGI e DES totais";
+
+	// 10. Visão Real Lv 10 (3 min)
+	.buff_sc[9] = SC_TRUESIGHT; .buff_dur[9] = 180000; .buff_val[9] = 10;
+	.buff_names$[9] = "Olhar Iluminado"; .buff_descs$[9] = "+5 Todos Atributos, +20% Dano, +30 Precisão e +100% Crítico";
+
+	// 11. Adrenalina Pura Lv 5 (4 min)
+	.buff_sc[10] = SC_ADRENALINE; .buff_dur[10] = 240000; .buff_val[10] = 5;
+	.buff_names$[10] = "Frenesi de Batalha"; .buff_descs$[10] = "+30% Velocidade de Ataque";
+
+	// 12. Manejo Perfeito Lv 5 (4 min)
+	.buff_sc[11] = SC_WEAPONPERFECTION; .buff_dur[11] = 240000; .buff_val[11] = 5;
+	.buff_names$[11] = "Precisão Cirúrgica"; .buff_descs$[11] = "100% de dano contra qualquer tamanho de monstro";
+
+	// 13. Força Violenta Lv 5 (4 min)
+	.buff_sc[12] = SC_OVERTHRUST; .buff_dur[12] = 240000; .buff_val[12] = 5;
+	.buff_names$[12] = "Impacto Brutal"; .buff_descs$[12] = "+25% Dano com armas";
+
+	// 14. Amplificar Poder Lv 1 (4 min)
+	.buff_sc[13] = SC_MAXIMIZEPOWER; .buff_dur[13] = 240000; .buff_val[13] = 1;
+	.buff_names$[13] = "Poder Máximo"; .buff_descs$[13] = "Dano físico sempre no valor máximo possível";
+
+	// 15. Proteção Arcana Lv 1 (5 min)
+	.buff_sc[14] = SC_ENERGYCOAT; .buff_dur[14] = 300000; .buff_val[14] = 1;
+	.buff_names$[14] = "Barreira Etérea"; .buff_descs$[14] = "Reduz até 30% do dano físico usando SP";
+
+	// 16. Vigor Lv 10 (2 min)
+	.buff_sc[15] = SC_ENDURE; .buff_dur[15] = 120000; .buff_val[15] = 10;
+	.buff_names$[15] = "Vontade Inabalável"; .buff_descs$[15] = "+10 Defesa Mágica e imunidade a travar ao receber golpes";
+
+	// 17. Lâmina de Aura Lv 5 (4 min)
+	.buff_sc[16] = SC_AURABLADE; .buff_dur[16] = 240000; .buff_val[16] = 5;
+	.buff_names$[16] = "Lâmina Cósmica"; .buff_descs$[16] = "+100 de dano puro irresistível por ataque";
+
+	// 18. Bloqueio Lv 10 (5 min)
+	.buff_sc[17] = SC_AUTOGUARD; .buff_dur[17] = 300000; .buff_val[17] = 10;
+	.buff_names$[17] = "Guarda Absoluta"; .buff_descs$[17] = "30% de chance de bloquear qualquer ataque físico";
+
+	// 19. Escudo Refletor Lv 10 (4 min)
+	.buff_sc[18] = SC_REFLECTSHIELD; .buff_dur[18] = 240000; .buff_val[18] = 10;
+	.buff_names$[18] = "Espelho Retaliador"; .buff_descs$[18] = "Reflete 40% do dano corpo-a-corpo de volta";
+
+	// 20. Defensor Lv 5 (4 min)
+	.buff_sc[19] = SC_DEFENDER; .buff_dur[19] = 240000; .buff_val[19] = 5;
+	.buff_names$[19] = "Muralha de Aço"; .buff_descs$[19] = "80% de redução de dano contra projéteis e ataques à distância";
+
+	// 21. Divina Providência Lv 5 (4 min)
+	.buff_sc[20] = SC_PROVIDENCE; .buff_dur[20] = 240000; .buff_val[20] = 5;
+	.buff_names$[20] = "Bênção Guardiã"; .buff_descs$[20] = "+25% resistência contra Demônios e Mortos-Vivos";
+
+	// 22. Hipervelocidade do Carrinho (2 min)
+	.buff_sc[21] = SC_CARTBOOST; .buff_dur[21] = 120000; .buff_val[21] = 1;
+	.buff_names$[21] = "Turbo Nitro"; .buff_descs$[21] = "+100% de Velocidade de Movimento insana!";
+
+	// 23. Poção da Fúria Selvagem (5 min)
+	.buff_sc[22] = SC_ASPDPOTION2; .buff_dur[22] = 300000; .buff_val[22] = 0;
+	.buff_names$[22] = "Fúria Selvagem"; .buff_descs$[22] = "+20% de Velocidade de Ataque contínua";
+
+	// 24. Dádiva da Fênix - Kaizel Lv 7 (5 min)
+	.buff_sc[23] = SC_KAIZEL; .buff_dur[23] = 300000; .buff_val[23] = 7;
+	.buff_names$[23] = "Dádiva da Fênix"; .buff_descs$[23] = "Ressuscita automaticamente com 70% de HP se você for abatido!";
+
+	// 25. Cura Reativa - Kaahi Lv 7 (4 min)
+	.buff_sc[24] = SC_KAAHI; .buff_dur[24] = 240000; .buff_val[24] = 7;
+	.buff_names$[24] = "Cura Reativa"; .buff_descs$[24] = "Recupera 1400 HP instantaneamente a cada golpe sofrido";
+
+	// 26. Manto Ilusório - Kaupe Lv 3 (4 min)
+	.buff_sc[25] = SC_KAUPE; .buff_dur[25] = 240000; .buff_val[25] = 3;
+	.buff_names$[25] = "Manto Ilusório"; .buff_descs$[25] = "100% de esquiva dos próximos 3 ataques recebidos";
+
+	// 27. Mente Hiperveloz - Memorizar (4 min)
+	.buff_sc[26] = SC_MEMORIZE; .buff_dur[26] = 240000; .buff_val[26] = 1;
+	.buff_names$[26] = "Mente Hiperveloz"; .buff_descs$[26] = "Reduz o tempo de conjuração das magias pela metade";
+
+	// 28. Sopro da Vitalidade - Poção da Vida (5 min)
+	.buff_sc[27] = SC_L_LIFEPOTION; .buff_dur[27] = 300000; .buff_val[27] = 0;
+	.buff_names$[27] = "Sopro da Vitalidade"; .buff_descs$[27] = "Regeneração automática acelerada de HP a cada 5 segundos";
+
+	// 29. Manjar dos Titãs (+10 FOR por 5 min)
+	.buff_sc[28] = SC_FOOD_STR_CASH; .buff_dur[28] = 300000; .buff_val[28] = 10;
+	.buff_names$[28] = "Manjar dos Titãs"; .buff_descs$[28] = "+10 de Força (FOR) bruta";
+
+	// 30. Banquete dos Ventos (+10 AGI por 5 min)
+	.buff_sc[29] = SC_FOOD_AGI_CASH; .buff_dur[29] = 300000; .buff_val[29] = 10;
+	.buff_names$[29] = "Banquete dos Ventos"; .buff_descs$[29] = "+10 de Agilidade (AGI) pura";
+
+	// 31. Elixir dos Montes (+10 VIT por 5 min)
+	.buff_sc[30] = SC_FOOD_VIT_CASH; .buff_dur[30] = 300000; .buff_val[30] = 10;
+	.buff_names$[30] = "Elixir dos Montes"; .buff_descs$[30] = "+10 de Vitalidade (VIT) e mais HP máximo";
+
+	// 32. Essência da Sabedoria (+10 INT por 5 min)
+	.buff_sc[31] = SC_FOOD_INT_CASH; .buff_dur[31] = 300000; .buff_val[31] = 10;
+	.buff_names$[31] = "Essência da Sabedoria"; .buff_descs$[31] = "+10 de Inteligência (INT) e Poder Mágico";
+
+	// 33. Néctar do Falcão (+10 DES por 5 min)
+	.buff_sc[32] = SC_FOOD_DEX_CASH; .buff_dur[32] = 300000; .buff_val[32] = 10;
+	.buff_names$[32] = "Néctar do Falcão"; .buff_descs$[32] = "+10 de Destreza (DES) e Precisão Absoluta";
+
+	// 34. Amuleto da Fortuna (+10 SOR por 5 min)
+	.buff_sc[33] = SC_FOOD_LUK_CASH; .buff_dur[33] = 300000; .buff_val[33] = 10;
+	.buff_names$[33] = "Amuleto da Fortuna"; .buff_descs$[33] = "+10 de Sorte (SOR), Críticos e Esquiva";
+	end;
+
+OnPCBaseLvUpEvent:
+	// Restaura 100% de HP e SP imediatamente ao subir de nível
+	percentheal 100, 100;
+
+	// 1. Executa o efeito visual "Puf" único e específico do nível alcançado
+	.@puf = .puf_effects[BaseLevel];
+	if (.@puf > 0) {
+		specialeffect2 .@puf;
+	} else {
+		specialeffect2 EF_BANJJAKII;
+	}
+
+	// 2. Marcos de Nível Especiais (Combos Festivos)
+	if (BaseLevel == 10) {
+		specialeffect2 EF_POKJUK;
+		sc_start SC_BLESSING, 300000, 10;
+		sc_start SC_INCREASEAGI, 300000, 10;
+		dispbottom "[Marco Nível 10!] *Puf Festivo!* Você recebeu o Combo Sagrado: Bênção Lv 10 & Aumentar Agilidade Lv 10!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel == 20) {
+		specialeffect2 EF_COLORPAPER;
+		sc_start SC_KYRIE, 240000, 10;
+		sc_start SC_MAGNIFICAT, 240000, 5;
+		dispbottom "[Marco Nível 20!] *Puf Triunfal!* Você recebeu o Combo Sagrado: Kyrie Eleison Lv 10 & Magnificat Lv 5!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel == 30) {
+		specialeffect2 EF_SAINTWING;
+		sc_start SC_GLORIA, 240000, 5;
+		sc_start SC_TRUESIGHT, 180000, 10;
+		dispbottom "[Marco Nível 30!] *Puf Celestial!* Você recebeu o Combo Divino: Glória Lv 5 & Visão Real Lv 10!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel == 40) {
+		specialeffect2 EF_RAINBOW;
+		sc_start SC_IMPOSITIO, 300000, 5;
+		sc_start SC_WINDWALK, 300000, 10;
+		dispbottom "[Marco Nível 40!] *Puf do Arco-Íris!* Você recebeu: Forja Sagrada Lv 5 & Caminho do Vento Lv 10!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel == 50) {
+		specialeffect2 EF_JOBLVUP50;
+		specialeffect2 EF_AURABLADE;
+		sc_start SC_ASSUMPTIO, 240000, 5;
+		sc_start SC_AURABLADE, 240000, 5;
+		dispbottom "[Marco Nível 50 - Metade da Jornada!] *Puf Ascendente!* Combo Supremo: Assumptio Lv 5 & Lâmina Cósmica Lv 5!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel == 60) {
+		specialeffect2 EF_POTIONPILLAR;
+		sc_start SC_WEAPONPERFECTION, 240000, 5;
+		sc_start SC_OVERTHRUST, 240000, 5;
+		dispbottom "[Marco Nível 60!] *Puf da Forja Implacável!* Combo do Ferreiro: Manejo Perfeito Lv 5 & Força Violenta Lv 5!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel == 70) {
+		specialeffect2 EF_BOTTOM_BASILICA;
+		sc_start SC_KAUPE, 240000, 3;
+		sc_start SC_KAIZEL, 300000, 7;
+		dispbottom "[Marco Nível 70!] *Puf da Imortalidade!* Combo Espiritual: Kaupe Lv 3 (Esquiva 100%) & Kaizel Lv 7 (Ressurreição da Fênix)!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel == 80) {
+		specialeffect2 EF_BOTTOM_GOSPEL;
+		sc_start SC_CARTBOOST, 180000, 1;
+		sc_start SC_ASPDPOTION2, 300000, 0;
+		sc_start SC_CONCENTRATION, 240000, 10;
+		dispbottom "[Marco Nível 80!] *Puf da Fúria Imparável!* Combo dos Titãs: Turbo Nitro & Fúria Selvagem!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel == 90) {
+		specialeffect2 EF_TOPRANK;
+		specialeffect2 EF_POK_LOVE;
+		sc_start SC_ASSUMPTIO, 300000, 5;
+		sc_start SC_TRUESIGHT, 240000, 10;
+		sc_start SC_BLESSING, 300000, 10;
+		sc_start SC_INCREASEAGI, 300000, 10;
+		dispbottom "[Marco Nível 90 - Quase uma Lenda!] *Puf Campeão!* Combo dos 4 Elementos Sagrados ativado!", 0x00FF88;
+		end;
+	}
+	if (BaseLevel >= 99) {
+		specialeffect2 EF_MVP;
+		specialeffect2 EF_LEVEL99_5;
+		specialeffect2 EF_POKJUK;
+		specialeffect2 EF_RAINBOW;
+		sc_start SC_ASSUMPTIO, 600000, 5;
+		sc_start SC_TRUESIGHT, 600000, 10;
+		sc_start SC_BLESSING, 600000, 10;
+		sc_start SC_INCREASEAGI, 600000, 10;
+		sc_start SC_GLORIA, 600000, 5;
+		sc_start SC_MAGNIFICAT, 600000, 5;
+		sc_start SC_AURABLADE, 600000, 5;
+		sc_start SC_KAIZEL, 600000, 7;
+		announce "[LENDA ASCENDIDA] " + strcharinfo(0) + " alcançou o nível supremo 99 e recebeu as Bênçãos da Transcendência!", bc_all, 0xFFD700;
+		dispbottom "[NÍVEL 99 MÁXIMO!] *PUF SUPREMO!* Você recebeu as 8 Bênçãos da Transcendência por 10 minutos!", 0x00FF88;
+		end;
+	}
+
+	// 3. Níveis Regulares: Sorteia um buff garantidamente diferente do anterior
+	.@idx = rand(.total_buffs);
+	if (.@idx == @last_lvup_buff) {
+		.@idx = (.@idx + 1 + rand(.total_buffs - 1)) % .total_buffs;
+	}
+	@last_lvup_buff = .@idx;
+
+	// Aplica o buff positivo
+	sc_start .buff_sc[.@idx], .buff_dur[.@idx], .buff_val[.@idx];
+
+	// Notifica o jogador no chat
+	dispbottom "[Level Up!] Nível " + BaseLevel + " alcançado! *Puf!* Você recebeu: " + .buff_names$[.@idx] + " (" + .buff_descs$[.@idx] + ")!", 0x00FF88;
+	end;
+
+OnPCJobLvUpEvent:
+	// Brilho sutil dourado e mensagem ao subir o nível de classe
+	specialeffect2 EF_BANJJAKII;
+	dispbottom "[Classe Up!] Nível de Classe " + JobLevel + " alcançado!", 0xFFDD00;
+	end;
+}
