@@ -1,22 +1,17 @@
 //===== rAthena Script =======================================
-//= Healer
+//= Curandeiro Angeling
 //===== By: ==================================================
-//= Euphy
+//= Euphy / RagnaRogue
 //===== Current Version: =====================================
-//= 1.1
-//===== Compatible With: =====================================
-//= rAthena Project
+//= 2.0
 //===== Description: =========================================
-//= Basic healer script.
-//===== Additional Comments: =================================
-//= 1.0 Initial script.
-//= 1.1 Aligned coordinates with @go.
+//= Curandeiro Angeling: Cura 100% HP/SP e concede Aumentar Agilidade e Bênção Nível 9
 //============================================================
 
 -	script	Healer	-1,{
 
 	.@Price = 0;	// Zeny required for heal
-	.@Buffs = 0;	// Also buff players? (1: yes / 0: no)
+	.@Buffs = 1;	// Also buff players? (1: yes / 0: no)
 	.@Delay = 0;	// Heal delay, in seconds
 
 	if (@HD > gettimetick(2))
@@ -33,9 +28,9 @@
 	percentheal 100,100;
 	if (.@Buffs) {
 		specialeffect2 EF_INCAGILITY;
-		sc_start SC_INCREASEAGI,240000,10;
+		sc_start SC_INCREASEAGI,240000,9;
 		specialeffect2 EF_BLESSING;
-		sc_start SC_BLESSING,240000,10;
+		sc_start SC_BLESSING,240000,9;
 	}
 	if (.@Delay)
 		@HD = gettimetick(2) + .@Delay;
@@ -45,42 +40,42 @@
 
 // Duplicates
 //============================================================
-alberta,25,240,6	duplicate(Healer)	Healer#alb	909
-aldebaran,135,118,6	duplicate(Healer)	Healer#alde	909
-amatsu,200,79,4	duplicate(Healer)	Healer#ama	909
-ayothaya,207,169,6	duplicate(Healer)	Healer#ayo	909
-comodo,184,158,6	duplicate(Healer)	Healer#com	909
-einbech,57,36,6	duplicate(Healer)	Healer#einbe	909
-einbroch,57,202,6	duplicate(Healer)	Healer#einbr	909
-geffen,115,72,6	duplicate(Healer)	Healer#gef	909
-gonryun,156,122,6	duplicate(Healer)	Healer#gon	909
-hugel,89,150,6	duplicate(Healer)	Healer#hug	909
-izlude,121,150,6	duplicate(Healer)	Healer#izl	909	//Pre-RE: (125,118)
-jawaii,250,139,4	duplicate(Healer)	Healer#jaw	909
-lighthalzen,152,100,6	duplicate(Healer)	Healer#lhz	909
-louyang,226,103,4	duplicate(Healer)	Healer#lou	909
-manuk,272,144,6	duplicate(Healer)	Healer#man	909
-mid_camp,203,289,6	duplicate(Healer)	Healer#mid	909
-moc_ruins,72,164,4	duplicate(Healer)	Healer#moc	909
-morocc,153,97,6	duplicate(Healer)	Healer#mor	909
-moscovia,220,191,4	duplicate(Healer)	Healer#mos	909
-niflheim,212,182,5	duplicate(Healer)	Healer#nif	909
-payon,179,106,4	duplicate(Healer)	Healer#pay	909
-prontera,162,193,4	duplicate(Healer)	Healer#prt	909
-rachel,125,116,6	duplicate(Healer)	Healer#rac	909
-splendide,201,153,4	duplicate(Healer)	Healer#spl	909
-thor_camp,249,74,4	duplicate(Healer)	Healer#thor	909
-umbala,105,148,3	duplicate(Healer)	Healer#umb	909
-veins,217,121,4	duplicate(Healer)	Healer#ve	909
-xmas,143,136,4	duplicate(Healer)	Healer#xmas	909
-yuno,164,45,4	duplicate(Healer)	Healer#yuno	909
+alberta,25,240,6	duplicate(Healer)	Angeling#alb	1096
+aldebaran,135,118,6	duplicate(Healer)	Angeling#alde	1096
+amatsu,200,79,4	duplicate(Healer)	Angeling#ama	1096
+ayothaya,207,169,6	duplicate(Healer)	Angeling#ayo	1096
+comodo,184,158,6	duplicate(Healer)	Angeling#com	1096
+einbech,57,36,6	duplicate(Healer)	Angeling#einbe	1096
+einbroch,57,202,6	duplicate(Healer)	Angeling#einbr	1096
+geffen,115,72,6	duplicate(Healer)	Angeling#gef	1096
+gonryun,156,122,6	duplicate(Healer)	Angeling#gon	1096
+hugel,89,150,6	duplicate(Healer)	Angeling#hug	1096
+izlude,121,150,6	duplicate(Healer)	Angeling#izl	1096	//Pre-RE: (125,118)
+jawaii,250,139,4	duplicate(Healer)	Angeling#jaw	1096
+lighthalzen,152,100,6	duplicate(Healer)	Angeling#lhz	1096
+louyang,226,103,4	duplicate(Healer)	Angeling#lou	1096
+manuk,272,144,6	duplicate(Healer)	Angeling#man	1096
+mid_camp,203,289,6	duplicate(Healer)	Angeling#mid	1096
+moc_ruins,72,164,4	duplicate(Healer)	Angeling#moc	1096
+morocc,153,97,6	duplicate(Healer)	Angeling#mor	1096
+moscovia,220,191,4	duplicate(Healer)	Angeling#mos	1096
+niflheim,212,182,5	duplicate(Healer)	Angeling#nif	1096
+payon,179,106,4	duplicate(Healer)	Angeling#pay	1096
+prontera,162,193,4	duplicate(Healer)	Angeling#prt	1096
+rachel,125,116,6	duplicate(Healer)	Angeling#rac	1096
+splendide,201,153,4	duplicate(Healer)	Angeling#spl	1096
+thor_camp,249,74,4	duplicate(Healer)	Angeling#thor	1096
+umbala,105,148,3	duplicate(Healer)	Angeling#umb	1096
+veins,217,121,4	duplicate(Healer)	Angeling#ve	1096
+xmas,143,136,4	duplicate(Healer)	Angeling#xmas	1096
+yuno,164,45,4	duplicate(Healer)	Angeling#yuno	1096
 
 // Duplicates (Renewal)
 //============================================================
-brasilis,194,221,6	duplicate(Healer)	Healer#bra	909
-dewata,195,187,4	duplicate(Healer)	Healer#dew	909
-dicastes01,201,194,4	duplicate(Healer)	Healer#dic	909
-ecl_in01,45,60,4	duplicate(Healer)	Healer#ecl	909
-malangdo,132,114,6	duplicate(Healer)	Healer#mal	909
-malaya,227,204,6	duplicate(Healer)	Healer#ma	909
-mora,55,152,4	duplicate(Healer)	Healer#mora	909
+brasilis,194,221,6	duplicate(Healer)	Angeling#bra	1096
+dewata,195,187,4	duplicate(Healer)	Angeling#dew	1096
+dicastes01,201,194,4	duplicate(Healer)	Angeling#dic	1096
+ecl_in01,45,60,4	duplicate(Healer)	Angeling#ecl	1096
+malangdo,132,114,6	duplicate(Healer)	Angeling#mal	1096
+malaya,227,204,6	duplicate(Healer)	Angeling#ma	1096
+mora,55,152,4	duplicate(Healer)	Angeling#mora	1096
