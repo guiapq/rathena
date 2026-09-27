@@ -64,10 +64,26 @@ menu	"Last Warp ^777777["+lastwarp$+"]^000000",-,
 
 function Go {
 	.@dest_map$ = getarg(0);
-	if (getgmlevel() < 99) {
-		.@conquered = 0;
-		query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@dest_map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
-		if (.@conquered == 0) {
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
+	.@conquered = 0;
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@dest_map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
+	if (.@conquered == 0) {
+		if (getgmlevel() == 99) {
+			mes "[Teleportadora Roguelike]";
+			mes "A região ^FF0000" + .@dest_map$ + "^000000 ainda está bloqueada pela névoa de guerra!";
+			mes "Como Administrador (GM 99), você pode testar o bloqueio ou forçar o teleporte.";
+			next;
+			if (select("Respeitar bloqueio da névoa de guerra (Fechar):[GM 99] Forçar teleporte administrativo") == 1) {
+				close;
+			}
+		} else {
 			mes "[Teleportadora Roguelike]";
 			mes "A região ^FF0000" + .@dest_map$ + "^000000 ainda está dominada por forças hostis!";
 			mes "Você precisa marchar a pé e purificar a vanguarda do mapa antes de poder usar o teletransporte rápido para lá.";

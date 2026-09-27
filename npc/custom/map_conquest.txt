@@ -29,11 +29,19 @@ OnInit:
 	end;
 
 OnPCLoadMapEvent:
-	if (getgmlevel() == 99) end;
 	.@map$ = strcharinfo(3);
 
 	// Se for cidade inicial ou interior/castelo/instancia protegida, ignorar
 	if (compare(.@map$, "_in") || compare(.@map$, "cas") || compare(.@map$, "sec_in") || compare(.@map$, "job_") || compare(.@map$, "gld_") || compare(.@map$, "pvp_")) end;
+
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
 
 	.@conquered = 0;
 	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
@@ -72,11 +80,19 @@ OnPCLoadMapEvent:
 	end;
 
 OnNPCKillEvent:
-	if (getgmlevel() == 99) end;
 	.@map$ = strcharinfo(3);
 
 	// Cidades ou mapas especiais protegidos não contam
 	if (compare(.@map$, "_in") || compare(.@map$, "cas") || compare(.@map$, "gld_") || compare(.@map$, "job_") || compare(.@map$, "sec_in")) end;
+
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
 
 	.@conquered = 0;
 	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
@@ -119,22 +135,18 @@ OnNPCKillEvent:
 	end;
 
 OnWarpCommand:
-	// GM 99 tem livre acesso para testes e administração
-	if (getgmlevel() == 99) {
-		if (.@atcmd_numparameters < 1) {
-			message strcharinfo(0), "Uso: @warp <nome_do_mapa> [x] [y]";
-			end;
-		}
-		.@dest$ = .@atcmd_parameters$[0];
-		.@x = (.@atcmd_numparameters > 1) ? atoi(.@atcmd_parameters$[1]) : 0;
-		.@y = (.@atcmd_numparameters > 2) ? atoi(.@atcmd_parameters$[2]) : 0;
-		warp .@dest$, .@x, .@y;
+	if (.@atcmd_numparameters < 1) {
+		message strcharinfo(0), "Uso: @warp <nome_do_mapa> [x] [y]";
 		end;
 	}
 
-	if (.@atcmd_numparameters < 1) {
-		message strcharinfo(0), "Uso: @warp <nome_do_mapa>";
-		end;
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
 	}
 
 	.@dest$ = .@atcmd_parameters$[0];
@@ -142,6 +154,13 @@ OnWarpCommand:
 	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@dest$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
 
 	if (.@conquered == 0) {
+		if (getgmlevel() == 99) {
+			.@x = (.@atcmd_numparameters > 1) ? atoi(.@atcmd_parameters$[1]) : 0;
+			.@y = (.@atcmd_numparameters > 2) ? atoi(.@atcmd_parameters$[2]) : 0;
+			message strcharinfo(0), "[NÉVOA DE GUERRA] Aviso: A região '" + .@dest$ + "' está bloqueada pela névoa de guerra! [GM 99 Bypass: Teleportando...]";
+			warp .@dest$, .@x, .@y;
+			end;
+		}
 		// Punição do @warp: teleporte bloqueado pela névoa de guerra!
 		message strcharinfo(0), "=========================================================";
 		message strcharinfo(0), "[NÉVOA DE GUERRA] A região '" + .@dest$ + "' ainda está sob domínio hostil!";
