@@ -91,9 +91,18 @@ function Go {
 		}
 	}
 	set lastwarp$, getarg(0);
-	set lastwarpx, getarg(1,0);
-	set lastwarpy, getarg(2,0);
-	warp getarg(0),getarg(1,0),getarg(2,0);
+	.@x = getarg(1, 0);
+	.@y = getarg(2, 0);
+	if (.@x == 0 && .@y == 0) {
+		.@sc = query_sql("SELECT `x`, `y` FROM `world_map_spawns` WHERE `map_name` = '" + escape_sql(.@dest_map$) + "' LIMIT 1", .@sx, .@sy);
+		if (.@sc > 0) {
+			.@x = .@sx[0];
+			.@y = .@sy[0];
+		}
+	}
+	set lastwarpx, .@x;
+	set lastwarpy, .@y;
+	warp .@dest_map$, .@x, .@y;
 	end;
 }
 function Disp {

@@ -12,6 +12,8 @@
 
 OnInit:
 	bindatcmd("warp", "MapConquest::OnWarpCommand", 0, 99);
+	bindatcmd("rura", "MapConquest::OnWarpCommand", 0, 99);
+	bindatcmd("mapmove", "MapConquest::OnWarpCommand", 0, 99);
 	bindatcmd("go", "MapConquest::OnGoCommand", 0, 99);
 
 	// Carregar seed ativa do mundo
@@ -150,13 +152,24 @@ OnWarpCommand:
 	}
 
 	.@dest$ = .@atcmd_parameters$[0];
+	.@x = (.@atcmd_numparameters > 1) ? atoi(.@atcmd_parameters$[1]) : 0;
+	.@y = (.@atcmd_numparameters > 2) ? atoi(.@atcmd_parameters$[2]) : 0;
+
+	// Ponto determinístico: se o jogador não especificou coordenadas (x=0 e y=0),
+	// busca o centro da cidade ou o portal de entrada do mapa para evitar teleporte randômico
+	if (.@x == 0 && .@y == 0) {
+		.@spawn_found = query_sql("SELECT `x`, `y` FROM `world_map_spawns` WHERE `map_name` = '" + escape_sql(.@dest$) + "' LIMIT 1", .@sx, .@sy);
+		if (.@spawn_found > 0) {
+			.@x = .@sx[0];
+			.@y = .@sy[0];
+		}
+	}
+
 	.@conquered = 0;
 	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@dest$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
 
 	if (.@conquered == 0) {
 		if (getgmlevel() == 99) {
-			.@x = (.@atcmd_numparameters > 1) ? atoi(.@atcmd_parameters$[1]) : 0;
-			.@y = (.@atcmd_numparameters > 2) ? atoi(.@atcmd_parameters$[2]) : 0;
 			message strcharinfo(0), "[NÉVOA DE GUERRA] Aviso: A região '" + .@dest$ + "' está bloqueada pela névoa de guerra! [GM 99 Bypass: Teleportando...]";
 			warp .@dest$, .@x, .@y;
 			end;
@@ -171,8 +184,6 @@ OnWarpCommand:
 	}
 
 	// Mapa já conquistado: Fast Travel liberado com sucesso!
-	.@x = (.@atcmd_numparameters > 1) ? atoi(.@atcmd_parameters$[1]) : 0;
-	.@y = (.@atcmd_numparameters > 2) ? atoi(.@atcmd_parameters$[2]) : 0;
 	message strcharinfo(0), "[Fast Travel] Teleportando para o mapa reconquistado: " + .@dest$;
 	warp .@dest$, .@x, .@y;
 	end;
