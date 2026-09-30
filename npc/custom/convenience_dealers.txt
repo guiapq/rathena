@@ -1,0 +1,1361 @@
+// ==============================================================================
+// RagnaRogue - Vendedores de Conveniencia das Cidades (Utilidades e Equipamentos)
+// Posicionados proximos aos centros/hubs das cidades sem sobrepor os outros NPCs.
+// ==============================================================================
+
+// ------------------------------------------------------------------------------
+// Alberta
+// ------------------------------------------------------------------------------
+alberta,32,236,3	trader	Loja de Utilidades#alb_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+alberta,34,236,3	trader	Loja de Equipamentos#alb_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Aldebaran
+// ------------------------------------------------------------------------------
+aldebaran,142,114,3	trader	Loja de Utilidades#alde_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+aldebaran,144,114,3	trader	Loja de Equipamentos#alde_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Amatsu
+// ------------------------------------------------------------------------------
+amatsu,207,83,3	trader	Loja de Utilidades#ama_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+amatsu,209,83,3	trader	Loja de Equipamentos#ama_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Ayothaya
+// ------------------------------------------------------------------------------
+ayothaya,215,166,3	trader	Loja de Utilidades#ayo_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+ayothaya,217,166,3	trader	Loja de Equipamentos#ayo_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Comodo
+// ------------------------------------------------------------------------------
+comodo,190,154,3	trader	Loja de Utilidades#cmd_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+comodo,192,154,3	trader	Loja de Equipamentos#cmd_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Einbech
+// ------------------------------------------------------------------------------
+einbech,63,33,3	trader	Loja de Utilidades#einbe_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+einbech,65,33,3	trader	Loja de Equipamentos#einbe_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Einbroch
+// ------------------------------------------------------------------------------
+einbroch,64,198,3	trader	Loja de Utilidades#einbr_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+einbroch,66,198,3	trader	Loja de Equipamentos#einbr_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Geffen
+// ------------------------------------------------------------------------------
+geffen,122,68,3	trader	Loja de Utilidades#gef_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+geffen,124,68,3	trader	Loja de Equipamentos#gef_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Gonryun
+// ------------------------------------------------------------------------------
+gonryun,162,118,3	trader	Loja de Utilidades#gon_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+gonryun,164,118,3	trader	Loja de Equipamentos#gon_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Hugel
+// ------------------------------------------------------------------------------
+hugel,96,146,3	trader	Loja de Utilidades#hug_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+hugel,98,146,3	trader	Loja de Equipamentos#hug_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Izlude
+// ------------------------------------------------------------------------------
+izlude,128,146,3	trader	Loja de Utilidades#izl_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+izlude,130,146,3	trader	Loja de Equipamentos#izl_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Lighthalzen
+// ------------------------------------------------------------------------------
+lighthalzen,159,96,3	trader	Loja de Utilidades#lhz_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+lighthalzen,161,96,3	trader	Loja de Equipamentos#lhz_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Louyang
+// ------------------------------------------------------------------------------
+louyang,220,99,3	trader	Loja de Utilidades#lou_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+louyang,218,99,3	trader	Loja de Equipamentos#lou_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Morocc
+// ------------------------------------------------------------------------------
+morocc,160,93,3	trader	Loja de Utilidades#mor_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+morocc,162,93,3	trader	Loja de Equipamentos#mor_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Moscovia
+// ------------------------------------------------------------------------------
+moscovia,226,187,3	trader	Loja de Utilidades#mos_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+moscovia,228,187,3	trader	Loja de Equipamentos#mos_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Niflheim
+// ------------------------------------------------------------------------------
+niflheim,206,178,3	trader	Loja de Utilidades#nif_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+niflheim,204,178,3	trader	Loja de Equipamentos#nif_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Payon
+// ------------------------------------------------------------------------------
+payon,174,102,3	trader	Loja de Utilidades#pay_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+payon,176,102,3	trader	Loja de Equipamentos#pay_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Prontera
+// ------------------------------------------------------------------------------
+prontera,156,187,3	trader	Loja de Utilidades#prt_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+prontera,158,187,3	trader	Loja de Equipamentos#prt_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Rachel
+// ------------------------------------------------------------------------------
+rachel,132,112,3	trader	Loja de Utilidades#rac_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+rachel,134,112,3	trader	Loja de Equipamentos#rac_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Umbala
+// ------------------------------------------------------------------------------
+umbala,105,141,3	trader	Loja de Utilidades#umb_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+umbala,107,141,3	trader	Loja de Equipamentos#umb_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Veins
+// ------------------------------------------------------------------------------
+veins,222,117,3	trader	Loja de Utilidades#ve_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+veins,224,117,3	trader	Loja de Equipamentos#ve_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Xmas
+// ------------------------------------------------------------------------------
+xmas,149,132,3	trader	Loja de Utilidades#xmas_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+xmas,151,132,3	trader	Loja de Equipamentos#xmas_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
+
+// ------------------------------------------------------------------------------
+// Yuno
+// ------------------------------------------------------------------------------
+yuno,158,41,3	trader	Loja de Utilidades#yuno_c	4_M_01,{
+OnInit:
+	sellitem Red_Potion;
+	sellitem Orange_Potion;
+	sellitem Yellow_Potion;
+	sellitem White_Potion;
+	sellitem Blue_Potion;
+	sellitem Green_Potion;
+	sellitem Center_Potion;
+	sellitem Awakening_Potion;
+	sellitem Berserk_Potion;
+	sellitem Wing_Of_Fly;
+	sellitem Wing_Of_Butterfly;
+	sellitem Spectacles;
+	sellitem Empty_Bottle;
+	sellitem Booby_Trap;
+	sellitem Arrow;
+	sellitem Iron_Arrow;
+	sellitem Silver_Arrow;
+	sellitem Fire_Arrow;
+	sellitem Bullet;
+}
+
+yuno,156,41,3	trader	Loja de Equipamentos#yuno_c	1_M_01,{
+OnInit:
+	sellitem Knife;
+	sellitem Cutter;
+	sellitem Main_Gauche;
+	sellitem Stiletto;
+	sellitem Blade;
+	sellitem Katana;
+	sellitem Sword;
+	sellitem Rod;
+	sellitem Wand;
+	sellitem Bow;
+	sellitem CrossBow;
+	sellitem Axe;
+	sellitem Mace;
+	sellitem Pike;
+	sellitem Jur;
+	sellitem Cotton_Shirt;
+	sellitem Adventure_Suit;
+	sellitem Wooden_Mail;
+	sellitem Silk_Robe;
+	sellitem Sandals;
+	sellitem Shoes;
+	sellitem Boots;
+	sellitem Hood;
+	sellitem Muffler;
+	sellitem Guard;
+	sellitem Buckler;
+	sellitem Bandana;
+	sellitem Cap;
+	sellitem Hat;
+}
