@@ -101,8 +101,15 @@ OnPCLoadMapEvent:
 		sc_end SC_HALLUCINATION;
 		sc_end SC_CURSE;
 		sc_end SC_BLEEDING;
+		sc_start SC_EXPBOOST, 86400000, 50;
+		sc_start SC_ITEMBOOST, 86400000, 50;
+		dispbottom "a nevoa se dissipa e voce respira aliviado: este mapa está livre da maldição do cometa", 0x00FF00;
 		end;
 	}
+
+	// Se for mapa não conquistado: remover bônus de purificação
+	sc_end SC_EXPBOOST;
+	sc_end SC_ITEMBOOST;
 
 	// Se o mapa não tiver monstros cadastrados ou ativos, não pune com miasma
 	.@mob_spawns = 0;
@@ -221,6 +228,9 @@ OnMapPurified:
 	sc_end SC_SLOWDOWN;
 	sc_end SC_BLIND;
 	sc_end SC_HALLUCINATION;
+	sc_start SC_EXPBOOST, 86400000, 50;
+	sc_start SC_ITEMBOOST, 86400000, 50;
+	dispbottom "a nevoa se dissipa e voce respira aliviado: este mapa está livre da maldição do cometa", 0x00FF00;
 	return;
 
 OnCometBossKill:
