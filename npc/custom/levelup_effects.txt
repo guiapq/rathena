@@ -1,33 +1,33 @@
 //==============================================================================
 // RagnaRogue - Sistema Procedural de Efeitos & Buffs por Level Up
-// Gerado deterministicamente para WORLD_SEED_NUMERIC: 17998381491372173532
+// Gerado deterministicamente para WORLD_SEED_NUMERIC: 17812873007597565376
 //==============================================================================
 
 -	script	LevelUpPuffBuff	-1,{
 OnInit:
 	// Tabela de Efeitos Visuais (Pufs) por Nível de Base
-	setarray .puf_effects[2], EF_CONCENTRATION, EF_BLESSING, EF_CARTREVOLUTION, EF_INCAGILITY, EF_JOBLVUP50, EF_TOPRANK, EF_GLORIA, EF_ASSUMPTIO, EF_POKJUK, EF_KYRIE;
-	setarray .puf_effects[12], EF_TURNUNDEAD, EF_DEVIL, EF_ENHANCE, EF_AQUA, EF_METEORSTORM, EF_SOULLINK, EF_POK_LOVE, EF_MAGICCRASHER, EF_COLORPAPER, EF_TURNUNDEAD;
-	setarray .puf_effects[22], EF_EARTHSPIKE, EF_PERFECTION, EF_SPRAYPOND, EF_JOBLVUP50, EF_MAGNIFICAT, EF_SIGNUM, EF_FLOWERLEAF, EF_SPRAYPOND, EF_SAINTWING, EF_DRAGONSMOKE;
-	setarray .puf_effects[32], EF_DEVOTION, EF_RO2YEAR, EF_MEMORIZE, EF_SUFFRAGIUM, EF_BUBBLE, EF_BABY, EF_POK_BIRTH, EF_ELECTRIC, EF_RAINBOW, EF_HEALSP;
-	setarray .puf_effects[42], EF_GRANDCROSS, EF_HOLYCROSS, EF_LKCONCENTRATION, EF_LORD, EF_GLORIA, EF_POK_BIRTH, EF_SUFFRAGIUM, EF_POK_CHRISTMAS, EF_JOBLVUP50, EF_LIGHTSPHERE;
-	setarray .puf_effects[52], EF_MELTDOWN, EF_ACIDDEMON, EF_MAGICCRASHER, EF_JOBLVUP50, EF_AQUA, EF_TWOHANDQUICKEN, EF_POK_CHRISTMAS, EF_ENHANCE, EF_POTIONPILLAR, EF_ELECTRIC;
-	setarray .puf_effects[62], EF_EARTHSPIKE, EF_LKCONCENTRATION, EF_COIN, EF_COLORPAPER, EF_BANJJAKII, EF_PEONG, EF_CARTREVOLUTION, EF_BANJJAKII, EF_SANCTUARY, EF_FALCONASSAULT;
-	setarray .puf_effects[72], EF_COIN, EF_AURABLADE, EF_PEONG, EF_MAGNUMBREAK, EF_MEMORIZE, EF_SOULLINK, EF_BUBBLE, EF_LKCONCENTRATION, EF_LORD, EF_DEVIL;
-	setarray .puf_effects[82], EF_TRUESIGHT, EF_DEVIL, EF_CRASHEARTH, EF_SANDWIND, EF_CRASHEARTH, EF_SOULSTRIKE, EF_BUBBLE, EF_LIGHTBOLT, EF_TOPRANK, EF_HEARTCASTING;
-	setarray .puf_effects[92], EF_SUFFRAGIUM, EF_FIREFLY, EF_MINI_TETRIS, EF_TURNUNDEAD, EF_AURABLADE, EF_ACIDDEMON, EF_LORD, EF_MVP;
+	setarray .puf_effects[2], EF_BANJJAKII, EF_FROSTDIVER, EF_SIGNUM, EF_STORMGUST, EF_AURABLADE, EF_IMPOSITIO, EF_GLORIA, EF_BAT, EF_POKJUK, EF_SOULSTRIKE;
+	setarray .puf_effects[12], EF_CONCENTRATION, EF_RO2YEAR, EF_DEVIL, EF_ACIDDEMON, EF_POK_CHRISTMAS, EF_SAINTWING, EF_HEALSP, EF_AURABLADE, EF_COLORPAPER, EF_SMOKE;
+	setarray .puf_effects[22], EF_PEONG, EF_BAT, EF_MINI_TETRIS, EF_GLORIA, EF_AURABLADE, EF_SOULBREAKER, EF_POK_BIRTH, EF_FIREBALL, EF_SAINTWING, EF_AURABLADE;
+	setarray .puf_effects[32], EF_GUARD, EF_SOULBREAKER, EF_POK_BIRTH, EF_GRANDCROSS, EF_POK_CHRISTMAS, EF_PEONG, EF_MAGNUMBREAK, EF_BOWLINGBASH, EF_RAINBOW, EF_JOBLVUP50;
+	setarray .puf_effects[42], EF_POK_LOVE, EF_SANDWIND, EF_SMOKE, EF_PRESSURE, EF_FIRSTAID, EF_ELECTRIC, EF_SANDWIND, EF_SOULLINK, EF_JOBLVUP50, EF_BANJJAKII;
+	setarray .puf_effects[52], EF_SANDWIND, EF_METEORSTORM, EF_MELTDOWN, EF_HOLYCROSS, EF_SOULBREAKER, EF_TWOHANDQUICKEN, EF_MAGNUMBREAK, EF_PEONG, EF_POTIONPILLAR, EF_RO2YEAR;
+	setarray .puf_effects[62], EF_TOPRANK, EF_SOULLINK, EF_TWILIGHT1, EF_LIGHTSPHERE, EF_TOPRANK, EF_STORMGUST, EF_GHOST, EF_GLORIA, EF_SANCTUARY, EF_LORD;
+	setarray .puf_effects[72], EF_DEVOTION, EF_CONCENTRATION, EF_BOWLINGBASH, EF_EARTHSPIKE, EF_TORCH, EF_RAINBOW, EF_SANDWIND, EF_AURABLADE, EF_LORD, EF_POK_LOVE;
+	setarray .puf_effects[82], EF_VALLENTINE, EF_GUARD, EF_LKCONCENTRATION, EF_FIRSTAID, EF_LKCONCENTRATION, EF_METEORSTORM, EF_MELTDOWN, EF_SAINTWING, EF_TOPRANK, EF_SMOKE;
+	setarray .puf_effects[92], EF_HEARTCASTING, EF_GLORIA, EF_SOULBREAKER, EF_TOPRANK, EF_AQUA, EF_TRUESIGHT, EF_IMPOSITIO, EF_MVP;
 
 	// Tabela de Buffs Determinísticos por Nível de Base (-1 = Marco Especial)
-	setarray .level_buffs[2], 7, 16, 7, 20, 7, 19, 14, 2, -1, 22;
-	setarray .level_buffs[12], 13, 10, 17, 20, 1, 0, 3, 7, -1, 4;
-	setarray .level_buffs[22], 2, 0, 24, 14, 23, 5, 6, 21, -1, 7;
-	setarray .level_buffs[32], 14, 20, 2, 4, 14, 12, 21, 4, -1, 7;
-	setarray .level_buffs[42], 1, 21, 19, 14, 7, 13, 23, 9, -1, 24;
-	setarray .level_buffs[52], 3, 2, 15, 3, 21, 10, 3, 17, -1, 22;
-	setarray .level_buffs[62], 10, 1, 0, 13, 20, 14, 4, 14, -1, 6;
-	setarray .level_buffs[72], 2, 20, 3, 23, 14, 20, 1, 7, -1, 9;
-	setarray .level_buffs[82], 16, 17, 22, 21, 10, 15, 2, 18, -1, 11;
-	setarray .level_buffs[92], 17, 9, 4, 15, 20, 8, 22, -1;
+	setarray .level_buffs[2], 13, 17, 1, 24, 15, 2, 16, 9, -1, 23;
+	setarray .level_buffs[12], 22, 5, 15, 9, 22, 6, 17, 15, -1, 17;
+	setarray .level_buffs[22], 0, 9, 18, 12, 10, 1, 2, 15, -1, 10;
+	setarray .level_buffs[32], 6, 23, 0, 13, 22, 4, 14, 10, -1, 11;
+	setarray .level_buffs[42], 13, 3, 21, 19, 22, 14, 7, 17, -1, 24;
+	setarray .level_buffs[52], 14, 18, 3, 7, 5, 24, 13, 16, -1, 8;
+	setarray .level_buffs[62], 23, 0, 9, 16, 10, 22, 0, 19, -1, 24;
+	setarray .level_buffs[72], 3, 9, 5, 8, 23, 4, 24, 1, -1, 15;
+	setarray .level_buffs[82], 0, 6, 0, 15, 10, 6, 1, 16, -1, 17;
+	setarray .level_buffs[92], 1, 23, 2, 20, 11, 5, 6, -1;
 
 	// Catálogo de Buffs Discretos
 	.total_buffs = 25;
