@@ -39,9 +39,31 @@ new_4-1,66,114,4	duplicate(Bulletin Board#nv)	Bulletin Board#nv4	111
 new_5-1,66,114,4	duplicate(Bulletin Board#nv)	Bulletin Board#nv5	111
 
 new_1-1,144,116,2	script	Guard#nv1	105,{
-	mes "[Training Grounds Guard]";
-	mes "Welcome to the Training Grounds.";
-	mes "You are now in the outer court yard. Please go inside the castle to begin your training.";
+	mes "[Sentinela do Castelo]";
+	mes "Saudações, jovem recruta!";
+	mes "As terras além destes muros foram tomadas pelo ^FF1493Miasma do Cometa Negro^000000. Nenhum aprendiz deve marchar desprotegido!";
+	next;
+	mes "[Sentinela do Castelo]";
+	mes "Receba as bênçãos sagradas da Guarda Real para fortalecer seu corpo e sua jornada!";
+	
+	percentheal 100, 100;
+	sc_start SC_BLESSING, 600000, 10;
+	sc_start SC_INCREASEAGI, 600000, 10;
+	specialeffect2 438;
+	
+	if (#novice_guard_pack == 0) {
+		next;
+		mes "[Sentinela do Castelo]";
+		mes "Tome também este ^008800Kit de Suprimentos da Guarda^000000.";
+		mes "Use as poções com sabedoria e as asas caso se encontre em apuros na névoa venenosa.";
+		getitem 569, 100; // 100 Poções de Aprendiz
+		getitem 601, 20;  // 20 Asas de Mosca
+		getitem 602, 5;   // 5 Asas de Borboleta
+		set #novice_guard_pack, 1;
+	}
+	next;
+	mes "[Sentinela do Castelo]";
+	mes "Agora atravesse o portal ao lado para iniciar seus passos no castelo, ou fale com o Batedor Veterano se desejar transporte tático.";
 	close;
 }
 
@@ -51,24 +73,57 @@ new_4-1,144,116,2	duplicate(Guard#nv1)	Guard#nv4-1	105
 new_5-1,144,116,2	duplicate(Guard#nv1)	Guard#nv5-1	105
 
 new_1-1,144,107,2	script	Guard#nv2	105,{
-	mes "[Training Grounds Guard]";
-	if(rand(2)) {
-		mes "Come in!";
-		mes "I would like";
-		mes "to welcome you to";
-		mes "the Training Grounds!";
+	.@cur_map$ = strnpcinfo(4);
+	.@p$ = charat(.@cur_map$, 4);
+	if (.@p$ == "") .@p$ = "1";
+	.@castle_map$ = "new_" + .@p$ + "-2";
+	.@field_map$ = "new_" + .@p$ + "-3";
+
+	mes "[Batedor Veterano]";
+	mes "Ei, recruta! Pronto para o combate?";
+	mes "Se você não tem paciência para aulas teóricas de sala de aula, eu posso abrir passagem tática imediatamente para você!";
+	next;
+	switch(select("Entrar no Castelo de Treinamento:Ir direto para o Campo de Monstros!:Pular o Treino e ir direto para Prontera!:Como funciona a Conquista e o Miasma?:Cancelar")) {
+	case 1:
+		mes "[Batedor Veterano]";
+		mes "Excelente. Entre no castelo e converse com os tutores para aprender o básico.";
+		close2;
+		warp .@castle_map$, 100, 29;
+		end;
+	case 2:
+		mes "[Batedor Veterano]";
+		mes "Essa é a atitude de um guerreiro! Estou te enviando direto para a arena dos monstros.";
+		mes "Derrote Porings e Fabres para subir de nível e conseguir seus primeiros itens!";
+		close2;
+		warp .@field_map$, 95, 171;
+		end;
+	case 3:
+		mes "[Batedor Veterano]";
+		mes "^FF0000Atenção!^000000";
+		mes "O mundo exterior foi profundamente corrompido pelo Cometa Negro. Mapas selvagens possuem monstros perigosos e Miasma tóxico!";
+		mes "Tem certeza que deseja deixar o Campo de Aprendizes e ir direto para a capital ^0000FFProntera^000000?";
 		next;
-		mes "[Training Grounds Guard]";
-		mes "In here, you can prepare";
-		mes "yourself for your future";
-		mes "adventures throughout the";
-		mes "Ragnarok world!";
+		if (select("Sim, estou pronto para enfrentar o mundo!:Não, prefiro me preparar melhor aqui.") == 1) {
+			mes "[Batedor Veterano]";
+			mes "Que os deuses guiem sua lâmina em Midgard!";
+			set nov_1st_cos, 3;
+			close2;
+			warp "prontera", 155, 181;
+			end;
+		}
+		mes "[Batedor Veterano]";
+		mes "Sábia decisão. Treine um pouco mais antes de encarar o perigo lá fora.";
+		close;
+	case 4:
+		mes "[Batedor Veterano]";
+		mes "^8B0000[ Dossiê Tático de Sobrevivência ]^000000";
+		mes "1. ^FF1493Miasma Tóxico^000000: Territórios selvagens sufocam heróis em 3 minutos se a névoa não for dissipada.";
+		mes "2. ^008800Conquista de Territórios^000000: Derrote os monstros corrompidos do mapa para purificar a terra.";
+		mes "3. ^FF8C00Recompensa da Conquista^000000: Em mapas purificados, a névoa se dissipa e todos ganham +50% EXP e +50% Drop!";
+		close;
+	case 5:
+		close;
 	}
-	else {
-		mes "Go, Novice, go!";
-		mes "Fight, and grow stronger! Look towards a brighter tomorrow!";
-	}
-	close;
 }
 
 new_2-1,144,107,2	duplicate(Guard#nv2)	Guard#nv2-2	105
@@ -186,7 +241,51 @@ new_3-2,100,29,4	duplicate(Receptionist#nv1)	Receptionist#nv3	86
 new_4-2,100,29,4	duplicate(Receptionist#nv1)	Receptionist#nv4	86
 new_5-2,100,29,4	duplicate(Receptionist#nv1)	Receptionist#nv5	86
 
-new_1-1,53,114,4	script	Shion#nv1	727,{
+new_1-1,53,114,4	script	Shion#nv1	4_F_NFDEADMGCIAN,{
+	if (novice_witch_lore == 0) {
+		specialeffect 205;
+		mes "[Bruxa Shion]";
+		mes "Hehehe... Ora, ora. Olhe o que temos aqui.";
+		mes "Mais uma alma recém-chegada aos limites de Midgard.";
+		next;
+		mes "[Bruxa Shion]";
+		mes "Diga-me, jovem aprendiz... Você realmente acredita que este mundo ainda é aquele que os velhos livros de história descrevem?";
+		mes "Abra seus olhos para a verdade antes de cruzar aquela ponte!";
+		next;
+		mes "[Bruxa Shion]";
+		mes "^8B0000[ A Queda do Cometa Negro ]^000000";
+		mes "Há eras, uma calamidade celeste rasgou os céus.";
+		mes "O lendário ^FF1493Cometa Negro^000000 colidiu contra o cerne deste mundo, partindo as leis do espaço e do tempo em pedaços.";
+		next;
+		mes "[Bruxa Shion]";
+		mes "^8B0000[ Os 7 Fragmentos Cósmicos ]^000000";
+		mes "O núcleo do cometa se fragmentou em ^FF8C007 fragmentos de energia colossal^000000.";
+		mes "Esses fragmentos caíram nos calabouços mais profundos de Midgard e foram devorados por Grandes Senhores do Mal.";
+		next;
+		mes "[Bruxa Shion]";
+		mes "^8B0000[ O Miasma Mortal ]^000000";
+		mes "Das crateras do impacto brotou o ^9400D3Miasma do Cometa^000000 — uma névoa púrpura asfixiante que corrompe cada mapa fora dos refúgios sagrados.";
+		mes "Se você ousar vagar por terras amaldiçoadas sem purificá-las, o veneno devorará seus órgãos em meros ^FF00003 minutos^000000!";
+		next;
+		mes "[Bruxa Shion]";
+		mes "^8B0000[ Conquista e Libertação ]^000000";
+		mes "Para dissipar a névoa, os heróis devem exterminar as aberrações corrompidas que assombram cada território.";
+		mes "Quando a terra é purificada, a névoa se dissipa: todos os aventureiros recebem ^008800+50% de Experiência^000000 e ^008800+50% de Drop^000000!";
+		next;
+		mes "[Bruxa Shion]";
+		mes "^8B0000[ Rotas Distorcidas e Relíquias ]^000000";
+		mes "Os portais do mundo foram reconfigurados pelo cataclismo. Cada nova era desperta uma topologia misteriosa e imprevisível.";
+		mes "Apenas reunindo as ^0000FFRelíquias Sagradas Antigas^000000 os bravos conseguirão quebrar a maldição do cometa de uma vez por todas.";
+		next;
+		mes "[Bruxa Shion]";
+		mes "Hehehe... Mas não se assuste tão cedo, pequeno mortal.";
+		mes "Por enquanto, vista seu manto de aprendiz e aprenda os primeiros passos.";
+		mes "Fale comigo novamente se quiser ouvir o meu disfarce de tutora normal... hihihi!";
+		specialeffect2 402;
+		set novice_witch_lore, 1;
+		close;
+	}
+
 	if (nov_get_item04 > 9 || nov_get_item05 > 9) {
 		mes "[Shion]";
 		mes "Hm...?";
@@ -357,10 +456,10 @@ new_1-1,53,114,4	script	Shion#nv1	727,{
 	}
 }
 
-new_2-1,53,114,4	duplicate(Shion#nv1)	Shion#nv2	727
-new_3-1,53,114,4	duplicate(Shion#nv1)	Shion#nv3	727
-new_4-1,53,114,4	duplicate(Shion#nv1)	Shion#nv4	727
-new_5-1,53,114,4	duplicate(Shion#nv1)	Shion#nv5	727
+new_2-1,53,114,4	duplicate(Shion#nv1)	Shion#nv2	4_F_NFDEADMGCIAN
+new_3-1,53,114,4	duplicate(Shion#nv1)	Shion#nv3	4_F_NFDEADMGCIAN
+new_4-1,53,114,4	duplicate(Shion#nv1)	Shion#nv4	4_F_NFDEADMGCIAN
+new_5-1,53,114,4	duplicate(Shion#nv1)	Shion#nv5	4_F_NFDEADMGCIAN
 
 
 // Interfaces Tutor
