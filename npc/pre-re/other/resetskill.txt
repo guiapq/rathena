@@ -1,11 +1,9 @@
-//===== rAthena Script =======================================
+//===== Hercules Script ======================================
 //= Hypnotist
 //===== By: ==================================================
 //= L0ne_W0lf
 //===== Current Version: =====================================
 //= 1.0
-//===== Compatible With: =====================================
-//= rAthena Project
 //===== Description: =========================================
 //= [Official Conversion]
 //= Permenent first class, base level 40 and under skill resetter.
@@ -15,7 +13,7 @@
 //= 1.0 First version. [L0ne_W0lf]
 //============================================================
 
-prontera,146,232,4	script	Hypnotist#2	124,{
+prontera,146,232,4	script	Hypnotist#2	4_F_TELEPORTER,{
 	mes "[Hypnotist]";
 	mes "Greetings, adventurer.";
 	mes "I'm a member of the Hypnotist";
@@ -109,7 +107,7 @@ prontera,146,232,4	script	Hypnotist#2	124,{
 				mes "services. Oh, and best";
 				mes "of luck to you on your";
 				mes "travels, adventurer.";
-				ResetSkill;
+				resetskill;
 				close;
 			}
 			mes "[Hypnotist]";

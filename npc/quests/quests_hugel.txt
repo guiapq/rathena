@@ -1,11 +1,9 @@
-//===== rAthena Script =======================================
+//===== Hercules Script ======================================
 //= Hugel Quest NPCs
 //===== By: ==================================================
 //= MasterOfMuppets & SinSloth
 //===== Current Version: =====================================
 //= 2.3
-//===== Compatible With: =====================================
-//= rAthena Project
 //===== Description: =========================================
 //= Quest NPCs related to Hugel
 //===== Additional Comments: =================================
@@ -27,12 +25,11 @@
 //=     - Juno Remedy Quest
 //= 2.2 Updated RE/Pre-RE EXP. [Euphy]
 //= 2.3 Added questlog support. [Euphy]
-//= 2.4 Fixed quest log for Odin Temple Excavation Quest. [Capuche]
 //============================================================
 
 // Medicine Quest :: hg_herv
 //============================================================
-hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
+hu_in01,387,245,0	script	Allen Schuwell	4_M_DIEMAN,2,2,{
 	if (BaseLevel > 49) {
 		if (hg_herb == 0) {
 			mes "[Allen]";
@@ -74,7 +71,7 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 				mes "you should be able to";
 				mes "find Postell. Tell him that";
 				mes "I need my ''Kolbun A'' now!";
-				set hg_herb,1;
+				hg_herb = 1;
 				setquest 8053;
 				next;
 				mes "[Allen]";
@@ -176,7 +173,7 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 					mes "not survive! A-adventurer, would you please stay by my side until";
 					mes "my son arrives? P-please?";
 					next;
-					set hg_herb,3;
+					hg_herb = 3;
 					changequest 8054,8055;
 					mes "[" +strcharinfo(0)+ "]";
 					mes "......";
@@ -208,8 +205,8 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 			mes "''Withstander'' medicine...";
 			mes "from... Drawer... H-heeelp me!";
 			mes "Adventurer! H-Heeeeelp~!";
-			set hg_herb,4;
-			// changequest 8055,8056;
+			hg_herb = 4;
+			changequest 8055,8056;
 			close;
 		} else if (hg_herb == 4) {
 			mes "[Allen]";
@@ -235,7 +232,7 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 			mes "Ah, wh-what a relief. It looks";
 			mes "like I-I live to see another";
 			mes "day. Th-thank you so much...";
-			set hg_herb,7;
+			hg_herb = 7;
 			close;
 		} else if (hg_herb == 7) {
 			mes "[Allen]";
@@ -256,7 +253,7 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 				mes "My son Postell, he should";
 				mes "be coming soon. Thank you";
 				mes "for being so patient with me...";
-				set hg_herb,10;
+				hg_herb = 10;
 				close;
 			}
 			mes "[Allen]";
@@ -270,7 +267,7 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 			mes "[" +strcharinfo(0)+ "]";
 			mes "(^333333Your son Postell";
 			mes "better get here soon!^000000)";
-			set hg_herb,7;
+			hg_herb = 7;
 			close;
 		} else if (hg_herb == 10) {
 			mes "[Allen]";
@@ -304,7 +301,7 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 			mes "Something's not";
 			mes "right. Bunkoll A";
 			mes "doesn't taste like this...";
-			emotion ET_SWEAT, getnpcid(0, "Postell Schuwell#D");
+			emotion e_swt,0,"Postell Schuwell#D";
 			next;
 			mes "[Postell]";
 			mes "Bunkoll A...?";
@@ -330,10 +327,10 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 			mes "It won't take long, so don't";
 			mes "stress yourself about it.";
 			close2;
-			set hg_herb,11;
+			hg_herb = 11;
 			disablenpc "Postell Schuwell#D";
-			emotion ET_SWEAT, playerattached();
-			emotion ET_SWEAT;
+			emotion e_swt,1;
+			emotion e_swt;
 			end;
 		} else if (hg_herb == 11) {
 			mes "[Allen]";
@@ -350,7 +347,7 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 			mes "you. Please take a look inside";
 			mes "the medicine drawer, and help";
 			mes "yourself to whatever you like~";
-			set hg_herb,12;
+			hg_herb = 12;
 			changequest 8055,8056;
 			close;
 		} else if (hg_herb == 12) {
@@ -391,14 +388,14 @@ hu_in01,387,245,0	script	Allen Schuwell	849,2,2,{
 		close;
 	}
 
-OnTouch_:
+OnTouch:
 	if (hg_herb == 4) {
 		mes "[Allen]";
 		mes "^333333*Cough cough!*^000000";
 		mes "W-Withstander...!";
 		mes "I need m-my Withstander!";
 		mes "P-please! ^333333*Cough cough!*^000000";
-		set hg_herb,5;
+		hg_herb = 5;
 		donpcevent "#DrawerOpener::OnEnable";
 		close;
 	} else if (hg_herb == 7) {
@@ -409,14 +406,13 @@ OnTouch_:
 		mes "attack?! Please, g-get me";
 		mes "another dose of Withstander,";
 		mes "just to be on the safe side!";
-		set hg_herb,8;
+		hg_herb = 8;
 		donpcevent "#DrawerOpener::OnEnable";
 		close;
 	}
-	
 }
 
-hu_in01,385,247,5	script	Postell Schuwell#D	97,{
+hu_in01,385,247,5	script	Postell Schuwell#D	4W_M_01,{
 	mes "[Postell]";
 	mes "Hey, uh...";
 	mes "I'm in the middle";
@@ -438,7 +434,7 @@ OnTimer100000:
 	end;
 }
 
-hu_fild06,34,123,3	script	Postell Schuwell	97,{
+hu_fild06,34,123,3	script	Postell Schuwell	4W_M_01,{
 	if (hg_herb == 1) {
 		mes "[Postell]";
 		mes "I really like living";
@@ -488,7 +484,7 @@ hu_fild06,34,123,3	script	Postell Schuwell	97,{
 			mes "get himself into any";
 			mes "more trouble? I'd really";
 			mes "appreciate it if you do.";
-			set hg_herb,2;
+			hg_herb = 2;
 			changequest 8053,8054;
 			close;
 		case 2:
@@ -519,9 +515,9 @@ hu_fild06,34,123,3	script	Postell Schuwell	97,{
 	}
 }
 
-hu_in01,370,255,3	script	Upper Drawer#First	139,2,2,{
-OnTouch_:
-	set .@rand,rand(1,7);
+hu_in01,370,255,3	script	Upper Drawer#First	HIDDEN_WARP_NPC,2,2,{
+OnTouch:
+	.@rand = rand(1,7);
 	if (hg_herb < 5) {
 		mes "^3355FFThere are several";
 		mes "books and a few";
@@ -535,9 +531,9 @@ OnTouch_:
 		mes "is gone! It's a miracle!";
 		mes "Maybe I'll just take the";
 		mes "Withstander later...";
-		set hg_herb,4;
+		hg_herb = 4;
 		next;
-		set .@rand,rand(1,7);
+		.@rand = rand(1,7);
 		if (.@rand == 4) {
 			mes "^3355FFYou find an old book";
 			mes "inside the drawer.^000000";
@@ -587,7 +583,7 @@ OnTouch_:
 		mes "is gone! It's a miracle!";
 		mes "Maybe I'll just take the";
 		mes "Withstander later...";
-		set hg_herb,7;
+		hg_herb = 7;
 		next;
 		if (.@rand == 4) {
 			mes "^3355FFYou find an old book";
@@ -637,9 +633,9 @@ OnTouch_:
 		mes "inside the drawer.^000000";
 		close2;
 		specialeffect EF_CONE;
-		set hg_herb,13;
+		hg_herb = 13;
 		getitem 603,1; //Old Blue Box
-		getexp (checkre(3))?5000:50000,0;
+		getexp RENEWAL_EXP?5000:50000,0;
 		completequest 8056;
 	} else {
 		if (.@rand > 3) {
@@ -679,21 +675,21 @@ OnTouch_:
 	}
 }
 
-hu_in01,370,255,3	script	Upper Drawer#Second	139,2,2,{
+hu_in01,370,255,3	script	Upper Drawer#Second	HIDDEN_WARP_NPC,2,2,{
 OnInit:
 	disablenpc "Upper Drawer#Second";
 	end;
 
-OnTouch_:
+OnTouch:
 	if (hg_herb == 5) {
 		mes "^3355FFYou take out one dose of";
 		mes "Withstander from the drawer.^000000";
-		set hg_herb,6;
+		hg_herb = 6;
 		close;
 	} else if (hg_herb == 8) {
 		mes "^3355FFYou take out one dose of";
 		mes "Withstander from the drawer.^000000";
-		set hg_herb,9;
+		hg_herb = 9;
 		close;
 	} else {
 		mes "^3355FFThere are several books";
@@ -727,7 +723,7 @@ OnTimer4500:
 
 // Biological Weapon Quest :: hg_bio
 //============================================================
-ein_in01,16,36,3	script	Morriphen	86,{
+ein_in01,16,36,3	script	Morriphen	4_M_04,{
 	if (hg_bio == 0) {
 		if (hg_herb == 13) {
 			mes "[Morriphen]";
@@ -849,7 +845,7 @@ ein_in01,16,36,3	script	Morriphen	86,{
 				mes "Thanks so much.";
 				mes "^333333*Cough Cough*";
 				mes "*Cough Cough*^000000";
-				set hg_bio,1;
+				hg_bio = 1;
 				setquest 11009;
 				close;
 			}
@@ -941,7 +937,7 @@ ein_in01,16,36,3	script	Morriphen	86,{
 		mes "way. I'll hurry as fast as";
 		mes "I can back to Hugel to";
 		mes "give Siria this medicine.";
-		set hg_bio,7;
+		hg_bio = 7;
 		changequest 11014,11015;
 		close;
 	} else if (hg_bio == 7) {
@@ -1219,8 +1215,8 @@ ein_in01,16,36,3	script	Morriphen	86,{
 		mes "Just get better so that";
 		mes "I won't have to worry";
 		mes "about you. Take care~";
-		set hg_bio,9;
-		getexp (checkre(3))?70000:700000,0;
+		hg_bio = 9;
+		getexp RENEWAL_EXP?70000:700000,0;
 		completequest 11016;
 		close;
 	} else if (hg_bio == 9) {
@@ -1256,7 +1252,7 @@ ein_in01,16,36,3	script	Morriphen	86,{
 	}
 }
 
-hu_in01,326,307,3	script	Siria	90,{
+hu_in01,326,307,3	script	Siria	4_F_01,{
 	if (hg_bio == 1) {
 		mes "[Siria]";
 		mes "Oh, hello there.";
@@ -1344,7 +1340,7 @@ hu_in01,326,307,3	script	Siria	90,{
 		mes "to come here, then I'll";
 		mes "trust you too. ^333333*Cough*^000000";
 		mes "Thank you so much...";
-		set hg_bio,2;
+		hg_bio = 2;
 		changequest 11009,11010;
 		close;
 	} else if (hg_bio == 2) {
@@ -1414,8 +1410,8 @@ hu_in01,326,307,3	script	Siria	90,{
 		mes "destroyed their lives. I just--";
 		mes "I just... I just need to relax.";
 		mes "Thank you for everything...";
-		set hg_bio,8;
-		getexp (checkre(3))?30000:500000,0;
+		hg_bio = 8;
+		getexp RENEWAL_EXP?30000:500000,0;
 		changequest 11015,11016;
 		close;
 	} else if (hg_bio == 8) {
@@ -1443,7 +1439,7 @@ hu_in01,326,307,3	script	Siria	90,{
 	}
 }
 
-lighthalzen,88,79,7	script	Dono	85,{
+lighthalzen,88,79,7	script	Dono	4_M_03,{
 	if (hg_bio == 2) {
 		mes "[Dono]";
 		mes "What do you want?";
@@ -1526,7 +1522,7 @@ lighthalzen,88,79,7	script	Dono	85,{
 		mes "hard, but I've got no choice.";
 		mes "If you don't hurry, then";
 		mes "those two will die, simple as that. I'll wait for you here.";
-		set hg_bio,3;
+		hg_bio = 3;
 		changequest 11010,11011;
 		close;
 	} else if (hg_bio == 1) {
@@ -1549,7 +1545,7 @@ lighthalzen,88,79,7	script	Dono	85,{
 			delitem 7053,5; //Brigan
 			delitem 7054,5; //Cyfar
 			delitem 935,20; //Shell
-			set hg_bio,4;
+			hg_bio = 4;
 			changequest 11011,11012;
 			mes "[Dono]";
 			mes "Good, good, you've brought";
@@ -1688,7 +1684,7 @@ lighthalzen,88,79,7	script	Dono	85,{
 		mes "If he gets upset, and";
 		mes "stresses himself to death,";
 		mes "my work will be for nothing.";
-		set hg_bio,6;
+		hg_bio = 6;
 		changequest 11013,11014;
 		close;
 	} else if (hg_bio == 6) {
@@ -1736,7 +1732,7 @@ lighthalzen,88,79,7	script	Dono	85,{
 	}
 }
 
-lhz_in03,193,28,3	script	Makkie	83,{
+lhz_in03,193,28,3	script	Makkie	4_M_01,{
 	if (hg_bio == 4) {
 		mes "[Makkie]";
 		mes "Hello, how may";
@@ -1816,7 +1812,7 @@ lhz_in03,193,28,3	script	Makkie	83,{
 		next;
 		mes "^3355FFYou receive a small bag";
 		mes "of Red Plant Stem Powder.^000000";
-		set hg_bio,5;
+		hg_bio = 5;
 		changequest 11012,11013;
 		next;
 		mes "["+strcharinfo(0)+"]";
@@ -1897,13 +1893,13 @@ lhz_in03,193,28,3	script	Makkie	83,{
 
 // Rebellion Quest :: hg_tre
 //============================================================
-hugel,70,137,5	script	Shede	879,{
+hugel,70,137,5	script	Shede	4_F_CAPEGIRL,{
 	cutin "siide1.bmp",2;
 	if (hg_tre == 0) {
 		mes "[Shede]";
 		mes "Yay~ are you talking to me? Yay!";
 		mes "Hey, are you from a different city? Wow, nice to see you!";
-		emotion ET_SURPRISE;
+		emotion e_gasp;
 		next;
 		mes "[Shede]";
 		mes "Ever since the airport was built, Hugel has been so busy to welcome tourists and adventurers.";
@@ -1919,7 +1915,7 @@ hugel,70,137,5	script	Shede	879,{
 			mes "[Shede]";
 			mes "Oh~ how kind of you! Thank you so much~";
 			mes "Then can I ask you a favor?";
-			emotion ET_THROB;
+			emotion e_lv;
 			next;
 			mes "[Shede]";
 			switch(rand(1,3)) {
@@ -1938,7 +1934,7 @@ hugel,70,137,5	script	Shede	879,{
 				mes "Can you please go gather \"^3131FF5 Moks Mushroom Solution^000000\" from \"^3131FFMoks Mushrooms^000000\"?";
 				mes "You will find the mushrooms in fields near Hugel.";
 				mes "I hope that you will bring their solution as quickly as you can!";
-				set hg_tre,10;
+				hg_tre = 10;
 				close2;
 				cutin "",255;
 				end;
@@ -1988,7 +1984,7 @@ hugel,70,137,5	script	Shede	879,{
 				mes "you will find clams near the ferry.";
 				mes "Please gather ^3131FF5 Clam Flesh^000000 from the clams.";
 				mes "Please hurry!";
-				set hg_tre,20;
+				hg_tre = 20;
 				close2;
 				cutin "",255;
 				end;
@@ -2027,8 +2023,8 @@ hugel,70,137,5	script	Shede	879,{
 				next;
 				mes "["+strcharinfo(0)+"]";
 				mes "'......I am confused...Does she love him or hate him?'";
-				emotion ET_THINK, playerattached();
-				set hg_tre,30;
+				emotion e_dots,1;
+				hg_tre = 30;
 				close2;
 				cutin "",255;
 				end;
@@ -2067,8 +2063,8 @@ hugel,70,137,5	script	Shede	879,{
 		mes "Oh! You came back earlier than I thought.";
 		mes "Now, I can bake the Mushroom Flavor Cookies for uncle Hollun.";
 		mes "Thank you so much.";
-		emotion ET_SMILE;
-		set hg_tre,40;
+		emotion e_heh;
+		hg_tre = 40;
 		close2;
 		cutin "",255;
 		end;
@@ -2077,8 +2073,8 @@ hugel,70,137,5	script	Shede	879,{
 		mes "Oh! You came back earlier than I thought.";
 		mes "Now, I can bake the best cookies of mine and compete with Agette!";
 		mes "Thank you so much.";
-		emotion ET_SMILE;
-		set hg_tre,40;
+		emotion e_heh;
+		hg_tre = 40;
 		close2;
 		cutin "",255;
 		end;
@@ -2087,13 +2083,13 @@ hugel,70,137,5	script	Shede	879,{
 		mes "Oh! You came back earlier than I thought.";
 		mes "Now, I can bake Devil's Cookies to confess my love to the gentleman.";
 		mes "Thank you so much.";
-		emotion ET_SMILE;
+		emotion e_heh;
 		next;
 		mes "["+strcharinfo(0)+"]";
 		mes "(If he knew what ingredients she used for the cookies,)";
 		mes "(I am pretty sure that at least he will remember her face to avoid next time...)'";
-		emotion ET_THINK, playerattached();
-		set hg_tre,40;
+		emotion e_dots,1;
+		hg_tre = 40;
 		close2;
 		cutin "",255;
 		end;
@@ -2106,7 +2102,7 @@ hugel,70,137,5	script	Shede	879,{
 			mes "[Shede]";
 			mes "If you have some time, why don't you go spend some time with him?";
 			mes "I know that he will appreciate it.";
-			set hg_tre,41;
+			hg_tre = 41;
 			close2;
 			cutin "",255;
 			end;
@@ -2135,7 +2131,7 @@ hugel,70,137,5	script	Shede	879,{
 	}
 }
 
-hu_in01,256,40,3	script	Herico	897,{
+hu_in01,256,40,3	script	Herico	4_M_HUGRANFA,{
 	if (checkweight(7342,1) != 1) {
 		mes "[Herico]";
 		mes "Why don't you go take some load off your shoulder first, and come back?";
@@ -2202,7 +2198,7 @@ hu_in01,256,40,3	script	Herico	897,{
 			next;
 			mes "[Herico]";
 			mes "Perhaps we will learn something from each other's story.";
-			set hg_tre,42;
+			hg_tre = 42;
 			close2;
 			cutin "",255;
 			end;
@@ -2246,7 +2242,7 @@ hu_in01,256,40,3	script	Herico	897,{
 		mes "Please find out the secret about the airship and the island.";
 		mes "Then I will tell you my stories.";
 		mes "I hope that you will do your best to find out the secret.";
-		set hg_tre,43;
+		hg_tre = 43;
 		close2;
 		cutin "",255;
 		end;
@@ -2281,7 +2277,7 @@ hu_in01,256,40,3	script	Herico	897,{
 			mes "[Herico]";
 			mes "Well, this is time for me to tell you my story.";
 			mes "I hope that you will enjoy it.";
-			set hg_tre,44;
+			hg_tre = 44;
 			close2;
 			cutin "",255;
 			end;
@@ -2398,7 +2394,7 @@ hu_in01,256,40,3	script	Herico	897,{
 		mes "who still remembers about the rebellion.";
 		mes "If you find him, please ask him if he knows whereabouts of the rebellion survivors,";
 		mes "so that you can find out what happened to Sage Varmunt and his research documents.";
-		set hg_tre,45;
+		hg_tre = 45;
 		close2;
 		cutin "",255;
 		end;
@@ -2460,8 +2456,8 @@ hu_in01,256,40,3	script	Herico	897,{
 			mes "[Herico]";
 			mes "Haha, the first part was funny,";
 			mes "but the second part was kind of scary, you know?";
-			emotion ET_THINK;
-			emotion ET_CRY, playerattached();
+			emotion e_dots;
+			emotion e_sob,1;
 			next;
 			mes "[Herico]";
 			mes "So, tell me, where are all of his research documents?";
@@ -2491,7 +2487,7 @@ hu_in01,256,40,3	script	Herico	897,{
 		mes "I may now be an old man whose days are numbered,";
 		mes "but I used to work at ^3131FFthe Ymir's Heart imitation research department";
 		mes " in Regenschirm laboratory^000000 under Sage Varmunt's supervision.";
-		emotion ET_HUK, playerattached();
+		emotion e_omg,1;
 		next;
 		cutin "heri2.bmp",2;
 		mes "[Herico]";
@@ -2579,7 +2575,7 @@ hu_in01,256,40,3	script	Herico	897,{
 		mes "in order to continue with their research without Sage Varmunt.";
 		next;
 		cutin "heri3.bmp",2;
-		emotion ET_ANGER;
+		emotion e_ag;
 		mes "[Herico]";
 		mes "What? \"Bio Lab\"? I didn't image that they could";
 		mes "even think of that! I can't express enough of my resentment toward them!";
@@ -2588,7 +2584,7 @@ hu_in01,256,40,3	script	Herico	897,{
 		mes "Science is to benefit humankinds,";
 		mes "not to harm them. I think that something must be done.";
 		mes "Can you bring me a glass of water?";
-		set hg_tre,50;
+		hg_tre = 50;
 		close2;
 		cutin "",255;
 		end;
@@ -2640,7 +2636,7 @@ hu_in01,256,40,3	script	Herico	897,{
 			next;
 			mes "[Herico]";
 			mes "Let's discuss further what we should do.";
-			set hg_tre,51;
+			hg_tre = 51;
 			close2;
 			cutin "",255;
 			end;
@@ -2662,7 +2658,7 @@ hu_in01,256,40,3	script	Herico	897,{
 		mes "It is where their filthy ambitions are reflected on.";
 		mes "Please sneak into the laboratory";
 		mes "and bring ^FF0000their research data^000000 to me.";
-		set hg_tre,52;
+		hg_tre = 52;
 		close2;
 		cutin "",255;
 		end;
@@ -2725,7 +2721,7 @@ hu_in01,256,40,3	script	Herico	897,{
 		mes "that you are the only hope that I have.";
 		mes "Please stop them from performing experimental research on living bodies!";
 		delitem 7342,1; //File Folder
-		set hg_tre,54;
+		hg_tre = 54;
 		close2;
 		cutin "",255;
 		end;
@@ -2807,7 +2803,7 @@ hu_in01,256,40,3	script	Herico	897,{
 			mes "Let's see how well he can handle it.";
 			mes "I appreciate you for doing everything for me so far,";
 			mes "I really appreciate it.";
-			set hg_tre,56;
+			hg_tre = 56;
 			getitem 7342,1;
 			close2;
 			cutin "",255;
@@ -2893,7 +2889,7 @@ hu_in01,256,40,3	script	Herico	897,{
 	end;
 }
 
-lhz_in03,39,44,3	script	Enquro Carson	97,{
+lhz_in03,39,44,3	script	Enquro Carson	4W_M_01,{
 	if (hg_tre < 45) {
 		mes "[Enquro Carson]";
 		mes "Hello, everyone. This is Enquro Carson";
@@ -2980,7 +2976,7 @@ lhz_in03,39,44,3	script	Enquro Carson	97,{
 			mes "People keep talking about the pub's best drink,";
 			mes "and I wonder how delicious the drink will be.";
 			mes "Can you please get me the drink? Hahaha, thanks!";
-			set hg_tre,46;
+			hg_tre = 46;
 			close;
 		case 2:
 			mes "[Enquro Carson]";
@@ -3007,7 +3003,7 @@ lhz_in03,39,44,3	script	Enquro Carson	97,{
 			mes "Wow, this is that famous drink!";
 			mes "Let's see...*Gulp*";
 			next;
-			emotion ET_BEST;
+			emotion e_no1;
 			mes "[Enquro Carson]";
 			mes "Wow! This is awsome!";
 			mes "It is as delicious as I heard!";
@@ -3044,8 +3040,8 @@ lhz_in03,39,44,3	script	Enquro Carson	97,{
 			mes "this secret between you and me.";
 			mes "I released the personal information at my discretion,";
 			mes "and I know that I am not allowed to do that. Hehe.";
-			emotion ET_KIK;
-			set hg_tre,47;
+			emotion e_gg;
+			hg_tre = 47;
 			delitem 12112,1; //Tropical Sograt
 			delitem 12113,1; //Vermilion on the Beach
 			close;
@@ -3067,7 +3063,7 @@ lhz_in03,39,44,3	script	Enquro Carson	97,{
 	}
 }
 
-hu_in01,310,380,5	script	Girl#hugel	891,{
+hu_in01,310,380,5	script	Girl#hugel	4_F_HUGIRL,{
 	if (hg_tre < 47) {
 		mes "[Girl]";
 		mes "Bah, I am bored.";
@@ -3171,7 +3167,7 @@ hu_in01,310,380,5	script	Girl#hugel	891,{
 		mes "Sure!";
 		mes "It is filled with books, and they don't look that interesting.";
 		mes "But, can you be careful to treat the shelf? It is a keepsake from my father.";
-		set hg_tre,48;
+		hg_tre = 48;
 		close;
 	} else if (hg_tre > 48) {
 		mes "[Wintzil Trony]";
@@ -3185,7 +3181,7 @@ hu_in01,310,380,5	script	Girl#hugel	891,{
 	}
 }
 
-hu_in01,317,312,0	script	Book	111,{
+hu_in01,317,312,0	script	Book	HIDDEN_NPC,{
 	cutin "hg_book.bmp",2;
 	if (hg_tre > 47) {
 		mes "- You picked up a very thick book. -";
@@ -3357,6 +3353,7 @@ hu_in01,317,312,0	script	Book	111,{
 					mes "People say that his mansion is rather like a fortress.";
 					mes "I also don't know why someone would want to build his house";
 					mes "as strong as a fortress. Regardless, I am pretty sure that his support will be a great help for us.";
+					mes "";
 					mes "It was a really tiring day today. It was also a very chaotic day.";
 					mes "To be honest, I don't know what is going to happen now.";
 					mes "I am scared if I would die helplessly. I am scared and depressed.";
@@ -3405,7 +3402,7 @@ hu_in01,317,312,0	script	Book	111,{
 					mes " ";
 					mes "My arm is throbbing with pain again. The history of mercenary soldiers ended, and I need to rest.";
 					mes "I hope that this will be the last page of my journal.";
-					if (hg_tre == 48) set hg_tre,49;
+					if (hg_tre == 48) hg_tre = 49;
 					next;
 					mes "- The journal was ended at the page. -";
 					next;
@@ -3426,7 +3423,7 @@ hu_in01,317,312,0	script	Book	111,{
 	}
 }
 
-einbech,208,124,3	script	Bomb Maker	851,{
+einbech,208,124,3	script	Bomb Maker	4_M_REPAIR,{
 	if (hg_tre == 54) {
 		if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
 			mes "[Boomer]";
@@ -3463,7 +3460,7 @@ einbech,208,124,3	script	Bomb Maker	851,{
 				mes "[Boomer]";
 				mes "Just make sure that you are not going to";
 				mes "blow yourself away with this bomb, hahah!";
-				set Zeny,Zeny-3000;
+				Zeny -= 3000;
 				getitem 7138,1; //Marine Sphere Bottle
 				close;
 			case 2:
@@ -3485,7 +3482,7 @@ einbech,208,124,3	script	Bomb Maker	851,{
 	}
 }
 
-hu_fild06,168,359,3	script	Moks Mushrooms#Mush1	111,{
+hu_fild06,168,359,3	script	Moks Mushrooms#Mush1	HIDDEN_NPC,{
 	if (hg_tre > 9 && hg_tre < 15) {
 		mes "- You found mushrooms that are as big as your palm. -";
 		next;
@@ -3510,7 +3507,7 @@ hu_fild06,168,359,3	script	Moks Mushrooms#Mush1	111,{
 			}
 			mes "- You have successfully gathered mushrooms. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 11)
 				mes "Collected Moks Mushroom Solution: 1ea ";
 			else if (hg_tre == 12)
@@ -3540,7 +3537,7 @@ OnTimer20000:
 	end;
 }
 
-hu_fild06,194,341,3	script	Moks Mushrooms#Mush2	111,{
+hu_fild06,194,341,3	script	Moks Mushrooms#Mush2	HIDDEN_NPC,{
 	if (hg_tre > 9 && hg_tre < 15) {
 		mes "- You found mushrooms that are as big as your palm. -";
 		next;
@@ -3565,7 +3562,7 @@ hu_fild06,194,341,3	script	Moks Mushrooms#Mush2	111,{
 			}
 			mes "- You have successfully gathered mushrooms. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 11)
 				mes "Collected Moks Mushroom Solution: 1ea ";
 			else if (hg_tre == 12)
@@ -3595,7 +3592,7 @@ OnTimer20000:
 	end;
 }
 
-hu_fild06,198,339,3	script	Moks Mushrooms#Mush3	111,{
+hu_fild06,198,339,3	script	Moks Mushrooms#Mush3	HIDDEN_NPC,{
 	if (hg_tre > 9 && hg_tre < 15) {
 		mes "- You found mushrooms that are as big as your palm. -";
 		next;
@@ -3620,7 +3617,7 @@ hu_fild06,198,339,3	script	Moks Mushrooms#Mush3	111,{
 			}
 			mes "- You have successfully gathered mushrooms. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 11)
 				mes "Collected Moks Mushroom Solution: 1ea ";
 			else if (hg_tre == 12)
@@ -3650,7 +3647,7 @@ OnTimer20000:
 	end;
 }
 
-hugel,209,163,3	script	Clam#C1	111,{
+hugel,209,163,3	script	Clam#C1	HIDDEN_NPC,{
 	if (hg_tre > 19 && hg_tre < 25) {
 		mes "- You found very fresh clams whose shells are shining under the sunlight. -";
 		next;
@@ -3675,7 +3672,7 @@ hugel,209,163,3	script	Clam#C1	111,{
 			}
 			mes "- You have successfully gathered Clam Flesh. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 21)
 				mes "Collected Clam Flesh: 1ea ";
 			else if (hg_tre == 22)
@@ -3705,7 +3702,7 @@ OnTimer20000:
 	end;
 }
 
-hugel,203,166,3	script	Clam#C2	111,{
+hugel,203,166,3	script	Clam#C2	HIDDEN_NPC,{
 	if (hg_tre > 19 && hg_tre < 25) {
 		mes "- You found very fresh clams whose shells are shining under the sunlight. -";
 		next;
@@ -3730,7 +3727,7 @@ hugel,203,166,3	script	Clam#C2	111,{
 			}
 			mes "- You have successfully gathered Clam Flesh. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 21)
 				mes "Collected Clam Flesh: 1ea ";
 			else if (hg_tre == 22)
@@ -3760,7 +3757,7 @@ OnTimer20000:
 	end;
 }
 
-hugel,217,158,3	script	Clam#C3	111,{
+hugel,217,158,3	script	Clam#C3	HIDDEN_NPC,{
 	if (hg_tre > 19 && hg_tre < 25) {
 		mes "- You found very fresh clams whose shells are shining under the sunlight. -";
 		next;
@@ -3785,7 +3782,7 @@ hugel,217,158,3	script	Clam#C3	111,{
 			}
 			mes "- You have successfully gathered Clam Flesh. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 21)
 				mes "Collected Clam Flesh: 1ea ";
 			else if (hg_tre == 22)
@@ -3815,7 +3812,7 @@ OnTimer20000:
 	end;
 }
 
-hugel,204,150,3	script	Clam#C4	111,{
+hugel,204,150,3	script	Clam#C4	HIDDEN_NPC,{
 	if (hg_tre > 19 && hg_tre < 25) {
 		mes "- You found very fresh clams whose shells are shining under the sunlight. -";
 		next;
@@ -3840,7 +3837,7 @@ hugel,204,150,3	script	Clam#C4	111,{
 			}
 			mes "- You have successfully gathered Clam Flesh. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 21)
 				mes "Collected Clam Flesh: 1ea ";
 			else if (hg_tre == 22)
@@ -3870,7 +3867,7 @@ OnTimer20000:
 	end;
 }
 
-hu_fild06,155,309,1	script	Moks Bugs#Bug1	1053,{
+hu_fild06,155,309,1	script	Moks Bugs#Bug1	THIEF_BUG_,{
 	if (hg_tre > 29 && hg_tre < 35) {
 		mes "- You found big brown Moks Bugs in the bushes. -";
 		next;
@@ -3895,7 +3892,7 @@ hu_fild06,155,309,1	script	Moks Bugs#Bug1	1053,{
 			}
 			mes "- You have successfully gathered Moks Bugs Shells. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 31)
 				mes "Collected Moks Bugs Shells: 1ea ";
 			else if (hg_tre == 32)
@@ -3925,7 +3922,7 @@ OnTimer20000:
 	end;
 }
 
-hu_fild06,218,320,1	script	Moks Bugs#Bug2	1053,{
+hu_fild06,218,320,1	script	Moks Bugs#Bug2	THIEF_BUG_,{
 	if (hg_tre > 29 && hg_tre < 35) {
 		mes "- You found big brown Moks Bugs in the bushes. -";
 		next;
@@ -3950,7 +3947,7 @@ hu_fild06,218,320,1	script	Moks Bugs#Bug2	1053,{
 			}
 			mes "- You have successfully gathered Moks Bugs Shells. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 31)
 				mes "Collected Moks Bugs Shells: 1ea ";
 			else if (hg_tre == 32)
@@ -3980,7 +3977,7 @@ OnTimer20000:
 	end;
 }
 
-hu_fild06,249,329,1	script	Moks Bugs#Bug3	1053,{
+hu_fild06,249,329,1	script	Moks Bugs#Bug3	THIEF_BUG_,{
 	if (hg_tre > 29 && hg_tre < 35) {
 		mes "- You found big brown Moks Bugs in the bushes. -";
 		next;
@@ -4005,7 +4002,7 @@ hu_fild06,249,329,1	script	Moks Bugs#Bug3	1053,{
 			}
 			mes "- You have successfully gathered Moks Bugs Shells. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 31)
 				mes "Collected Moks Bugs Shells: 1ea ";
 			else if (hg_tre == 32)
@@ -4035,7 +4032,7 @@ OnTimer20000:
 	end;
 }
 
-hu_fild06,218,373,1	script	Moks Bugs#Bug4	1053,{
+hu_fild06,218,373,1	script	Moks Bugs#Bug4	THIEF_BUG_,{
 	if (hg_tre > 29 && hg_tre < 35) {
 		mes "- You found big brown Moks Bugs in the bushes. -";
 		next;
@@ -4060,7 +4057,7 @@ hu_fild06,218,373,1	script	Moks Bugs#Bug4	1053,{
 			}
 			mes "- You have successfully gathered Moks Bugs Shells. -";
 			specialeffect2 EF_VALLENTINE2;
-			set hg_tre,hg_tre+1;
+			++hg_tre;
 			if (hg_tre == 31)
 				mes "Collected Moks Bugs Shells: 1ea ";
 			else if (hg_tre == 32)
@@ -4090,7 +4087,7 @@ OnTimer20000:
 	end;
 }
 
-lhz_in01,214,129,0	script	A Pile of Paper	111,{
+lhz_in01,214,129,0	script	A Pile of Paper	HIDDEN_NPC,{
 	if (hg_tre == 52) {
 		mes "- You found a pile of paper that was tied up with a thick ribbon.";
 		mes "On the very top paper, a period and a title saying 'Report of the **th Research'";
@@ -4098,7 +4095,7 @@ lhz_in01,214,129,0	script	A Pile of Paper	111,{
 		next;
 		mes "["+strcharinfo(0)+"]";
 		mes "Good, I must take this with me.";
-		set hg_tre,53;
+		hg_tre = 53;
 		getitem 7342,1; //File folder
 		donpcevent "HuMSpawner::OnMonster";
 		close;
@@ -4106,7 +4103,7 @@ lhz_in01,214,129,0	script	A Pile of Paper	111,{
 	end;
 }
 
-lhz_in01,235,129,0	script	HuMSpawner	139,{
+lhz_in01,235,129,0	script	HuMSpawner	HIDDEN_WARP_NPC,{
 	OnMonster:
 	if (rand(0,1))
 		mapannounce "lhz_in01","Intruder alert! Protect the research documents!",1,0xFF0000;
@@ -4121,12 +4118,12 @@ OnTimer60000:
 	killmonster "lhz_in01","HuMSpawner::OnMonsterDead";
 	stopnpctimer;
 	end;
-	
+
 OnMonsterDead:
 	end;
 }
 
-lhz_dun02,244,226,0	script	Unethical Machine	111,{
+lhz_dun02,244,226,0	script	Unethical Machine	HIDDEN_NPC,{
 	if (hg_tre == 54) {
 		if (countitem(7138)) {
 			mes "["+strcharinfo(0)+"]";
@@ -4141,7 +4138,7 @@ lhz_dun02,244,226,0	script	Unethical Machine	111,{
 			enablenpc "HiddenExplosion";
 			mapannounce "lhz_dun02","Beep------------------ ",1,0x99CCFF;
 			delitem 7138,1; //Marine sphere bottle
-			set hg_tre,55;
+			hg_tre = 55;
 			close;
 		} else {
 			mes "- You were staggered for the fact that";
@@ -4151,11 +4148,11 @@ lhz_dun02,244,226,0	script	Unethical Machine	111,{
 	}
 }
 
-lhz_dun02,244,227,0	script	HiddenExplosion	139,5,5,{
+lhz_dun02,244,227,0	script	HiddenExplosion	HIDDEN_WARP_NPC,5,5,{
 OnInit:
 	disablenpc "HiddenExplosion";
 	end;
-	
+
 OnTouch:
 	percentheal -10,0;
 	specialeffect EF_HIT5;
@@ -4163,14 +4160,14 @@ OnTouch:
 	end;
 }
 
-hu_in01,365,170,3	script	Girl#Hu	793,{
+hu_in01,365,170,3	script	Girl#Hu	4_F_NFLOSTGIRL,{
 	mes "[Girl]";
 	mes "I love sitting in front of a stove because it makes me warm~";
 	mes "Ah...it is so warm and relaxing...and now I feel sleepy...Zzzzz Zzzz...";
 	close;
 }
 
-hu_in01,377,106,3	script	Pub Granny	892,{
+hu_in01,377,106,3	script	Pub Granny	4_F_HUGRANMA,{
 	mes "[Pub Granny]";
 	mes "Recently we have many tourists visiting our town.";
 	mes "They make me pretty busy, but I am so happy to see them enjoying my food. Hohoho!";
@@ -4179,10 +4176,10 @@ hu_in01,377,106,3	script	Pub Granny	892,{
 
 // Memory Quest :: hg_memo
 //============================================================
-hugel,198,169,0	script	#HugelTree	139,2,2,{
+hugel,198,169,0	script	#HugelTree	HIDDEN_WARP_NPC,2,2,{
 	if (BaseLevel > 49) {
 		if (!hg_memory) {
-			set hg_memory,1;
+			hg_memory = 1;
 			setquest 8057;
 			mes "^3355FFFor some reason, you";
 			mes "feel very warm, safe,";
@@ -4205,7 +4202,7 @@ hugel,198,169,0	script	#HugelTree	139,2,2,{
 			mes "feeling of dread?";
 			mes "This peculiar chill...";
 			mes "It's almost as if you";
-			mes "were in Niflheim...^000000";
+			mes "were in Nifflheim...^000000";
 			close;
 		} else {
 			mes "^3355FFFor some reason, you";
@@ -4227,7 +4224,7 @@ hugel,198,169,0	script	#HugelTree	139,2,2,{
 	}
 }
 
-hugel,191,172,3	script	Manainne	892,1,{
+hugel,191,172,3	script	Manainne	4_F_HUGRANMA,1,{
 	if (hg_memory == 1) {
 		mes "[Manainne]";
 		mes "This tree means so much";
@@ -4244,7 +4241,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "so cruel and selfish!";
 		mes "Right now he's surveying";
 		mes "the land for construction...";
-		set hg_memory,2;
+		hg_memory = 2;
 		changequest 8057,8058;
 		close;
 	} else if (hg_memory == 2) {
@@ -4286,7 +4283,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "He's completely changed.";
 		mes "My sister would be rolling";
 		mes "in her grave, seeing him now...";
-		set hg_memory,6;
+		hg_memory = 6;
 		changequest 8061,8062;
 		close;
 	} else if (hg_memory == 6) {
@@ -4302,7 +4299,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "What? That's...";
 		mes "That's an incredible";
 		mes "story. You met my dead";
-		mes "sister in Niflheim?! You";
+		mes "sister in Nifflheim?! You";
 		mes "must be lying to me!";
 		next;
 		mes "[Manainne]";
@@ -4313,10 +4310,10 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "cutting down our tree, but";
 		mes "this is almost too much.";
 		next;
-		set hg_memory,8;
+		hg_memory = 8;
 		mes "[Manainne]";
 		mes "Gosh, all that talk";
-		mes "about Niflheim is...";
+		mes "about Nifflheim is...";
 		mes "It's giving me the chills!";
 		mes "A-aren't you cold?";
 		close;
@@ -4345,7 +4342,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "[Manainne]";
 		mes "...!";
 		next;
-		set hg_memory,9;
+		hg_memory = 9;
 		mes "[Manainne]";
 		mes "......";
 		mes "..........";
@@ -4357,7 +4354,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "long! Hello, adventurer,";
 		mes "remember me? I'm Kanainne,";
 		mes "the spirit you saw down in";
-		mes "Niflheim. Let me explain...";
+		mes "Nifflheim. Let me explain...";
 		next;
 		mes "[Manainne]";
 		mes "My spirit was able to follow";
@@ -4387,7 +4384,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "I can't believe you'd...";
 		mes "Knock it off right now!";
 		next;
-		set hg_memory,10;
+		hg_memory = 10;
 		mes "[El Schatt]";
 		mes "Look, out of my respect";
 		mes "for you and the relationship";
@@ -4445,7 +4442,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "''Your lovely face,";
 		mes "your enticing smile...";
 		mes "They're forever be in my";
-		mes "heart, so I'll never be lonely.''";
+		mes "heart, so I'll never be lonely.'' ";
 		next;
 		mes "[El Schatt]";
 		mes "Manainne...";
@@ -4485,7 +4482,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 		mes "believe. I want to";
 		mes "believe it so badly...";
 		mes "Is it really you?";
-		set hg_memory,11;
+		hg_memory = 11;
 		close;
 	} else if (hg_memory == 11) {
 		mes "[Manainne]";
@@ -4511,7 +4508,7 @@ hugel,191,172,3	script	Manainne	892,1,{
 	}
 }
 
-niflheim,90,106,3	script	A Spirit#HQuest	802,{
+niflheim,90,106,3	script	A Spirit#HQuest	4_NFWISP,{
 	if (hg_memory == 6) {
 		mes "[Spirit]";
 		mes "El Schatt...";
@@ -4546,7 +4543,7 @@ niflheim,90,106,3	script	A Spirit#HQuest	802,{
 		mes "me... Just go back to ";
 		mes "the living... to Hugel...";
 		mes "Let me send you there...";
-		set hg_memory,7;
+		hg_memory = 7;
 		changequest 8062,8063;
 		close2;
 		warp "hugel",78,148;
@@ -4561,7 +4558,7 @@ niflheim,90,106,3	script	A Spirit#HQuest	802,{
 	} else {
 		mes "[Spirit]";
 		mes "The living shouldn't";
-		mes "be here in Niflheim...";
+		mes "be here in Nifflheim...";
 		mes "Go back! Go back to your";
 		mes "own world before it's too late!";
 		next;
@@ -4573,9 +4570,9 @@ niflheim,90,106,3	script	A Spirit#HQuest	802,{
 	}
 }
 
-hugel,100,103,3	script	Perfitz	866,{
+hugel,100,103,3	script	Perfitz	4_M_LGTGRAND,{
 	if (hg_memory == 3) {
-		set hg_memory,4;
+		hg_memory = 4;
 		mes "[Perfitz]";
 		mes "I'm pleased that my son has";
 		mes "finally set his mind on the";
@@ -4635,7 +4632,7 @@ hugel,100,103,3	script	Perfitz	866,{
 	}
 }
 
-hugel,196,164,3	script	El Schatt	50,{
+hugel,196,164,3	script	El Schatt	1_M_04,{
 	if (hg_memory == 2) {
 		mes "[El Schatt]";
 		mes "What? What's that look for?";
@@ -4660,7 +4657,7 @@ hugel,196,164,3	script	El Schatt	50,{
 		mes "entire community. We should've";
 		mes "done this a long time ago...";
 		next;
-		set hg_memory,3;
+		hg_memory = 3;
 		mes "[El Schatt]";
 		mes "C'mon... Take a look";
 		mes "around. I won't deny that";
@@ -4686,7 +4683,7 @@ hugel,196,164,3	script	El Schatt	50,{
 		mes "it's just a waste of space...";
 		close;
 	} else if (hg_memory == 4) {
-		set hg_memory,5;
+		hg_memory = 5;
 		mes "[El Schatt]";
 		mes "You've spoken with my father?";
 		mes "Hmpf! Don't tell me you're here";
@@ -4857,8 +4854,8 @@ hugel,196,164,3	script	El Schatt	50,{
 		mes "^333333*Sniff*^000000 She had to go back...";
 		next;
 		specialeffect2 EF_CONE;
-		set hg_memory,12;
-		getexp (checkre(3))?8000:50000,0;
+		hg_memory = 12;
+		getexp RENEWAL_EXP?8000:50000,0;
 		completequest 8063;
 		getitem 603,1; //Old Blue Box
 		mes "[El Schatt]";
@@ -4890,7 +4887,7 @@ hugel,196,164,3	script	El Schatt	50,{
 
 // Hide and Seek Quest :: hg_c_child
 //============================================================
-hugel,107,67,3	script	Torpy	706,{
+hugel,107,67,3	script	Torpy	4_M_KID1,{
 	if (BaseLevel > 49) {
 		if (!hg_ubu01) {
 			mes "[Torpy]";
@@ -4930,14 +4927,14 @@ hugel,107,67,3	script	Torpy	706,{
 					mes "disappeared too! I-I'm all";
 					mes "alone now! Waaaaaah~!";
 					next;
-					emotion ET_THINK, playerattached();
+					emotion e_dots,1;
 					mes "["+strcharinfo(0)+"]";
 					mes "Don't worry, I'll look";
 					mes "for your parents. I'm";
 					mes "sure that I can find at";
 					mes "least one of them just";
 					mes "outside of town.";
-					set hg_ubu01,1;
+					hg_ubu01 = 1;
 					setquest 12044;
 					close;
 				case 2:
@@ -4947,7 +4944,7 @@ hugel,107,67,3	script	Torpy	706,{
 					mes "show up sooner";
 					mes "or later. Well, lots";
 					mes "of luck, kid.";
-					emotion ET_THINK, playerattached();
+					emotion e_dots,1;
 					close;
 				}
 			case 2:
@@ -4965,7 +4962,7 @@ hugel,107,67,3	script	Torpy	706,{
 			mes "outside of town?";
 			mes "*Sob* Okay, I hope my";
 			mes "Daddy comes back soon...";
-			set hg_ubu01,3;
+			hg_ubu01 = 3;
 			changequest 12045,12046;
 			close;
 		} else if (hg_ubu01 == 6) {
@@ -4989,7 +4986,7 @@ hugel,107,67,3	script	Torpy	706,{
 			mes "also tell her that Daddy";
 			mes "is safe! See you later~";
 			next;
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "......";
 			mes ".........";
 			mes "............";
@@ -4999,7 +4996,7 @@ hugel,107,67,3	script	Torpy	706,{
 			mes "Hee hee~ Once I find";
 			mes "my Daddy, he has to get me";
 			mes "a girlfriend! He promised~!^000000";
-			set hg_ubu01,7;
+			hg_ubu01 = 7;
 			close;
 		} else if (hg_ubu01 == 7) {
 			mes "[Torpy]";
@@ -5009,7 +5006,7 @@ hugel,107,67,3	script	Torpy	706,{
 			mes "this town, where you last";
 			mes "saw her. Bye bye for now~";
 			next;
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "......";
 			mes ".........";
 			mes "............";
@@ -5023,7 +5020,7 @@ hugel,107,67,3	script	Torpy	706,{
 			mes "Um, that might not be good...^000000";
 			close;
 		} else if (hg_ubu01 == 8) {
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "[Torpy]";
 			mes "Daddy promised to get";
 			mes "me a girlfriend if I beat him";
@@ -5036,10 +5033,10 @@ hugel,107,67,3	script	Torpy	706,{
 			mes "Maybe I should pick her...";
 			mes "Yeah, I'll pick the perfectest";
 			mes "girl that I can find! Yaaay~";
-			set hg_ubu01,9;
+			hg_ubu01 = 9;
 			close;
 		} else if (hg_ubu01 == 9) {
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "[Torpy]";
 			mes "Maybe I should wait until";
 			mes "I'm older to have a girlfriend.";
@@ -5070,7 +5067,7 @@ hugel,107,67,3	script	Torpy	706,{
 	}
 }
 
-hu_fild06,190,367,3	script	Torpy's Mom	701,{
+hu_fild06,190,367,3	script	Torpy's Mom	4_F_GODEMOM,{
 	if (hg_ubu01 == 0) {
 		mes "[Torpy's Mom]";
 		mes "Where did he go this time?!";
@@ -5125,7 +5122,7 @@ hu_fild06,190,367,3	script	Torpy's Mom	701,{
 		mes "home soon? Also, if you see";
 		mes "my husband inside town, tell";
 		mes "him that he better come home!";
-		set hg_ubu01,2;
+		hg_ubu01 = 2;
 		changequest 12044,12045;
 		close;
 	} else if (hg_ubu01 == 2) {
@@ -5153,10 +5150,10 @@ hu_fild06,190,367,3	script	Torpy's Mom	701,{
 		mes "you accept this as our thanks.";
 		mes "Goodbye for now, adventurer~";
 		specialeffect2 (hg_ubu01 == 6)?EF_CONE:EF_MVP;
-		set hg_ubu01,8;
+		hg_ubu01 = 8;
 		completequest 12048;
 		getitem 12065,3; //Green Salad
-		getexp (checkre(3))?5000:50000,0;
+		getexp RENEWAL_EXP?5000:50000,0;
 		close;
 	} else if (hg_ubu01 == 8) {
 		mes "[Torpy's Mom]";
@@ -5168,7 +5165,7 @@ hu_fild06,190,367,3	script	Torpy's Mom	701,{
 		mes "after each other. Oh, well...";
 		close;
 	} else if (hg_ubu01 == 9) {
-		emotion ET_THINK, playerattached();
+		emotion e_dots,1;
 		mes "[Torpy's Mom]";
 		mes "When is that husband";
 		mes "of mine going to come";
@@ -5188,7 +5185,7 @@ hu_fild06,190,367,3	script	Torpy's Mom	701,{
 	}
 }
 
-hugel,100,176,3	script	Suspicious Barrel	111,{
+hugel,100,176,3	script	Suspicious Barrel	HIDDEN_NPC,{
 	if (hg_ubu01 == 3) {
 		mes "[Strange Man]";
 		mes "So... hun...gry...";
@@ -5197,7 +5194,7 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 		mes "h-health... with... Steamed...";
 		mes "Crab... Nippers... Please...";
 		next;
-		emotion ET_THINK, playerattached();
+		emotion e_dots,1;
 		mes "^3355FFIt sounds like";
 		mes "this barrel wants";
 		mes "Steamed Crab Nippers.^000000";
@@ -5212,7 +5209,7 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 			mes "and 10... N-Nippers... to";
 			mes "c-cook th-them. Ugh...";
 			next;
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "["+strcharinfo(0)+"]";
 			mes "Hold on,";
 			mes "I have to cook";
@@ -5223,7 +5220,7 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 			mes "It's... It's the";
 			mes "o-only... possible...";
 			mes "Way... P-please help...";
-			set hg_ubu01,4;
+			hg_ubu01 = 4;
 			changequest 12046,12047;
 			close;
 		case 2:
@@ -5233,7 +5230,7 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 			mes "hunger...! It... It can't...";
 			mes "It c-can't be... d-denied!";
 			next;
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "["+strcharinfo(0)+"]";
 			mes "Weirdo! Why don't you";
 			mes "get out of that barrel,";
@@ -5250,13 +5247,13 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 			mes "It's b-been so... l-long...";
 			mes "G-Give me! G-Give me now!";
 			next;
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "^3355FFYou dumped the";
 			mes "Steamed Crab Nippers";
 			mes "into the barrel where";
 			mes "it was quickly devoured.^000000";
 			delitem 12051,1; //Steamed crab nippers
-			set hg_ubu01,5;
+			hg_ubu01 = 5;
 			next;
 			mes "[Strange Man]";
 			mes "Ha ha ha!";
@@ -5276,7 +5273,7 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 			mes "and 10... N-Nippers... to";
 			mes "c-cook th-them. Ugh...";
 			next;
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "["+strcharinfo(0)+"]";
 			mes "Hold on,";
 			mes "I have to cook";
@@ -5298,13 +5295,13 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 			mes "It's b-been so... l-long...";
 			mes "G-Give me! G-Give me now!";
 			next;
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "^3355FFYou dumped the";
 			mes "Steamed Crab Nippers";
 			mes "into the barrel where";
 			mes "it was quickly devoured.^000000";
 			delitem 12051,1; //Steamed crab nippers
-			set hg_ubu01,5;
+			hg_ubu01 = 5;
 			next;
 			mes "[Strange Man]";
 			mes "Ha ha ha!";
@@ -5324,7 +5321,7 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 			mes "and 10... N-Nippers... to";
 			mes "c-cook th-them. Ugh...";
 			next;
-			emotion ET_THINK, playerattached();
+			emotion e_dots,1;
 			mes "["+strcharinfo(0)+"]";
 			mes "Hold on,";
 			mes "I have to cook";
@@ -5338,7 +5335,7 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 			close;
 		}
 	} else if (hg_ubu01 == 6) {
-		emotion ET_THINK, playerattached();
+		emotion e_dots,1;
 		mes "^3355FFFor now, you should";
 		mes "tell Torpy and his mom";
 		mes "where Torpy's father is";
@@ -5346,29 +5343,29 @@ hugel,100,176,3	script	Suspicious Barrel	111,{
 		mes "worry about him so much.";
 		close;
 	} else if (hg_ubu01 == 7) {
-		emotion ET_THINK, playerattached();
+		emotion e_dots,1;
 		mes "^800080Torpy's mom might want to know about^000000";
 		mes "^800080this extraordinary barrel.^000000";
 		close;
 	} else if (hg_ubu01 == 8) {
-		emotion ET_THINK, playerattached();
+		emotion e_dots,1;
 		mes "^800080How long does Torpy's father plan to stay within the barrel?^000000";
 		close;
 	} else if (hg_ubu01 == 9) {
-		emotion ET_THINK, playerattached();
+		emotion e_dots,1;
 		mes "^800080That barrel will become a symbolic object^000000";
 		mes "^800080that pays tribute to the firm will of Torpy's father^000000";
 		mes "^800080who is trying hard to avoid keeping the promise with his son to find his wife.^000000";
 		close;
 	} else {
-		emotion ET_THINK, playerattached();
+		emotion e_dots,1;
 		mes "^800080You hear something bustling from the hole in the barrel.^000000";
 		mes "^800080However, it doesn't seem to be a big deal.^000000";
 		close;
 	}
 }
 
-hugel,100,174,3	script	Strange Man#Hugel	898,{
+hugel,100,174,3	script	Strange Man#Hugel	4_M_HUMAN_01,{
 	if (hg_ubu01 == 5) {
 		mes "[Strange Man]";
 		mes "Ahhhh... Thanks for";
@@ -5414,7 +5411,7 @@ hugel,100,174,3	script	Strange Man#Hugel	898,{
 		mes "with my son, and if I lose";
 		mes "this game of Hide-and-Seek...";
 		mes "Well, I just can't lose! Bye!";
-		set hg_ubu01,6;
+		hg_ubu01 = 6;
 		changequest 12047,12048;
 		next;
 		mes "^3355FFTorpy's father has";
@@ -5436,17 +5433,17 @@ hugel,100,174,3	script	Strange Man#Hugel	898,{
 		mes "have to eat again for days!";
 		close;
 	}
-	
+
 OnEnable:
 	enablenpc "Strange Man#Hugel";
 	disablenpc "Suspicious Barrel";
 	initnpctimer;
 	end;
-	
+
 OnInit:
 	disablenpc "Strange Man#Hugel";
 	end;
-	
+
 OnTimer60000:
 	stopnpctimer;
 	disablenpc "Strange Man#Hugel";
@@ -5456,7 +5453,7 @@ OnTimer60000:
 
 // Fish Cake Soup Delivery Quest :: hg_odeng
 //============================================================
-hu_in01,15,372,3	script	Cellette Lavit	74,{
+hu_in01,15,372,3	script	Cellette Lavit	1_F_MERCHANT_02,{
 	if (!hg_odeng) {
 		mes "[Cellette]";
 		mes "Hi there, thanks for";
@@ -5513,7 +5510,7 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "my friend Neha. I'm grateful";
 				mes "that she's a regular customer--";
 				mes "she's a good friend, but I'm sure that she loves the soup as well.";
-				set hg_odeng,1;
+				hg_odeng = 1;
 				setquest 8064;
 				getitem 584,1; //Fish_Ball_Soup
 				close;
@@ -5524,9 +5521,9 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "another one of my regulars.";
 				mes "He's been buying my soup ever";
 				mes "since I helped him start his business. Nice of him, isn't it?";
-				set hg_odeng,2;
+				hg_odeng = 2;
 				setquest 8065;
-				getitem 584,1; //Fish_Ball_Soup 
+				getitem 584,1; //Fish_Ball_Soup
 				close;
 			case 3:
 				mes "[Cellette]";
@@ -5536,9 +5533,9 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "But... Be careful. She's got";
 				mes "a thing about punctuality.";
 				mes "Just try not to be late...";
-				set hg_odeng,3;
+				hg_odeng = 3;
 				setquest 8066;
-				getitem 584,1; //Fish_Ball_Soup 
+				getitem 584,1; //Fish_Ball_Soup
 				close;
 			case 4:
 				mes "[Cellette]";
@@ -5548,9 +5545,9 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "nitpicky... And he likes to";
 				mes "have everything in such";
 				mes "and such and order...";
-				set hg_odeng,4;
+				hg_odeng = 4;
 				setquest 8067;
-				getitem 584,1; //Fish_Ball_Soup 
+				getitem 584,1; //Fish_Ball_Soup
 				close;
 			}
 		case 2:
@@ -5569,8 +5566,8 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 					mes "bowl of Fish Cake Soup.";
 					mes "I hope you come and ";
 					mes "visit me again, okay?";
-					set Zeny,Zeny-100;
-					getitem 584,1; //Fish_Ball_Soup 
+					Zeny -= 100;
+					getitem 584,1; //Fish_Ball_Soup
 					close;
 				} else {
 					mes "[Cellette]";
@@ -5627,8 +5624,8 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "There, I took 100 zeny";
 				mes "from you. That's fair, so";
 				mes "please don't lose it this time.";
-				set Zeny,Zeny-100;
-				getitem 584,1; //Fish_Ball_Soup 
+				Zeny -= 100;
+				getitem 584,1; //Fish_Ball_Soup
 				close;
 			} else {
 				mes "[Cellette]";
@@ -5638,7 +5635,7 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "Well, I don't think I can";
 				mes "trust somebody like you";
 				mes "with any deliveries...";
-				set hg_odeng,5;
+				hg_odeng = 5;
 				close;
 			}
 		}
@@ -5668,8 +5665,8 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "There, I took 100 zeny";
 				mes "from you. That's fair, so";
 				mes "please don't lose it this time.";
-				set Zeny,Zeny-100;
-				getitem 584,1; //Fish_Ball_Soup 
+				Zeny -= 100;
+				getitem 584,1; //Fish_Ball_Soup
 				close;
 			} else {
 				mes "[Cellette]";
@@ -5679,7 +5676,7 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "Well, I don't think I can";
 				mes "trust somebody like you";
 				mes "with any deliveries...";
-				set hg_odeng,5;
+				hg_odeng = 5;
 				close;
 			}
 		}
@@ -5710,8 +5707,8 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "There, I took 100 zeny";
 				mes "from you. That's fair, so";
 				mes "please don't lose it this time.";
-				set Zeny,Zeny-100;
-				getitem 584,1; //Fish_Ball_Soup 
+				Zeny -= 100;
+				getitem 584,1; //Fish_Ball_Soup
 				close;
 			} else {
 				mes "[Cellette]";
@@ -5721,7 +5718,7 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "Well, I don't think I can";
 				mes "trust somebody like you";
 				mes "with any deliveries...";
-				set hg_odeng,5;
+				hg_odeng = 5;
 				close;
 			}
 		}
@@ -5751,7 +5748,7 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "There, I took 100 zeny";
 				mes "from you. That's fair, so";
 				mes "please don't lose it this time.";
-				set Zeny,Zeny-100;
+				Zeny -= 100;
 				getitem 584,1; //Fish_Ball_Soup
 				close;
 			} else {
@@ -5762,7 +5759,7 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 				mes "Well, I don't think I can";
 				mes "trust somebody like you";
 				mes "with any deliveries...";
-				set hg_odeng,5;
+				hg_odeng = 5;
 				close;
 			}
 		}
@@ -5782,13 +5779,13 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 		mes "you! Ah, before I forget, here";
 		mes "is your Fish Cake Soup. Thank";
 		mes "you so much for your help~";
-		set hg_odeng,0;
-		for(set .@i,8072; .@i<= 8075; set .@i,.@i+1) {
-			if (checkquest(.@i) > -1)
+		hg_odeng = 0;
+		for (.@i = 8072; .@i <= 8075; ++.@i) {
+			if (questprogress(.@i))
 				erasequest .@i;
 		}
 		getitem 584,3; //Fish_Ball_Soup
-		getexp (checkre(3))?100:1000,0;
+		getexp RENEWAL_EXP?100:1000,0;
 		next;
 		mes "[Cellette]";
 		mes "It was really nice working";
@@ -5808,7 +5805,7 @@ hu_in01,15,372,3	script	Cellette Lavit	74,{
 	}
 }
 
-hugel,76,134,3	script	Neha	101,{
+hugel,76,134,3	script	Neha	4W_F_01,{
 	if (hg_odeng == 1) {
 		if (countitem(584)) {
 			mes "[Neha]";
@@ -5818,7 +5815,7 @@ hugel,76,134,3	script	Neha	101,{
 			mes "this soup isn't good if it";
 			mes "isn't steaming hot?";
 			next;
-			if (Sex == SEX_MALE) {
+			if (Sex) {
 				mes "[Neha]";
 				mes "But... You're a handsome";
 				mes "fellow, so I'll forgive you...";
@@ -5835,12 +5832,12 @@ hugel,76,134,3	script	Neha	101,{
 				mes "^FF00001 Whip^000000 so that I can spank you";
 				mes "for your impertinence, girl!";
 			}
-			for(set .@i,8064; .@i<= 8067; set .@i,.@i+1) {
-				if (checkquest(.@i) > -1 && checkquest(.@i) < 2)
+			for (.@i = 8064; .@i <= 8067; ++.@i) {
+				if (questprogress(.@i) && questprogress(.@i) != 2)
 					completequest .@i;
 			}
 			setquest 8068;
-			set hg_odeng,6;
+			hg_odeng = 6;
 			close;
 		} else {
 			mes "[Neha]";
@@ -5881,7 +5878,7 @@ hugel,76,134,3	script	Neha	101,{
 			mes "you come deliver my soup again~";
 			delitem 1960,1; //Whip
 			delitem 584,1; //Fish_Ball_Soup
-			set hg_odeng,10;
+			hg_odeng = 10;
 			changequest 8068,8072;
 			close;
 		} else {
@@ -5905,14 +5902,14 @@ hugel,76,134,3	script	Neha	101,{
 	}
 }
 
-hugel,87,139,3	script	Maewan	86,{
+hugel,87,139,3	script	Maewan	4_M_04,{
 	if (hg_odeng == 2) {
 		if (countitem(584)) {
 			mes "[Maewan]";
 			mes "Oh, finally, I've been";
 			mes "waiting for my order of";
 			mes "Fish Cake Soup from Cellette!";
-			mes "Aaaah, it smells oh so delicious~";
+			mes "Aaaah, it smells oh so delicious~ ";
 			next;
 			mes "[Maewan]";
 			mes "Argh, but you're late!";
@@ -5928,7 +5925,7 @@ hugel,87,139,3	script	Maewan	86,{
 			mes "alright? Oh, and don't";
 			mes "eat my soup before";
 			mes "you deliver it to me!";
-			set hg_odeng,7;
+			hg_odeng = 7;
 			changequest 8065,8069;
 			close;
 		} else {
@@ -5952,7 +5949,7 @@ hugel,87,139,3	script	Maewan	86,{
 			mes "Thanks again for delivering~";
 			delitem 584,1; //Fish_Ball_Soup
 			delitem 7015,1; //Bookclip in memory
-			set hg_odeng,10;
+			hg_odeng = 10;
 			changequest 8069,8073;
 			close;
 		} else {
@@ -5981,10 +5978,9 @@ hugel,87,139,3	script	Maewan	86,{
 		mes "all sorts of new things~";
 		close;
 	}
-	
 }
 
-hugel,84,125,3	script	Layoma	700,{
+hugel,84,125,3	script	Layoma	8_F_GIRL,{
 	if (hg_odeng == 3) {
 		if (countitem(584)) {
 			mes "[Layoma]";
@@ -6002,7 +5998,7 @@ hugel,84,125,3	script	Layoma	700,{
 			mes "dependable to me. Erm, bring";
 			mes "me ^FF00001 Mushroom Spore^000000, and";
 			mes "I'll forget this whole thing.";
-			set hg_odeng,8;
+			hg_odeng = 8;
 			changequest 8066,8070;
 			close;
 		} else {
@@ -6029,7 +6025,7 @@ hugel,84,125,3	script	Layoma	700,{
 			mes "please tell her to not to come home so late all the time, okay?";
 			delitem 921,1; //Mushroom_Spore
 			delitem 584,1; //Fish_Ball_Soup
-			set hg_odeng,10;
+			hg_odeng = 10;
 			changequest 8070,8074;
 			close;
 		} else {
@@ -6050,10 +6046,9 @@ hugel,84,125,3	script	Layoma	700,{
 		mes "that's a pretty exciting life!";
 		close;
 	}
-	
 }
 
-hugel,102,161,3	script	Erjan	100,{
+hugel,102,161,3	script	Erjan	4W_SAILOR,{
 	if (hg_odeng == 4) {
 		if (countitem(584)) {
 			mes "[Erjan]";
@@ -6071,7 +6066,7 @@ hugel,102,161,3	script	Erjan	100,{
 			mes "I command you to bring me";
 			mes "the commoner's ^FF0000China^000000!";
 			next;
-			set hg_odeng,9;
+			hg_odeng = 9;
 			changequest 8067,8071;
 			mes "[Erjan]";
 			mes "Realize that I'm compromising";
@@ -6115,7 +6110,7 @@ hugel,102,161,3	script	Erjan	100,{
 			mes "with my noble thanks.";
 			delitem 736,1; //White_Platter
 			delitem 584,1; //Fish_Ball_Soup
-			set hg_odeng,10;
+			hg_odeng = 10;
 			changequest 8071,8075;
 			close;
 		} else {
@@ -6140,7 +6135,7 @@ hugel,102,161,3	script	Erjan	100,{
 
 // Juno Remedy Quest :: hg_ma1
 //============================================================
-yuno,111,156,3	script	Euslan	90,{
+yuno,111,156,3	script	Euslan	4_F_01,{
 	if (BaseLevel < 60) {
 		mes "[Euslan]";
 		mes "^333333*Cough Cough*";
@@ -6171,7 +6166,7 @@ yuno,111,156,3	script	Euslan	90,{
 			mes "been so long since";
 			mes "someone has tried";
 			mes "to speak to her.^000000";
-			set hg_ma1,1;
+			hg_ma1 = 1;
 			close;
 		}
 	} else if (hg_ma1 == 1) {
@@ -6241,7 +6236,7 @@ yuno,111,156,3	script	Euslan	90,{
 			mes "coming home?";
 			mes "I'm so worried...";
 			mes "^333333*Cough Cough*^000000";
-			set hg_ma1,2;
+			hg_ma1 = 2;
 			close;
 		case 2:
 			mes "[Euslan]";
@@ -6282,7 +6277,7 @@ yuno,111,156,3	script	Euslan	90,{
 			mes "know as soon as you can,";
 			mes "okay? Thanks for cheering";
 			mes "me up, "+strcharinfo(0)+".";
-			set hg_ma1,3;
+			hg_ma1 = 3;
 			setquest 8044;
 			close;
 		}
@@ -6351,7 +6346,7 @@ yuno,111,156,3	script	Euslan	90,{
 			mes "know as soon as you can,";
 			mes "okay? Thanks for cheering";
 			mes "me up, "+strcharinfo(0)+".";
-			set hg_ma1,3;
+			hg_ma1 = 3;
 			setquest 8044;
 			close;
 		}
@@ -6410,7 +6405,7 @@ yuno,111,156,3	script	Euslan	90,{
 		mes "of your way. Still, I'd really";
 		mes "appreciate your help if you";
 		mes "happen to pass through Hugel.";
-		set hg_ma1,6;
+		hg_ma1 = 6;
 		changequest 8046,8047;
 		close;
 	} else if (hg_ma1 == 6 || hg_ma1 == 7) {
@@ -6419,7 +6414,7 @@ yuno,111,156,3	script	Euslan	90,{
 		mes "please visit my brother";
 		mes "Eukran in Hugel, and ask";
 		mes "him where my Thierry might be.";
-		mes "Thank you again for your kindness.";
+		mes "Thank you again for your kindness. ";
 		close;
 	} else if (hg_ma1 == 8 || hg_ma1 == 9 || hg_ma1 == 10 || hg_ma1 == 11) {
 		mes "^3355FFEuslan is waiting for";
@@ -6464,10 +6459,10 @@ yuno,111,156,3	script	Euslan	90,{
 		mes "your safety in your adventures.";
 		mes "Take care of yourself...";
 		close2;
-		set hg_ma1,13;
+		hg_ma1 = 13;
 		completequest 8052;
 		specialeffect EF_ABSORBSPIRITS;
-		if (checkre(3))
+		if (RENEWAL_EXP)
 			getexp 90000,60000;
 		else
 			getexp 900000,600000;
@@ -6480,10 +6475,9 @@ yuno,111,156,3	script	Euslan	90,{
 		mes "relaxed than she used to be.^000000";
 		close;
 	}
-	
 }
 
-que_bingo,49,12,0	script	#Hg_Quest	139,4,4,{
+que_bingo,49,12,0	script	#Hg_Quest	HIDDEN_WARP_NPC,4,4,{
 OnTouch:
 	if (hg_ma1 == 6) {
 		mes "[Arcade Owner]";
@@ -6504,7 +6498,7 @@ OnTouch:
 	}
 }
 
-que_bingo,53,190,7	script	Eukran	778,{
+que_bingo,53,190,7	script	Eukran	4_M_TWTEAMAN,{
 	if (hg_ma1 == 6) {
 		mes "[Eukran]";
 		mes "Oh, weren't you just";
@@ -6542,15 +6536,14 @@ que_bingo,53,190,7	script	Eukran	778,{
 		mes "would Thierry go to such a";
 		mes "dangerous place? No one goes to the Odin Shrine for no reason.";
 		close2;
-		set hg_ma1,8;
+		hg_ma1 = 8;
 		changequest 8047,8048;
 		warp "que_bingo",37,24;
 		end;
 	}
-	
 }
 
-odin_tem01,129,127,0	script	HiddenActivator#Hugel	139,3,3,{
+odin_tem01,129,127,0	script	HiddenActivator#Hugel	HIDDEN_WARP_NPC,3,3,{
 OnTouch:
 	if (hg_ma1 == 8) {
 		mes "^3355FFYou can hear two";
@@ -6611,14 +6604,14 @@ OnTimer180000:
 	disablenpc "Young Man#Hu_Quest";
 	stopnpctimer;
 	end;
-	
+
 OnInit:
 	disablenpc "Young Man#Hu_Quest";
 	end;
 
 }
 
-odin_tem01,130,134,4	script	Young Man#Hu_Quest	774,{
+odin_tem01,130,134,4	script	Young Man#Hu_Quest	4_M_TWBOY,{
 	if (hg_ma1 == 8) {
 		mes "[Young Man]";
 		mes "Hm? Oh, an adventurer.";
@@ -6651,7 +6644,7 @@ odin_tem01,130,134,4	script	Young Man#Hu_Quest	774,{
 		mes "Euslan's disease. It's not";
 		mes "curable by modern medicine...";
 		close2;
-		set hg_ma1,9;
+		hg_ma1 = 9;
 		changequest 8048,8049;
 		end;
 	} else if (hg_ma1 == 9) {
@@ -6780,7 +6773,7 @@ odin_tem01,130,134,4	script	Young Man#Hu_Quest	774,{
 		mes "If they get me, I'll never be";
 		mes "able to make the medicine!";
 		close2;
-		set hg_ma1,11;
+		hg_ma1 = 11;
 		changequest 8050,8051;
 		end;
 	} else if (hg_ma1 == 11) {
@@ -6833,7 +6826,7 @@ odin_tem01,130,134,4	script	Young Man#Hu_Quest	774,{
 		mes "has made to give to Euslan.^000000";
 		close2;
 		delitem 7511,5; //Rune_Of_Darkness
-		set hg_ma1,12;
+		hg_ma1 = 12;
 		changequest 8051,8052;
 		end;
 	} else if (hg_ma1 == 12) {
@@ -6853,10 +6846,9 @@ odin_tem01,130,134,4	script	Young Man#Hu_Quest	774,{
 		mes "I swear I'll come home to you!";
 		close;
 	}
-	
 }
 
-odin_tem01,111,144,0	script	HiddenHugel	139,2,2,{
+odin_tem01,111,144,0	script	HiddenHugel	HIDDEN_WARP_NPC,2,2,{
 OnTouch:
 	if (hg_ma1 == 9) {
 		mes "^3355FFYou hear the voice of";
@@ -6885,7 +6877,7 @@ OnTouch:
 		mes "you better go tell him";
 		mes "about this right now!^000000";
 		close2;
-		set hg_ma1,10;
+		hg_ma1 = 10;
 		changequest 8049,8050;
 		end;
 	}
@@ -6893,7 +6885,7 @@ OnTouch:
 
 // Cow Milking Quest :: hg_milkingcow
 //============================================================
-hugel,56,104,3	script	Kurupe	709,3,3,{
+hugel,56,104,3	script	Kurupe	4_M_SEAMAN,3,3,{
 	if (hg_milk == 1) {
 		mes "[Kurupe]";
 		mes "Could Burupu be hiding";
@@ -6920,7 +6912,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 			mes "so I really need Burupu back!";
 			mes "You should be able to find him";
 			mes "somewhere just outside of town.";
-			set hg_milk,2;
+			hg_milk = 2;
 			setquest 12040;
 			close;
 		case 2:
@@ -6959,7 +6951,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 		mes "much! Please milk Booboo";
 		mes "right away, and get me";
 		mes "some delicious milk~";
-		set hg_milk,7;
+		hg_milk = 7;
 		close;
 	} else if (hg_milk == 7) {
 		mes "[Kurupe]";
@@ -6988,9 +6980,9 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 			mes "after you store some items into kafra storage.";
 			close;
 		}
-		set hg_milk,9;
+		hg_milk = 9;
 		specialeffect2 EF_CONE;
-		getexp (checkre(3))?10000:100000,0;
+		getexp RENEWAL_EXP?10000:100000,0;
 		getitem 12063,3;
 		erasequest 12043;
 		mes "[Kurupe]";
@@ -7018,7 +7010,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 			mes "to come in today, and then";
 			mes "come back to me. Then, I'll";
 			mes "let you milk Booboo the cow.";
-			set hg_milk,10;
+			hg_milk = 10;
 			close;
 		case 2:
 			mes "[Kurupe]";
@@ -7058,7 +7050,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 		mes "now would you please";
 		mes "milk Booboo the cow?";
 		mes "Thanks once again~";
-		set hg_milk,12;
+		hg_milk = 12;
 		close;
 	} else if (hg_milk == 12) {
 		mes "[Kurupe]";
@@ -7074,7 +7066,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 		mes "see, what would be good to";
 		mes "give you as payment. Hmm...";
 		next;
-		set .@milkreward,rand(1,10);
+		.@milkreward = rand(1,10);
 		if (.@milkreward < 5) {
 			mes "[Kurupe]";
 			mes "You know what?";
@@ -7093,7 +7085,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 				mes "after you store some items into kafra storage.";
 				close;
 			}
-			set hg_milk,9;
+			hg_milk = 9;
 			erasequest 12043;
 			getitem 519,5; //Milk
 			close;
@@ -7114,7 +7106,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 				mes "after you store some items into kafra storage.";
 				close;
 			}
-			set hg_milk,9;
+			hg_milk = 9;
 			erasequest 12043;
 			getitem 502,5; //Orange_Potion
 			close;
@@ -7136,12 +7128,12 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 				mes "after you store some items into kafra storage.";
 				close;
 			}
-			set hg_milk,9;
+			hg_milk = 9;
 			erasequest 12043;
 			getitem 503,5; //Yellow_Potion
 			close;
 		} else {
-			set .@milkreward,rand(1,10);
+			.@milkreward = rand(1,10);
 			if (.@milkreward < 7) {
 				mes "[Kurupe]";
 				mes "Hey, why don't you";
@@ -7160,7 +7152,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 					mes "after you store some items into kafra storage.";
 					close;
 				}
-				set hg_milk,9;
+				hg_milk = 9;
 				erasequest 12043;
 				getitem 518,3; //Honey
 				close;
@@ -7182,7 +7174,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 				mes "after you store some items into kafra storage.";
 				close;
 			}
-			set hg_milk,9;
+			hg_milk = 9;
 			erasequest 12043;
 			getitem 12111,1; //Food_Package
 			close;
@@ -7197,7 +7189,7 @@ hugel,56,104,3	script	Kurupe	709,3,3,{
 		close;
 	}
 
-OnTouch_:
+OnTouch:
 	if (BaseLevel > 49) {
 		if (!hg_milk) {
 			mes "[Kurupe]";
@@ -7205,14 +7197,14 @@ OnTouch_:
 			mes "do?! I need to deliver the";
 			mes "milk tomorrow, but Burupu";
 			mes "still hasn't arrived yet!";
-			emotion ET_HUK;
+			emotion e_omg,0;
 			next;
 			mes "[Kurupe]";
 			mes "When is he coming";
 			mes "to work? Burupu,";
 			mes "where are you?!";
-			emotion ET_SWEAT;
-			set hg_milk,1;
+			emotion e_swt,0;
+			hg_milk = 1;
 			close;
 		}
 	}
@@ -7225,7 +7217,7 @@ OnTouch_:
 	close;
 }
 
-hu_fild06,217,270,3	script	Burupu	896,3,3,{
+hu_fild06,217,270,3	script	Burupu	4_M_HUBOY,3,3,{
 	if (hg_milk == 3) {
 		mes "[Burupu]";
 		mes "What? Kurupe wants me";
@@ -7241,7 +7233,7 @@ hu_fild06,217,270,3	script	Burupu	896,3,3,{
 		mes "town, and I saw all those";
 		mes "Swordmen, I knew it'd be";
 		mes "my destiny! Forget ranching, I'm gonna wield a frickin' sword!";
-		set hg_milk,4;
+		hg_milk = 4;
 		close;
 	} else if (hg_milk == 4) {
 		mes "[Burupu]";
@@ -7267,7 +7259,7 @@ hu_fild06,217,270,3	script	Burupu	896,3,3,{
 				mes "me a Rapier with 2 Slots";
 				mes "as soon as you can! I can't";
 				mes "wait to start training with it!";
-				set hg_milk,5;
+				hg_milk = 5;
 				changequest 12040,12041;
 				close;
 
@@ -7298,7 +7290,7 @@ hu_fild06,217,270,3	script	Burupu	896,3,3,{
 		mes "I'm gonna start training";
 		mes "with it right now!";
 		delitem 1110,1; //Lapier
-		set hg_milk,6;
+		hg_milk = 6;
 		changequest 12041,12042;
 		next;
 		mes "[Burupu]";
@@ -7330,7 +7322,7 @@ hu_fild06,217,270,3	script	Burupu	896,3,3,{
 		mes "time to work on my fencing.";
 		mes "All right, now I can focus";
 		mes "completely on my training!";
-		set hg_milk,11;
+		hg_milk = 11;
 		close;
 	} else {
 		mes "[Burupu]";
@@ -7339,17 +7331,17 @@ hu_fild06,217,270,3	script	Burupu	896,3,3,{
 		mes "world! But first, I gotta";
 		mes "learn how to use this thing!";
 		mes "Heeeeee-YAH! How's that? That was almost a Magnum Break, right?";
-		emotion ET_PROFUSELY_SWEAT;
+		emotion e_swt2,0;
 		close;
 	}
 
-OnTouch_:
+OnTouch:
 	if (hg_milk == 2) {
 		mes "[Burupu]";
 		mes "Heeeyah!";
 		mes "Yaaaaaaaah!";
 		mes "Wh-whooooooosh!";
-		emotion ET_PROFUSELY_SWEAT;
+		emotion e_swt2,0;
 		next;
 		mes "[Burupu]";
 		mes "Crap! Why do I have";
@@ -7357,20 +7349,20 @@ OnTouch_:
 		mes "sword?! I mean, I'm getting";
 		mes "tired of making all my own";
 		mes "whooshing sounds and effects.";
-		set hg_milk,3;
-		emotion ET_FRET;
+		hg_milk = 3;
+		emotion e_an,0;
 		close;
 	} else if (hg_milk == 5) {
 		mes "[Burupu]";
 		mes "Heeeyah!";
 		mes "Yaaaaaaaah!";
 		mes "Yeeeeeeeyoooop!";
-		emotion ET_PROFUSELY_SWEAT;
+		emotion e_swt2,0;
 		close;
 	}
 }
 
-hugel,72,101,0	script	Burupu's Instructions	111,{
+hugel,72,101,0	script	Burupu's Instructions	HIDDEN_NPC,{
 	if (hg_milk < 6) {
 		mes "^3355FFYou've found a small^000000";
 		mes "^3355FFnotebook on the ground.^000000";
@@ -7501,11 +7493,12 @@ hugel,72,101,0	script	Burupu's Instructions	111,{
 		break;
 	}
 	close2;
-	if (checkquest(12042) > -1) erasequest 12042;
+	if (questprogress(12042))
+		erasequest 12042;
 	end;
 }
 
-hugel,68,99,3	script	Booboo the Cow	889,{
+hugel,68,99,3	script	Booboo the Cow	4_BULL,{
 	if (hg_milk == 7 || hg_milk == 12) {
 		mes "[Booboo]";
 		mes "Boop boop boo~";
@@ -7592,7 +7585,7 @@ L_MilkCow:
 	mes "[Mrs. Booboo]";
 	switch(rand(1,6)) {
 	case 1:
-		set .@cowsong$,"Brrbrr";
+		.@cowsong$ = "Brrbrr";
 		mes "^ff0000Brr~ Brrboo~ Boobooboo~^000000";
 		mes "^0000ffBrrrrrr~ Booboo~ Boorrboo~^000000";
 		mes "^ff0000Booruboorubrr~ Rrrrboo~^000000";
@@ -7601,7 +7594,7 @@ L_MilkCow:
 		mes "^0000ffBoo! B! Boo~~~^000000";
 		break;
 	case 2:
-		set .@cowsong$,"Brrrrrr";
+		.@cowsong$ = "Brrrrrr";
 		mes "^ff0000Brr~ Brrboo~ Boobooboo~^000000";
 		mes "^0000ffRrrururu~ Booboo~ Boorrboo~^000000";
 		mes "^ff0000Booruboorubrr~ Rrrrboo~^000000";
@@ -7610,7 +7603,7 @@ L_MilkCow:
 		mes "^0000ffBoo! B! Boo~~~^000000";
 		break;
 	case 3:
-		set .@cowsong$,"Rrrrboo";
+		.@cowsong$ = "Rrrrboo";
 		mes "^ff0000Brr~ Brrbrr~ Boobooboo~^000000";
 		mes "^0000ffBrrrrrr~ Booboo~ Boorrboo~^000000";
 		mes "^ff0000Booruboorubrr~ Rurub~^000000";
@@ -7619,7 +7612,7 @@ L_MilkCow:
 		mes "^0000ffBoo! B! Boo~^000000";
 		break;
 	case 4:
-		set .@cowsong$,"Boobooru";
+		.@cowsong$ = "Boobooru";
 		mes "^ff0000Brr~ Brrbrr~ Boobooboo~^000000";
 		mes "^0000ffBrrrrrr~ Booboo~ Boorrboo~^000000";
 		mes "^ff0000Booruboorubrr~ Rrrrboo~^000000";
@@ -7628,7 +7621,7 @@ L_MilkCow:
 		mes "^0000ffBoo! B! Boo~^000000";
 		break;
 	case 5:
-		set .@cowsong$,"Boobooboo";
+		.@cowsong$ = "Boobooboo";
 		mes "^ff0000Brr~ Brrbrr~ Boobooboo~^000000";
 		mes "^0000ffBrrrrrr~ Booboo~ Boorrboo~^000000";
 		mes "^ff0000Booruboorubrr~ Rrrrboo~^000000";
@@ -7637,7 +7630,7 @@ L_MilkCow:
 		mes "^0000ffBoo! B! Boo~^000000";
 		break;
 	case 6:
-		set .@cowsong$,"B";
+		.@cowsong$ = "B";
 		mes "^ff0000Brr~ Brrbrr~ Boobooboo~^000000";
 		mes "^0000ffBrrrrrr~ Booboo~ Boorrboo~^000000";
 		mes "^ff0000Booruboorubrr~ Rrrrboo~^000000";
@@ -7661,8 +7654,8 @@ L_MilkCow:
 		mes "you were able to milk";
 		mes "her. Now, you should";
 		mes "report to Kurupe.^000000";
-		if (hg_milk == 12) set hg_milk,13;
-		else set hg_milk,8;
+		if (hg_milk == 12) hg_milk = 13;
+		else hg_milk = 8;
 		setquest 12043;
 		close;
 	}
@@ -7677,7 +7670,7 @@ L_MilkCow:
 
 // Odin Temple Excavation Quest :: hg_tem
 //============================================================
-hugel,91,152,1	script	Sign	837,{
+hugel,91,152,1	script	Sign	2_BULLETIN_BOARD,{
 	mes "**Recruitment Notice**";
 	mes " ";
 	if (hg_odin < 60) {
@@ -7685,7 +7678,7 @@ hugel,91,152,1	script	Sign	837,{
 		mes "for the Odin Shrine Expedition.";
 		mes " ";
 		mes "- Shrine Expedition Dept.";
-		if (!hg_odin) set hg_odin,1;
+		if (!hg_odin) hg_odin = 1;
 		close;
 	}
 	mes "Join our magician";
@@ -7696,7 +7689,7 @@ hugel,91,152,1	script	Sign	837,{
 	close;
 }
 
-hu_in01,19,161,0	script	Alex	803,{
+hu_in01,19,161,0	script	Alex	1_F_SIGNZISK,{
 	if (!hg_odin) {
 		mes "[Alex]";
 		mes "Whatever you're";
@@ -7771,7 +7764,7 @@ hu_in01,19,161,0	script	Alex	803,{
 		mes "if you'd want to work for us.";
 		mes "Please talk to the Boatman";
 		mes "to travel to the shrine, okay?";
-		set hg_odin,2;
+		hg_odin = 2;
 		setquest 11000;
 		close2;
 		cutin "",255;
@@ -7843,7 +7836,7 @@ hu_in01,19,161,0	script	Alex	803,{
 			mes "from the shrine. Don't worry,";
 			mes "I'll make sure that you're";
 			mes "rewarded for your efforts.";
-			set hg_odin,4;
+			hg_odin = 4;
 			changequest 11000,11001;
 			next;
 			mes "[Alex]";
@@ -7907,7 +7900,7 @@ hu_in01,19,161,0	script	Alex	803,{
 			mes "when you're done and";
 			mes "don't waste my time!";
 			next;
-			emotion ET_DELIGHT, getnpcid(0, "Julian");
+			emotion e_ho,0,"Julian";
 			mes "[Julian]";
 			mes "Hey, you know what,";
 			mes "Alex? You can't push";
@@ -7916,7 +7909,7 @@ hu_in01,19,161,0	script	Alex	803,{
 			mes "isn't a pushover, you know?";
 			next;
 			cutin "hu_alex03.bmp",2;
-			emotion ET_FRET;
+			emotion e_an;
 			mes "[Alex]";
 			mes "What was that...?";
 			mes "Are you trying to";
@@ -7953,8 +7946,8 @@ hu_in01,19,161,0	script	Alex	803,{
 		case 2:
 			if (countitem(7511) > 4) {
 				delitem 7511,5; //Rune_Of_Darkness
-				set hg_odin,6; //Old_Blue_Box
-				changequest 11001,11002;
+				hg_odin = 6; //Old_Blue_Box
+				changequest 11000,11002;
 				getitem 603,1;
 				mes "[Alex]";
 				mes "Oh! Thank you";
@@ -8024,7 +8017,7 @@ hu_in01,19,161,0	script	Alex	803,{
 		mes "And what is that grey haired";
 		mes "crone thinking? Hmmmm...";
 		next;
-		emotion ET_HUK;
+		emotion e_omg;
 		cutin "hu_alex03.bmp",2;
 		cutin "hu_alex01.bmp",2;
 		mes "[Alex]";
@@ -8094,7 +8087,7 @@ hu_in01,19,161,0	script	Alex	803,{
 	}
 }
 
-hu_in01,14,11,4	script	Laura	70,{
+hu_in01,14,11,4	script	Laura	1_F_GYPSY,{
 	if (!hg_odin) {
 		cutin "hu_laura02.bmp",2;
 		mes "[Laura]";
@@ -8129,7 +8122,7 @@ hu_in01,14,11,4	script	Laura	70,{
 		mes "Milton, is right over";
 		mes "there. Say, 'Hello,' Ashe.";
 		next;
-		emotion ET_SMILE, getnpcid(0, "Ashe");
+		emotion e_heh,0,"Ashe";
 		mes "[Ashe]";
 		mes "Hello!";
 		next;
@@ -8216,7 +8209,7 @@ hu_in01,14,11,4	script	Laura	70,{
 			mes "and survey the area for your";
 			mes "own benefit. Talk to the Boatman, and he'll take you there, okay?";
 			mes "Hurry up and come back soon!";
-			set hg_odin,12;
+			hg_odin = 12;
 			setquest 11003;
 			close2;
 			cutin "hu_laura04.bmp",255;
@@ -8263,7 +8256,7 @@ hu_in01,14,11,4	script	Laura	70,{
 			mes "expedition for the Rune Midgarts Kingdom. Ashe Milton is my";
 			mes "assistant for this excavation.";
 			next;
-			emotion ET_SMILE, getnpcid(0, "Ashe");
+			emotion e_heh,0,"Ashe";
 			mes "[Ashe]";
 			mes "Hello!";
 			next;
@@ -8302,7 +8295,7 @@ hu_in01,14,11,4	script	Laura	70,{
 		mes "to spy on that snobby girl,";
 		mes "Alex of the Schwaltzvalt";
 		mes "Republic office, and report";
-		mes "what she's actually doing to me.";
+		mes "what she's actually doing to me. ";
 		next;
 		cutin "hu_laura03.bmp",2;
 		mes "[Laura]";
@@ -8331,9 +8324,7 @@ hu_in01,14,11,4	script	Laura	70,{
 		mes "RIGHT?!";
 		next;
 		select("Yeah, yeah, whatever.:Sure thing.:I s-s-s-suppose...!:Yes, Ma'am!");
-		set hg_odin,17;
-		completequest 11002;
-		setquest 11006;
+		hg_odin = 17;
 		cutin "hu_laura04.bmp",2;
 		mes "[Laura]";
 		mes "Good.";
@@ -8417,7 +8408,7 @@ hu_in01,14,11,4	script	Laura	70,{
 			mes "greets me with a fake";
 			mes "smile. I hate her!";
 			next;
-			emotion ET_PROFUSELY_SWEAT, getnpcid(0, "Ashe");
+			emotion e_swt2,0,"Ashe";
 			mes "[Ashe]";
 			mes "Ms. Laurence...!";
 			mes "Stop it, please!";
@@ -8446,7 +8437,7 @@ hu_in01,14,11,4	script	Laura	70,{
 			cutin "hu_laura04.bmp",255;
 			end;
 		case 3:
-			set hg_odin,14;
+			hg_odin = 14;
 			changequest 11003,11004;
 			mes "[Laura]";
 			mes "That's what I've been";
@@ -8508,7 +8499,7 @@ hu_in01,14,11,4	script	Laura	70,{
 		case 2:
 			if (countitem(7511) > 4) {
 				delitem 7511,5; //Rune_Of_Darkness
-				set hg_odin,16;
+				hg_odin = 16;
 				changequest 11004,11005;
 				getitem 603,1; //Old_Blue_Box
 				mes "[Laura]";
@@ -8692,7 +8683,7 @@ hu_in01,14,11,4	script	Laura	70,{
 		mes "to spy on that snobby girl,";
 		mes "Alex of the Schwaltzvalt";
 		mes "Republic office, and report";
-		mes "what she's actually doing to me.";
+		mes "what she's actually doing to me. ";
 		next;
 		cutin "hu_laura04.bmp",2;
 		mes "[Laura]";
@@ -8713,9 +8704,9 @@ hu_in01,14,11,4	script	Laura	70,{
 		mes "RIGHT?!";
 		next;
 		select("Yeah, yeah, whatever.:Sure thing.:I s-s-s-suppose...!:Yes, Ma'am!");
-		set hg_odin,17;
-		for(set .@i,11002; .@i<=11005; set .@i,.@i+1) {
-			if (checkquest(.@i) > -1 && checkquest(.@i) < 2)
+		hg_odin = 17;
+		for(.@i = 11002; .@i <= 11005; ++.@i) {
+			if (questprogress(.@i) && questprogress(.@i) != 2)
 				completequest .@i;
 		}
 		setquest 11006;
@@ -8764,13 +8755,12 @@ hu_in01,14,11,4	script	Laura	70,{
 				mes "finish their guardian research?";
 				mes "What else did you learn?";
 				next;
-				
 			case 2:
 				mes "["+strcharinfo(0)+"]";
 				mes "Well, have you";
 				mes "ever heard of Ymir's...";
 				next;
-				emotion ET_SURPRISE, getnpcid(0, "Ashe");
+				emotion e_gasp,0,"Ashe";
 				mes "[Ashe]";
 				mes "...Heart?";
 				mes "Ymir's Heart, right?";
@@ -8788,7 +8778,6 @@ hu_in01,14,11,4	script	Laura	70,{
 						mes "Um, really...";
 						next;
 						break;
-						
 					case 2:
 						mes "["+strcharinfo(0)+"]";
 						mes "Er, you see...";
@@ -8796,7 +8785,6 @@ hu_in01,14,11,4	script	Laura	70,{
 						mes "about Ymir's Heart...";
 						next;
 						break;
-						
 					case 3:
 						mes "["+strcharinfo(0)+"]";
 						mes "You know the expression,";
@@ -8804,7 +8792,6 @@ hu_in01,14,11,4	script	Laura	70,{
 						mes "is?'' Er, well, Ymir's Heart...";
 						next;
 						break;
-						
 					case 4:
 						mes "["+strcharinfo(0)+"]";
 						mes "The truth is,";
@@ -8812,7 +8799,7 @@ hu_in01,14,11,4	script	Laura	70,{
 						next;
 						break;
 				}
-				emotion ET_OK, getnpcid(0, "Ashe");
+				emotion e_ok,0,"Ashe";
 				mes "[Ashe]";
 				mes "Ymir's Heart?";
 				mes "That's a clothing";
@@ -8846,7 +8833,7 @@ hu_in01,14,11,4	script	Laura	70,{
 				mes "I investigate the Schwaltzvalt";
 				mes "Research Team. I'm sorry, but";
 				mes "you're the only one I can ask.";
-				set hg_odin,20;
+				hg_odin = 20;
 				changequest 11006,11007;
 				close2;
 				cutin "hu_laura04.bmp",255;
@@ -8874,7 +8861,7 @@ hu_in01,14,11,4	script	Laura	70,{
 	}
 }
 
-hu_in01,18,167,4	script	Julian	86,{
+hu_in01,18,167,4	script	Julian	4_M_04,{
 	if (!hg_odin) {
 		mes "[Julian]";
 		mes "^333333*Sigh...*^000000";
@@ -8900,7 +8887,7 @@ hu_in01,18,167,4	script	Julian	86,{
 		mes "Basically, each of our teams";
 		mes "is conducting its own research";
 		mes "for now. Now, we need your help";
-		mes "to find any relics from the Odin Shrine. We'd appreciate it if you";
+		mes "to find any relics from the Odin  Shrine. We'd appreciate it if you";
 		mes "brought as many as you can!";
 		close;
 	} else if (hg_odin == 2) {
@@ -8953,13 +8940,13 @@ hu_in01,18,167,4	script	Julian	86,{
 	}
 }
 
-hu_in01,16,21,0	script	Ashe#5	139,2,2,{
-OnTouch_:
+hu_in01,16,21,0	script	Ashe#5	HIDDEN_WARP_NPC,2,2,{
+OnTouch:
 	if (hg_odin == 18) {
 		mes "[Ashe]";
 		mes "......?";
 		next;
-		set hg_odin,19;
+		hg_odin = 19;
 		mes "[Ashe]";
 		mes "......";
 		mes ".........";
@@ -8967,7 +8954,7 @@ OnTouch_:
 	}
 }
 
-hu_in01,16,20,4	script	Ashe	95,{
+hu_in01,16,20,4	script	Ashe	4_F_SISTER,{
 	switch(hg_odin) {
 		case 0:
 			mes "[Ashe]";
@@ -8978,7 +8965,6 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "this area. Have you come to";
 			mes "assist in the expedition?";
 			close;
-		
 		case 1:
 			mes "[Ashe]";
 			mes "Oh, you've here in response";
@@ -9010,7 +8996,6 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "secrets of the past, then";
 			mes "please speak to Ms. Laurence.";
 			close;
-
 		case 2:
 		case 12:
 			mes "[Ashe]";
@@ -9018,7 +9003,6 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "Odin Shrine? Good luck,";
 			mes "and be careful, alright?";
 			close;
-
 		case 3:
 		case 13:
 			mes "[Ashe]";
@@ -9028,7 +9012,6 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "your talent can be";
 			mes "a really big help to us!";
 			close;
-
 		case 4:
 			mes "[Ashe]";
 			mes "Hm? You've decided to";
@@ -9038,7 +9021,6 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "upset by that. Well, it's fine";
 			mes "with me. I don't really care.";
 			close;
-
 		case 5:
 			mes "[Ashe]";
 			mes "How's the work coming";
@@ -9048,7 +9030,6 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "that one person's victory";
 			mes "in research is victory for all.";
 			close;
-		
 		case 6:
 			mes "[Ashe]";
 			mes "How's the work coming";
@@ -9058,13 +9039,11 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "that one person's victory";
 			mes "in research is victory for all.";
 			close;
-			
 		case 14:
 			mes "[Ashe]";
 			mes "Please keep up";
 			mes "the good work~";
 			close;
-			
 		case 15:
 			if (countitem(7511) > 4)
 			{
@@ -9080,7 +9059,6 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "look very well. Did";
 			mes "something happen?";
 			close;
-		
 		case 16:
 			mes "[Ashe]";
 			mes "I know that Ms. Laurence";
@@ -9090,7 +9068,6 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "work. Thank you so much for";
 			mes "all of your efforts~";
 			close;
-		
 		case 17:
 			mes "[Ashe]";
 			mes "Why does Ms. Laurence";
@@ -9098,14 +9075,12 @@ hu_in01,16,20,4	script	Ashe	95,{
 			mes "I honestly think this";
 			mes "rivalry is awfully petty...";
 			close;
-		
 		case 19:
 			mes "[Ashe]";
 			mes "Ehm...";
 			mes "Don't worry";
 			mes "about it~";
 			close;
-		
 		case 20:
 			mes "[Ashe]";
 			mes "Please don't ask";
@@ -9116,8 +9091,8 @@ hu_in01,16,20,4	script	Ashe	95,{
 	}
 }
 
-hu_in01,174,90,0	script	Entrance	139,2,2,{
-OnTouch_:
+hu_in01,174,90,0	script	Entrance	HIDDEN_WARP_NPC,2,2,{
+OnTouch:
 	if (hg_odin == 22 || hg_odin == 23) {
 		mes "[Laura]";
 		mes "So it means that everyone fooled me!";
@@ -9127,10 +9102,10 @@ OnTouch_:
 	}
 }
 
-hu_in01,159,84,3	script	Laura#2	70,{
+hu_in01,159,84,3	script	Laura#2	1_F_GYPSY,{
 	if (hg_odin == 22 || hg_odin == 23) {
 		cutin "hu_laura03.bmp",2;
-		emotion ET_FRET, getnpcid(0, "Laura#2");
+		emotion e_an,0,"Laura#2";
 		mes "[Laura]";
 		mes "Wh-what...?!";
 		mes "Does this mean";
@@ -9140,7 +9115,7 @@ hu_in01,159,84,3	script	Laura#2	70,{
 		mes "complete lunacy!";
 		next;
 		cutin "hu_alex04.bmp",0;
-		emotion ET_FRET, getnpcid(0, "Alex#2");
+		emotion e_an,0,"Alex#2";
 		mes "[Alex]";
 		mes "What are you talking";
 		mes "about, you crazy wench?";
@@ -9197,12 +9172,12 @@ hu_in01,159,84,3	script	Laura#2	70,{
 		mes "waves a thick file";
 		mes "clasped in her hands.^000000";
 		next;
-		emotion ET_HUK, getnpcid(0, "Julian#2");
+		emotion e_omg,0,"Julian#2";
 		mes "[Julian]";
 		mes "What...?";
 		mes "Argh, that's--!";
 		next;
-		emotion ET_ANGER, getnpcid(0, "Laura#2");
+		emotion e_ag,0,"Laura#2";
 		mes "[Laura]";
 		mes "That's right.";
 		mes "Now tell me, what the";
@@ -9213,7 +9188,7 @@ hu_in01,159,84,3	script	Laura#2	70,{
 		mes "......";
 		mes "Julian!";
 		next;
-		emotion ET_PROFUSELY_SWEAT, getnpcid(0, "Julian#2");
+		emotion e_swt2,0,"Julian#2";
 		mes "[Julian]";
 		mes "Uh, this isn't my fault!";
 		mes "Sh-she doesn't have any";
@@ -9225,7 +9200,7 @@ hu_in01,159,84,3	script	Laura#2	70,{
 		mes "be equal partners in the same";
 		mes "expedition? That's what I heard";
 		mes "at the beginning! But you guys";
-		mes "have something different in mind!";
+		mes "have something different in mind! ";
 		next;
 		cutin "hu_laura03.bmp",2;
 		mes "[Laura]";
@@ -9237,7 +9212,7 @@ hu_in01,159,84,3	script	Laura#2	70,{
 		mes "what are your true goals?!";
 		next;
 		cutin "hu_alex03.bmp",0;
-		emotion ET_PROFUSELY_SWEAT, getnpcid(0, "Alex#2");
+		emotion e_swt2,0,"Alex#2";
 		mes "[Alex]";
 		mes "I-I don't know what you're";
 		mes "talking about! J-Julian must";
@@ -9255,23 +9230,23 @@ hu_in01,159,84,3	script	Laura#2	70,{
 		mes "away, and threateningly";
 		mes "rolled up her sleeves.^000000";
 		next;
-		emotion ET_CRY, getnpcid(0, "Ashe#2");
+		emotion e_sob,0,"Ashe#2";
 		mes "[Ashe]";
 		mes "S-stop!";
 		mes "Both of you!";
 		next;
-		emotion ET_PROFUSELY_SWEAT, getnpcid(0, "Laura#2");
+		emotion e_swt2,0,"Laura#2";
 		mes "[Laura]";
 		mes "Stay out of";
 		mes "this, Ashe!";
 		next;
 		cutin "hu_alex04.bmp",0;
-		emotion ET_FRET, getnpcid(0, "Alex#2");
+		emotion e_an,0,"Alex#2";
 		mes "[Alex]";
 		mes "Yeah, this is none";
 		mes "of your business!";
 		next;
-		set hg_odin,25;
+		hg_odin = 25;
 		mes "[Ashe]";
 		mes "Oh... Oh, dear!";
 		close2;
@@ -9279,14 +9254,14 @@ hu_in01,159,84,3	script	Laura#2	70,{
 		end;
 	} else if (hg_odin > 23) {
 		cutin "hu_laura03.bmp",2;
-		emotion ET_FRET, getnpcid(0, "Laura#2");
+		emotion e_an,0,"Laura#2";
 		mes "[Laura]";
 		mes "Hah...!";
 		mes "Did you...";
 		mes "Just hit me?";
 		next;
 		cutin "hu_alex04.bmp",0;
-		emotion ET_FRET, getnpcid(0, "Alex#2");
+		emotion e_an,0,"Alex#2";
 		mes "[Alex]";
 		mes "You crazy...!";
 		close2;
@@ -9295,9 +9270,9 @@ hu_in01,159,84,3	script	Laura#2	70,{
 	}
 }
 
-hu_in01,158,84,5	duplicate(Laura#2)	Alex#2	803
+hu_in01,158,84,5	duplicate(Laura#2)	Alex#2	1_F_SIGNZISK,0,0
 
-hu_in01,162,85,4	script	Ashe#2	95,{
+hu_in01,162,85,4	script	Ashe#2	4_F_SISTER,{
 	if (hg_odin == 22 || hg_odin == 23) {
 		mes "[Ashe]";
 		mes "This...";
@@ -9324,7 +9299,7 @@ hu_in01,162,85,4	script	Ashe#2	95,{
 		mes "ever see each other, so thank";
 		mes "you for all your help, friend.";
 		next;
-		set hg_odin,59;
+		hg_odin = 59;
 		changequest 11007,11008;
 		mes "[Ashe]";
 		mes "Don't worry, my comrade";
@@ -9343,8 +9318,8 @@ hu_in01,162,85,4	script	Ashe#2	95,{
 	}
 }
 
-hu_in01,171,90,0	script	Ashe#3	139,2,2,{
-OnTouch_:
+hu_in01,171,90,0	script	Ashe#3	HIDDEN_WARP_NPC,2,2,{
+OnTouch:
 	if (hg_odin == 25) {
 		mes "^3355FFAshe picked up";
 		mes "the file that Laura";
@@ -9365,7 +9340,7 @@ OnTouch_:
 		mes "ever see each other, so thank";
 		mes "you for all your help, friend.";
 		next;
-		set hg_odin,59;
+		hg_odin = 59;
 		mes "[Ashe]";
 		mes "Don't worry, my comrade";
 		mes "at Morroc's South Gate will";
@@ -9375,7 +9350,7 @@ OnTouch_:
 	}
 }
 
-hu_in01,155,82,4	script	Julian#2	86,{
+hu_in01,155,82,4	script	Julian#2	4_M_04,{
 	if (hg_odin == 22 || hg_odin == 23) {
 		mes "[Julian]";
 		mes "I...";
@@ -9392,12 +9367,12 @@ hu_in01,155,82,4	script	Julian#2	86,{
 	close;
 }
 
-moc_fild12,160,372,0	script	Hit	139,{
+moc_fild12,160,372,0	script	Hit	HIDDEN_WARP_NPC,{
 	end;
 }
 
-moc_fild12,160,365,0	script	Ashe#4	139,4,4,{
-OnTouch_:
+moc_fild12,160,365,0	script	Ashe#4	HIDDEN_WARP_NPC,4,4,{
+OnTouch:
 	if (hg_odin == 59) {
 		mes "[???]";
 		mes "...Silence.";
@@ -9443,7 +9418,6 @@ OnTouch_:
 				mes "members of ''Secret Wing.''";
 				next;
 				break;
-				
 			case 2:
 				mes "[???]";
 				mes "She'll be fine. If you're that";
@@ -9483,8 +9457,8 @@ OnTouch_:
 		mes "used... Like that one lady,";
 		mes "that archaeologist, Laura.";
 		next;
-		getexp (checkre(3))?100000:700000,0;
-		set hg_odin,60;
+		getexp RENEWAL_EXP?100000:700000,0;
+		hg_odin = 60;
 		completequest 11008;
 		mes "[???]";
 		mes "...Thanks for";
@@ -9494,7 +9468,7 @@ OnTouch_:
 	}
 }
 
-hugel,209,109,2	script	Boatman#hugel	709,{
+hugel,209,109,2	script	Boatman#hugel	4_M_SEAMAN,{
 	mes "[Boatman]";
 	mes "Ah, hello~";
 	mes "Would you like to sail";
@@ -9511,7 +9485,6 @@ hugel,209,109,2	script	Boatman#hugel	709,{
 			mes "to return and just";
 			mes "let me know.";
 			close;
-		
 		case 2:
 			if (Zeny < 800)
 			{
@@ -9529,17 +9502,17 @@ hugel,209,109,2	script	Boatman#hugel	709,{
 			mes "We'll arrive near";
 			mes "the Odin Shrine soon~";
 			close2;
-			set Zeny,Zeny -800;
-			if (hg_odin == 2) set hg_odin,3;
-			else if (hg_odin == 4) set hg_odin,5;
-			else if (hg_odin == 12) set hg_odin,13;
-			else if (hg_odin == 14) set hg_odin,15;
+			Zeny -= 800;
+			if (hg_odin == 2) hg_odin = 3;
+			else if (hg_odin == 4) hg_odin = 5;
+			else if (hg_odin == 12) hg_odin = 13;
+			else if (hg_odin == 14) hg_odin = 15;
 			warp "odin_tem01",100,146;
 			end;
 	}
 }
 
-odin_tem01,93,146,4	script	Boatman	709,{
+odin_tem01,93,146,4	script	Boatman	4_M_SEAMAN,{
 	mes "[Boatman]";
 	mes "Ah, would you";
 	mes "like to sail back to";
@@ -9554,7 +9527,6 @@ odin_tem01,93,146,4	script	Boatman	709,{
 			mes "when you're ready to";
 			mes "leave this dangerous place.";
 			close;
-			
 		case 2:
 			mes "[Boatman]";
 			mes "Alright then,";
@@ -9593,7 +9565,7 @@ OnTimer100000:
 	}
 }
 
-odin_tem03,266,302,0	script	warpinside#1	139,3,3,{
+odin_tem03,266,302,0	script	warpinside#1	HIDDEN_WARP_NPC,3,3,{
 OnInit:
 	disablenpc "warpinside#1";
 	end;
@@ -9602,7 +9574,7 @@ OnEnter:
 	enablenpc "warpinside#1";
 	end;
 
-OnTouch_:
+OnTouch:
 	if (hg_odin > 19 && hg_odin < 23) {
 		switch(rand(1,4)) {
 		case 1:
@@ -9619,13 +9591,13 @@ OnTouch_:
 			break;
 		}
 		disablenpc "warpinside#1";
-		set hg_odin,21;
+		hg_odin = 21;
 		warp "que_hugel",36,179;
 		end;
 	}
 }
 
-odin_tem03,288,271,0	script	warpinside#2	139,3,3,{
+odin_tem03,288,271,0	script	warpinside#2	HIDDEN_WARP_NPC,3,3,{
 OnInit:
 	disablenpc "warpinside#2";
 	end;
@@ -9634,7 +9606,7 @@ OnEnter:
 	enablenpc "warpinside#2";
 	end;
 
-OnTouch_:
+OnTouch:
 	if (hg_odin > 19 && hg_odin < 23) {
 		switch(rand(1,4)) {
 		case 1:
@@ -9651,13 +9623,13 @@ OnTouch_:
 			break;
 		}
 		disablenpc "warpinside#2";
-		set hg_odin,21;
+		hg_odin = 21;
 		warp "que_hugel",36,179;
 		end;
 	}
 }
 
-odin_tem03,283,241,0	script	warpinside#3	139,3,3,{
+odin_tem03,283,241,0	script	warpinside#3	HIDDEN_WARP_NPC,3,3,{
 OnInit:
 	disablenpc "warpinside#3";
 	end;
@@ -9666,7 +9638,7 @@ OnEnter:
 	enablenpc "warpinside#3";
 	end;
 
-OnTouch_:
+OnTouch:
 	if (hg_odin > 19 && hg_odin < 23) {
 		switch(rand(1,4)) {
 		case 1:
@@ -9683,13 +9655,13 @@ OnTouch_:
 			break;
 		}
 		disablenpc "warpinside#3";
-		set hg_odin,21;
+		hg_odin = 21;
 		warp "que_hugel",36,179;
 		end;
 	}
 }
 
-odin_tem03,179,275,0	script	warpinside#4	139,3,3,{
+odin_tem03,179,275,0	script	warpinside#4	HIDDEN_WARP_NPC,3,3,{
 OnInit:
 	disablenpc "warpinside#4";
 	end;
@@ -9698,7 +9670,7 @@ OnEnter:
 	enablenpc "warpinside#4";
 	end;
 
-OnTouch_:
+OnTouch:
 	if (hg_odin > 19 && hg_odin < 23) {
 		switch(rand(1,4)) {
 		case 1:
@@ -9715,13 +9687,13 @@ OnTouch_:
 			break;
 		}
 		disablenpc "warpinside#4";
-		set hg_odin,21;
+		hg_odin = 21;
 		warp "que_hugel",36,179;
 		end;
 	}
 }
 
-odin_tem03,320,264,0	script	warpinside#5	139,3,3,{
+odin_tem03,320,264,0	script	warpinside#5	HIDDEN_WARP_NPC,3,3,{
 OnInit:
 	disablenpc "warpinside#5";
 	end;
@@ -9730,7 +9702,7 @@ OnEnter:
 	enablenpc "warpinside#5";
 	end;
 
-OnTouch_:
+OnTouch:
 	if (hg_odin > 19 && hg_odin < 23) {
 		switch(rand(1,4)) {
 		case 1:
@@ -9747,22 +9719,22 @@ OnTouch_:
 			break;
 		}
 		disablenpc "warpinside#5";
-		set hg_odin,21;
+		hg_odin = 21;
 		warp "que_hugel",36,179;
 		end;
 	}
 }
 
-hu_in01,99,90,0	script	Empty	139,3,3,{
-OnTouch_:
+hu_in01,99,90,0	script	Empty	HIDDEN_WARP_NPC,3,3,{
+OnTouch:
 	mes "^3355FFThis place is empty.";
 	mes "Everyone must";
 	mes "have already left.^000000";
 	close;
 }
 
-que_hugel,35,29,5	script	object#1	139,2,2,{
-OnTouch_:
+que_hugel,35,29,5	script	object#1	HIDDEN_WARP_NPC,2,2,{
+OnTouch:
 	if (hg_odin == 21) {
 		mes "^3355FFA weathered structure";
 		mes "of the Odin Shrine is";
@@ -9809,7 +9781,7 @@ OnTouch_:
 					mes "["+strcharinfo(0)+"]";
 					mes "Wa...waaaahhhh!";
 					close2;
-					set hg_odin,22;
+					hg_odin = 22;
 					warp "que_hugel",163,31;
 					end;
 				}
@@ -9825,8 +9797,8 @@ OnTouch_:
 	}
 }
 
-que_hugel,163,31,0	script	object#2	139,3,3,{
-OnTouch_:
+que_hugel,163,31,0	script	object#2	HIDDEN_WARP_NPC,3,3,{
+OnTouch:
 	mes "^3355FFWhen you come back";
 	mes "to your senses, you";
 	mes "find that nothing is";
@@ -9834,8 +9806,8 @@ OnTouch_:
 	close;
 }
 
-que_hugel,163,178,0	script	object#3	139,3,3,{
-OnTouch_:
+que_hugel,163,178,0	script	object#3	HIDDEN_WARP_NPC,3,3,{
+OnTouch:
 	if (hg_odin == 22) {
 		mes "["+strcharinfo(0)+"]";
 		mes "Huh?";
@@ -9844,14 +9816,14 @@ OnTouch_:
 		mes "["+strcharinfo(0)+"]";
 		mes "Waaaaahhhh!";
 		close2;
-		set hg_odin,23;
+		hg_odin = 23;
 		warp "odin_tem03",264,260;
 		end;
 	}
 }
 
-hu_in01,15,108,0	script	alex#warp	45,1,1,{
-OnTouch_:
+hu_in01,15,108,0	script	alex#warp	WARPNPC,1,1,{
+OnTouch:
 	if (hg_odin == 17) {
 		mes "[Alex]";
 		mes "Haven't you found it yet?";
@@ -9925,7 +9897,7 @@ OnTouch_:
 		mes "...............................";
 		mes "Wait... You hear that?";
 		next;
-		set hg_odin,18;
+		hg_odin = 18;
 		mes "[Alex]";
 		mes "We'll continue this";
 		mes "conversation later.";
@@ -9940,22 +9912,22 @@ OnTouch_:
 	}
 }
 
-hugel,52,90,0	script	alex#warp2	45,1,1,{
-OnTouch_:
+hugel,52,90,0	script	alex#warp2	WARPNPC,1,1,{
+OnTouch:
 	if (hg_odin > 59) warp "hu_in01",102,90;
 	else if (hg_odin > 21 && hg_odin < 60) warp "hu_in01",173,90;
 	else warp "hu_in01",33,90;
 	end;
 }
 
-hu_in01,155,70,0	script	alex#warp3	45,1,1,{
-OnTouch_:
+hu_in01,155,70,0	script	alex#warp3	WARPNPC,1,1,{
+OnTouch:
 	mes "^3355FFThe door is locked.^000000";
 	close;
 }
 
-hu_in01,155,108,0	script	alex#warp4	45,1,1,{
-OnTouch_:
+hu_in01,155,108,0	script	alex#warp4	WARPNPC,1,1,{
+OnTouch:
 	mes "^3355FFThe door is locked.^000000";
 	close;
 }

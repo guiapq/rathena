@@ -47,3 +47,26 @@ prontera,150,193,4	script	Reset Girl	124,{
 	if(.@Reset[3]) set reset_limit,reset_limit + 1;
 	close;
 }
+
+// Duplicatas em Todas as Cidades
+alberta,29,240,6	duplicate(Reset Girl)	Reset Girl#alb	124
+aldebaran,138,118,6	duplicate(Reset Girl)	Reset Girl#alde	124
+amatsu,201,79,4	duplicate(Reset Girl)	Reset Girl#ama	124
+ayothaya,210,169,6	duplicate(Reset Girl)	Reset Girl#ayo	124
+comodo,187,158,6	duplicate(Reset Girl)	Reset Girl#com	124
+einbech,60,36,6	duplicate(Reset Girl)	Reset Girl#einbe	124
+einbroch,60,202,6	duplicate(Reset Girl)	Reset Girl#einbr	124
+geffen,118,72,6	duplicate(Reset Girl)	Reset Girl#gef	124
+gonryun,159,122,6	duplicate(Reset Girl)	Reset Girl#gon	124
+hugel,92,150,6	duplicate(Reset Girl)	Reset Girl#hug	124
+izlude,124,150,6	duplicate(Reset Girl)	Reset Girl#izl	124
+jawaii,253,139,4	duplicate(Reset Girl)	Reset Girl#jaw	124
+lighthalzen,155,100,6	duplicate(Reset Girl)	Reset Girl#lhz	124
+louyang,229,103,4	duplicate(Reset Girl)	Reset Girl#lou	124
+morocc,156,97,6	duplicate(Reset Girl)	Reset Girl#mor	124
+payon,182,106,4	duplicate(Reset Girl)	Reset Girl#pay	124
+rachel,128,116,6	duplicate(Reset Girl)	Reset Girl#rac	124
+umbala,108,148,3	duplicate(Reset Girl)	Reset Girl#umb	124
+veins,220,121,4	duplicate(Reset Girl)	Reset Girl#ve	124
+xmas,146,136,4	duplicate(Reset Girl)	Reset Girl#xmas	124
+yuno,167,45,4	duplicate(Reset Girl)	Reset Girl#yuno	124

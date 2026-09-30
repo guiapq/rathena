@@ -1,15 +1,13 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Mage Job Quest
-//===== By: ================================================== 
+//===== By: ==================================================
 //= kobra_k88; L0ne_W0lf
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 2.0
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= Job quest for Mage classes
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 Fully working.
 //= 1.1 Fixed input ingridients bug [Lupus]
 //= 1.2 Added instant job change for High Novice [Lupus]
@@ -23,9 +21,9 @@
 //= 1.8 Added Quest Log commands. [L0ne_W0lf]
 //= 1.9 Fixed an issue with completequest by adding checkquest. [Kisuka]
 //= 2.0 Moved "Dollshoi" and "Ponka-Hontas" NPCs. [Euphy]
-//============================================================ 
+//============================================================
 
-geffen_in,164,124,4	script	Mage Guildsman	123,{
+geffen_in,164,124,4	script	Mage Guildsman	2_F_MAGICMASTER,{
 	if (Upper == 1) {
 		if (ADVJOB == Job_High_Wizard || ADVJOB == Job_Professor) {
 			if (Class == Job_Novice_High) {
@@ -35,7 +33,7 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 				mes "[Mage Guildsman]";
 				mes "Ah, you must have been reborn. Well, I'm glad to have you back.";
 				next;
-				if (!callfunc("F_CanChangeJob")) {
+				if (getskilllv("NV_BASIC") < 9) {
 					mes "[Mage Guildsman]";
 					mes "I'm sorry, but I don't think you're ready to learn magic yet. Why don't you go finish learning the Basic Skills first?";
 					next;
@@ -46,9 +44,9 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 				mes "[Mage Guildsman]";
 				mes "Well, since you have passed the Mage test once, I will not question your qualification. You want to have your magic skills back immediately, don't you?";
 				next;
-				skill "NV_TRICKDEAD",0,SKILL_PERM;
+				skill 143,0,0;
 				jobchange Job_Mage_High;
-				skill "MG_ENERGYCOAT",1,SKILL_PERM;
+				skill 157,1,0;
 				mes "[Mage Guildsman]";
 				mes "Wow, for some reason, you look way better than you did before. Anyway, I believe you will do a better job being a Mage as well.";
 				close;
@@ -87,7 +85,7 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 		}
 		if (job_magician_q == 0) {
 			mes "Wanna be a Mage, eh...?";
-			if (Sex == SEX_MALE)
+			if (Sex)
 				mes "Hey, look at you! You're kinda cute~! Not my type though...";
 			else {
 				mes "Oooh, you're such a hot babe~!";
@@ -104,26 +102,26 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 				mes "[Mage Guildsman]";
 				mes "Now it's time for";
 				mes "me to give you the test.";
-				switch(rand(0,3)) {
+				switch(rand(3)) {
 				case 1:
 					mes "Make me a ^3355FFMixed Solution No. 1^000000";
 					mes "and bring it back to me.";
-					set job_magician_q,1;
+					job_magician_q = 1;
 					break;
 				case 2:
 					mes "Make me a ^3355FFMixed Solution No. 2^000000";
 					mes "and bring it back to me.";
-					set job_magician_q,2;
+					job_magician_q = 2;
 					break;
 				case 3:
 					mes "Make me a ^3355FFMixed Solution No. 3^000000";
 					mes "and bring it back to me.";
-					set job_magician_q,3;
+					job_magician_q = 3;
 					break;
 				default:
 					mes "Make me a ^3355FFMixed Solution No. 4^000000";
 					mes "and bring it back to me.";
-					set job_magician_q,4;
+					job_magician_q = 4;
 				}
 				next;
 				getitem 1092,1; //Empty_Cylinder
@@ -139,7 +137,7 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 			close;
 		}
 		mes "Yeah? Ready...?";
-		if (!callfunc("F_CanChangeJob")) {
+		if (getskilllv("NV_BASIC") < 9) {
 			mes "Oh, what a bummer. You haven't met the requirements yet.";
 			next;
 			mes "[Mage Guildsman]";
@@ -207,13 +205,21 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 		mes "Congratulations!";
 		mes "You are now a Mage!";
 		next;
-		for ( .@quest_id = 1005; .@quest_id <= 1008; .@quest_id++ ) {
-			if (isbegin_quest(.@quest_id) == 1)
-				completequest .@quest_id;
-		}
 		callfunc "Job_Change",Job_Mage;
 		callfunc "F_ClearJobVar";
-		set Zeny,Zeny+50;
+		Zeny += 50;
+		if (questprogress(1005)) {
+			completequest 1005;
+		}
+		else if (questprogress(1006)) {
+			completequest 1006;
+		}
+		else if (questprogress(1007)) {
+			completequest 1007;
+		}
+		else {
+			completequest 1008;
+		}
 		mes "[Mage Guildsman]";
 		mes "'Welcome to My World~'";
 		mes "Heh heh, I just wanted to say that. You know, it's a quote from a well-known movie~";
@@ -224,7 +230,7 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 	case 2:
 		mes "[Mage Guildsman]";
 		mes "Wanna be a Mage, eh?";
-		if (Sex == SEX_MALE)
+		if (Sex)
 			mes "For a cutie like you, I'd be happy to explain the requirements!";
 		else
 			mes "I'd be happy to explain the requirements for a pretty girl like you!";
@@ -240,30 +246,25 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 				mes "make me a";
 				mes "^3355FFMixed Solution No. 1^000000";
 				mes "and bring it back to me.";
-				if (isbegin_quest(1005) == 0)
-					setquest 1005;
+				setquest 1005;
 				break;
 			case 2:
 				mes "make me a";
 				mes "^3355FFMixed Solution No. 2^000000";
 				mes "and bring it back to me.";
-				if (isbegin_quest(1006) == 0)
-					setquest 1006;
+				setquest 1006;
 				break;
 			case 3:
 				mes "make me a";
 				mes "^3355FFMixed Solution No. 3^000000";
 				mes "and bring it back to me.";
-				if (isbegin_quest(1007) == 0)
-					setquest 1007;
+				setquest 1007;
 				break;
 			default:
 				mes "make me a";
 				mes "^3355FFMixed Solution No. 4^000000";
 				mes "and bring it back to me.";
-				if (isbegin_quest(1008) == 0)
-					setquest 1008;
-				break;
+				setquest 1008;
 			}
 			next;
 			mes "[Mage Guildsman]";
@@ -284,7 +285,7 @@ geffen_in,164,124,4	script	Mage Guildsman	123,{
 	}
 }
 
-geffen_in,164,112,4	script	Mixing Machine	111,{
+geffen_in,164,112,4	script	Mixing Machine	HIDDEN_NPC,{
 	mes "[Mixing Machine]";
 	mes "This machine is the property of the Geffen Mage Guild and is used only for mixing solutions for magic purposes.";
 	next;
@@ -304,7 +305,7 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 				mes "Process Halting.";
 				close;
 			}
-			set .@mixitem2,1;
+			.@mixitem2 = 1;
 			break;
 		case 2:
 			if (countitem(1088) == 0) {
@@ -315,10 +316,10 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 				mes "Process Halting.";
 				close;
 			}
-			set .@mixitem2,2;
+			.@mixitem2 = 2;
 			break;
 		case 3:
-			set .@mixitem2,0;
+			.@mixitem2 = 0;
 			break;
 		}
 		while (1) {
@@ -383,20 +384,20 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 						if (.@mixitem2 == 2) delitem 1088,1; //Morocc_Potion
 						mes "Items are Ready.";
 						mes "Close the Lid.";
-						set .@progress,3;
+						.@progress = 3;
 						next;
 					}
 					break;
 				case 2:
-					set .@continue,0;
+					.@continue = 0;
 					next;
 					break;
 				case 3:
-					set .@mixitem1_1,0;
-					set .@mixitem1_2,0;
-					set .@mixitem1_3,0;
-					set .@progress,0;
-					set .@continue,0;
+					.@mixitem1_1 = 0;
+					.@mixitem1_2 = 0;
+					.@mixitem1_3 = 0;
+					.@progress = 0;
+					.@continue = 0;
 					mes "[Mixing Machine]";
 					mes "Reset Complete.";
 					mes "Initiate again?";
@@ -429,8 +430,8 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 							next;
 						}
 						else {
-							if (countitem(909) > 0) set .@mixitem1_1,.@mixitem1_1 + .@input;
-							set .@progress,2;
+							if (countitem(909) > 0) .@mixitem1_1 += .@input;
+							.@progress = 2;
 							break;
 						}
 					}
@@ -445,8 +446,8 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 							next;
 						}
 						else {
-							if (countitem(914) > 0) set .@mixitem1_2,.@mixitem1_2 + .@input;
-							set .@progress,2;
+							if (countitem(914) > 0) .@mixitem1_2 += .@input;
+							.@progress = 2;
 							break;
 						}
 					}
@@ -461,8 +462,8 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 							next;
 						}
 						else {
-						if (countitem(519) > 0) set .@mixitem1_3,.@mixitem1_3 + .@input;
-							set .@progress,2;
+						if (countitem(519) > 0) .@mixitem1_3 += .@input;
+							.@progress = 2;
 							break;
 						}
 					}
@@ -470,8 +471,8 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 
 				case 4:
 					if (.@progress != 2)
-						set .@progress,1;
-					set .@continue,1;
+						.@progress = 1;
+					.@continue = 1;
 					next;
 				}
 				if (.@continue) break;
@@ -505,15 +506,15 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 				next;
 				if (select("Confirm.:Cancel.") == 1) {
 					if (.@input == 8472)
-						set .@magic_powder,1;
+						.@magic_powder = 1;
 					else if (.@input == 3735)
-						set .@magic_powder,2;
+						.@magic_powder = 2;
 					else if (.@input == 2750)
-						set .@magic_powder,3;
+						.@magic_powder = 3;
 					else if (.@input == 5429)
-						set .@magic_powder,4;
+						.@magic_powder = 4;
 					else
-						set .@magic_powder,5;
+						.@magic_powder = 5;
 				}
 				break;
 			}
@@ -523,10 +524,10 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 		mes "Catalyst Stone.";
 		next;
 		switch(select("Yellow Gemstone.:Red Gemstone.:Blue Gemstone.:1carat Diamond.:Skip.")) {
-		case 1: set .@mixitem3,1; break;
-		case 2: set .@mixitem3,2; break;
-		case 3: set .@mixitem3,3; break;
-		case 4: set .@mixitem3,4; break;
+		case 1: .@mixitem3 = 1; break;
+		case 2: .@mixitem3 = 2; break;
+		case 3: .@mixitem3 = 3; break;
+		case 4: .@mixitem3 = 4; break;
 		case 5: break;
 		}
 		mes "[Mixing Machine]";
@@ -598,10 +599,10 @@ geffen_in,164,112,4	script	Mixing Machine	111,{
 // are also used in the Sage skill quests, and have
 // been moved to npc/quests/mage_solution.txt.
 //
-// pay_arche,122,100,0	script	Dollshoi	88,{}
-// moc_ruins,91,150,0	script	Ponka-Hontas	93,{}
+// pay_arche,122,100,0	script	Dollshoi	4_M_ORIENT01,{}
+// moc_ruins,91,150,0	script	Ponka-Hontas	4_F_04,{}
 
-geffen_in,177,112,4	script	Bookshelf	111,{
+geffen_in,177,112,4	script	Bookshelf	HIDDEN_NPC,{
 	mes "[Guide Book]";
 	mes "This Guide Book is the property of the Geffen Mage Association. Please handle with care.";
 	next;
@@ -697,3 +698,4 @@ geffen_in,177,112,4	script	Bookshelf	111,{
 	}
 	close;
 }
+

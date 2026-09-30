@@ -1,28 +1,25 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Misc. Message Boards
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Euphy
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.0
-//===== Compatible With: ===================================== 
-//= [Official Conversion]
-//= rAthena Project; 7.15 +
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= Misc. Message Boards for:
 //=  - Izlude
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 Moved Izlude NPCs to Pre-RE path.
 //============================================================
 
 // Izlude
 //============================================================
-izlude,54,139,1	script	Sign#Iz1	111,{
+izlude,54,139,1	script	Sign#Iz1	HIDDEN_NPC,{
 	mes "^993300- The Sign Reads -^000000";
 	mes "Welcome to the Swordsman Academy.";
 	close;
 }
 
-izlude,144,148,1	script	Sign#Iz2	111,{
+izlude,144,148,1	script	Sign#Iz2	HIDDEN_NPC,{
 	mes "^993300- The Sign Reads -^000000";
 	mes "Welcome.";
 	close;

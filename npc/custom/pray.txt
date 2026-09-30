@@ -1,0 +1,37 @@
+//===== rAthena Script =======================================
+//= RagnaRogue v3 — @pray (Agibless Lv1)
+//===== Descrição: ============================================
+//= Comando @pray: aplica Aumentar Agilidade Lv1 e Bênção Lv1
+//= por 120 segundos. Uma prece rápida para o aventureiro.
+//= Tempo de recarga: 60 segundos.
+//============================================================
+
+-	script	PrayCommand	-1,{
+
+OnInit:
+	bindatcmd("pray", "PrayCommand::OnPray", 0, 99);
+	end;
+
+OnPray:
+	// Cooldown de 60 segundos por personagem
+	if (@pray_cd > gettimetick(2)) {
+		.@remaining = @pray_cd - gettimetick(2);
+		message strcharinfo(0), "[Prece] Aguarde mais " + .@remaining + " segundo(s) para rezar novamente.";
+		end;
+	}
+
+	// Efeito visual de bênção divina
+	specialeffect2 EF_ANGEL2;
+	specialeffect2 EF_INCAGILITY;
+	specialeffect2 EF_BLESSING;
+
+	// Agibless Lv1: Aumentar Agilidade Lv1 + Bênção Lv1 por 120 segundos
+	sc_start SC_INCREASEAGI, 120000, 1;
+	sc_start SC_BLESSING, 120000, 1;
+
+	dispbottom "[Prece] Sua prece foi atendida! Aumentar Agilidade Lv1 e Bênção Lv1 por 2 minutos.", 0xFFCC88;
+
+	// Cooldown de 60 segundos
+	@pray_cd = gettimetick(2) + 60;
+	end;
+}

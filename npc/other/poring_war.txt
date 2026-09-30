@@ -1,15 +1,13 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Poring War
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Kisuka
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.2
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= Join a team in battle between Angeling and Deviling.
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 First version. [Kisuka][5511]
 //= 1.1 Fixed some typos/bugs. [CalciumKid]
 //= 1.1a Fixed Waiting rooms witht he default MAX_LEVEL [Slim]
@@ -19,7 +17,7 @@
 
 // Poring War Recruiter
 //============================================================
-prt_fild08,159,371,3	script	Poring War Recruiter#wop	909,{
+prt_fild08,159,371,3	script	Poring War Recruiter#wop	4_PORING,{
 	mes "[Poring]";
 	mes "!!!!!";
 	mes "Whoa-! Humans, ring~!!";
@@ -43,7 +41,7 @@ prt_fild08,159,371,3	script	Poring War Recruiter#wop	909,{
 			mes "Oh, and there's an entrance fee of 500 zeny, ring.";
 			mes "Have a good time, ring.";
 			delitem 7773,countitem(7773);
-			set Zeny,Zeny-500;
+			Zeny -= 500;
 			close2;
 			warp "poring_w01",112,138;
 			end;
@@ -69,7 +67,7 @@ prt_fild08,159,371,3	script	Poring War Recruiter#wop	909,{
 
 // Poring Vending Machine
 //============================================================
-poring_w01,100,97,3	script	Poring Vending Machine#w	909,{
+poring_w01,100,97,3	script	Poring Vending Machine#w	4_PORING,{
 	if (checkweight(714,3) == 0) {
 		mes "- You are carrying too much items in order to use the Vending Machine. -";
 		close;
@@ -131,13 +129,13 @@ poring_w01,100,97,3	script	Poring Vending Machine#w	909,{
 							mes "What could it be?";
 							next;
 							switch(rand(1,17)) {
-							case 5: set .@Random_Figure,2766; break; // Swordman_Figure
-							case 6: set .@Random_Figure,2767; break; // Acolyte_Figure
-							case 8: set .@Random_Figure,2770; break; // Thief_Figure
-							case 11: set .@Random_Figure,2771; break; // Merchant_Figure
-							case 13: set .@Random_Figure,2769; break; // Archer_Figure
-							case 14: set .@Random_Figure,2768; break; // Mage_Figure
-							default: set .@Random_Figure,2765; break; // Novice_Figure
+							case 5: .@Random_Figure = 2766; break; // Swordman_Figure
+							case 6: .@Random_Figure = 2767; break; // Acolyte_Figure
+							case 8: .@Random_Figure = 2770; break; // Thief_Figure
+							case 11: .@Random_Figure = 2771; break; // Merchant_Figure
+							case 13: .@Random_Figure = 2769; break; // Archer_Figure
+							case 14: .@Random_Figure = 2768; break; // Mage_Figure
+							default: .@Random_Figure = 2765; break; // Novice_Figure
 							}
 							mes "A nice " + getitemname(.@Random_Figure) + ".";
 							delitem 7539,50; // Poring_Coin
@@ -222,7 +220,7 @@ S_PoringVending:
 
 // Information
 //============================================================
-poring_w01,96,97,3	script	Sweet Devi#wop	738,{
+poring_w01,96,97,3	script	Sweet Devi#wop	4_DEVIRUCHI,{
 	if (MaxWeight-Weight < 2000 || checkweight(1201,1) == 0) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
@@ -292,36 +290,36 @@ poring_w01,96,97,3	script	Sweet Devi#wop	738,{
 		mes "I'll send you back to your savepoint.";
 		close2;
 		if (WoP_SaveMap$ != "") {
-			savepoint WoP_SaveMap$,WoP_SaveMap_X,WoP_SaveMap_Y,1,1;
-			set WoP_SaveMap$,"";
-			set WoP_SaveMap_X,0;
-			set WoP_SaveMap_Y,0;
+			savepoint WoP_SaveMap$,WoP_SaveMap_X,WoP_SaveMap_Y;
+			WoP_SaveMap$ = "";
+			WoP_SaveMap_X = 0;
+			WoP_SaveMap_Y = 0;
 		}
 		warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
 		end;
 	}
 
 OnPCLogoutEvent:
-	getmapxy .@map$,.@x,.@y;
+	getmapxy .@map$,.@x,.@y,0;
 	if (.@map$ == "poring_w02") {
 		if (WoP_SaveMap$ != "") {
-			savepoint WoP_SaveMap$,WoP_SaveMap_X,WoP_SaveMap_Y,1,1;
-			set WoP_SaveMap$,"";
-			set WoP_SaveMap_X,0;
-			set WoP_SaveMap_Y,0;
+			savepoint WoP_SaveMap$,WoP_SaveMap_X,WoP_SaveMap_Y;
+			WoP_SaveMap$ = "";
+			WoP_SaveMap_X = 0;
+			WoP_SaveMap_Y = 0;
 		}
 		delitem 7773,countitem(7773);
-		set wop_team,0;
+		wop_team = 0;
 	}
 	end;
 
 OnPCDieEvent:
-	getmapxy .@map$,.@x,.@y;
+	getmapxy .@map$,.@x,.@y,0;
 	if (.@map$ == "poring_w02" && wop_team) {
 		if (getsavepoint(0) != "poring_w02" && WoP_SaveMap$ == "") {
-			set WoP_SaveMap$,getsavepoint(0);
-			set WoP_SaveMap_X,getsavepoint(1);
-			set WoP_SaveMap_Y,getsavepoint(2);
+			WoP_SaveMap$ = getsavepoint(0);
+			WoP_SaveMap_X = getsavepoint(1);
+			WoP_SaveMap_Y = getsavepoint(2);
 		}
 		if (wop_team == 1) {
 			savepoint "poring_w02",rand(44,51),rand(76,87);
@@ -333,7 +331,7 @@ OnPCDieEvent:
 	end;
 
 OnPCKillEvent:
-	getmapxy .@map$,.@x,.@y;
+	getmapxy .@map$,.@x,.@y,0;
 	if (.@map$ == "poring_w02" && wop_team) {
 		getnameditem 7773,rid2name(killedrid);
 	}
@@ -344,21 +342,21 @@ OnInit:
 	removemapflag "poring_w02",mf_pvp;
 	removemapflag "poring_w02",mf_pvp_noguild;
 	removemapflag "poring_w02",mf_pvp_nocalcrank;
-	set $@wop_teamcount,0;
-	set $@wop_deadcount_a,0;
-	set $@wop_deadcount_d,0;
-	set $@wop_team_a,0;
-	set $@wop_team_d,0;
-	set $@wop_doorcount_a,0;
-	set $@wop_doorcount_d,0;
+	$@wop_teamcount = 0;
+	$@wop_deadcount_a = 0;
+	$@wop_deadcount_d = 0;
+	$@wop_team_a = 0;
+	$@wop_team_d = 0;
+	$@wop_doorcount_a = 0;
+	$@wop_doorcount_d = 0;
 	end;
 }
 
 // Poring Registers
 //============================================================
-poring_w01,91,97,3	script	Poring#wop_door_all	1002,{
+poring_w01,91,97,3	script	Poring#wop_door_all	PORING,{
 	end;
-	
+
 OnInit:
 	waitingroom "[Recruiting 10 Battle Participants]",11,"Poring#wop_door_all::OnStartArena",10,500,9;
 	enablewaitingroomevent;
@@ -379,7 +377,7 @@ OnDisable:
 	end;
 }
 
-poring_w01,91,68,5	script	Poring#wop_door_a	1002,{
+poring_w01,91,68,5	script	Poring#wop_door_a	PORING,{
 	end;
 
 OnInit:
@@ -391,7 +389,7 @@ OnStartArena:
 	warpwaitingpc "poring_w02",26,175;
 	disablewaitingroomevent;
 	if ($@wop_teamcount == 0) {
-		set $@wop_teamcount,1;
+		$@wop_teamcount = 1;
 		donpcevent "Poring#wop_door_d::OnDevilingStart";
 		donpcevent "#wop_warp_rtry::OnStop";
 	}
@@ -459,7 +457,7 @@ OnTimer55100:
 	donpcevent "Poring#wop_door_a::OnDisable";
 	donpcevent "Poring#wop_door_d::OnDisable";
 	donpcevent "Poring#wop_door_all::OnDisable";
-	set $@wop_teamcount,0;
+	$@wop_teamcount = 0;
 	donpcevent "#wop_master::OnAngelingEnd";
 	donpcevent "#wop_warp_rtry::OnEnable";
 	end;
@@ -471,7 +469,7 @@ OnTimer58000:
 	end;
 }
 
-poring_w01,112,68,3	script	Poring#wop_door_d	1002,{
+poring_w01,112,68,3	script	Poring#wop_door_d	PORING,{
 	end;
 
 OnInit:
@@ -483,7 +481,7 @@ OnStartArena:
 	warpwaitingpc "poring_w02",170,175;
 	disablewaitingroomevent;
 	if ($@wop_teamcount == 0) {
-		set $@wop_teamcount,1;
+		$@wop_teamcount = 1;
 		donpcevent "Poring#wop_door_a::OnAngelingStart";
 		donpcevent "#wop_warp_rtry::OnStop";
 	}
@@ -552,7 +550,7 @@ OnTimer55100:
 	donpcevent "Poring#wop_door_d::OnDisable";
 	donpcevent "Poring#wop_door_all::OnDisable";
 
-	set $@wop_teamcount,0;
+	$@wop_teamcount = 0;
 	donpcevent "#wop_master::OnDevilingEnd";
 	donpcevent "#wop_warp_rtry::OnEnable";
 	end;
@@ -564,7 +562,7 @@ OnTimer58000:
 	end;
 }
 
-poring_w01,103,70,0	script	#wop_warp_rtry	139,13,13,{
+poring_w01,103,70,0	script	#wop_warp_rtry	HIDDEN_WARP_NPC,13,13,{
 	end;
 
 OnInit:
@@ -620,7 +618,7 @@ OnTimer65000:
 
 // Mr. Doppel
 //============================================================
-poring_w02,26,181,3	script	Mr. Doppel#wop_team_a	739,{
+poring_w02,26,181,3	script	Mr. Doppel#wop_team_a	8_DOPPEL,{
 	if (checkweight(714,3) == 0) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
@@ -629,8 +627,8 @@ poring_w02,26,181,3	script	Mr. Doppel#wop_team_a	739,{
 		mes "- after you loose some weight. -";
 		close;
 	}
-	set .@a_tname$,getpartyname($@wop_team_a);
-	set .@pname$,getpartyname(getcharid(1));
+	.@a_tname$ = getpartyname($@wop_team_a);
+	.@pname$ = getpartyname(getcharid(1));
 	if ($@wop_team_a != 0 && $@wop_team_a == getcharid(1)) {
 		mes "[Mr. Doppel]";
 		mes "So, everyone joined the party?";
@@ -648,7 +646,7 @@ poring_w02,26,181,3	script	Mr. Doppel#wop_team_a	739,{
 			mes "If you don't get there in time, you won't make it to the battle.";
 			close;
 		case 2:
-			if (is_party_leader() == true) {
+			if ((getpartyleader(getcharid(1),2) == getcharid(0))) {
 				mes "[Mr. Doppel]";
 				mes "So, you are the leader. Before going to the battlefield, you should check all your members.";
 				next;
@@ -662,7 +660,7 @@ poring_w02,26,181,3	script	Mr. Doppel#wop_team_a	739,{
 					mes "Very well. Nice you have done everything on time.";
 					delitem 7773,countitem(7773);
 					close2;
-					set wop_team,0;
+					wop_team = 0;
 					warp "poring_w02",44,82;
 					end;
 				}
@@ -673,14 +671,14 @@ poring_w02,26,181,3	script	Mr. Doppel#wop_team_a	739,{
 				mes "Wait for all the other party members there.";
 				delitem 7773,countitem(7773);
 				close2;
-				set wop_team,0;
+				wop_team = 0;
 				warp "poring_w02",44,82;
 				end;
 			}
 		}
 	}
 	else {
-		if (is_party_leader() == true) {
+		if ((getpartyleader(getcharid(1),2) == getcharid(0))) {
 			if ($@wop_team_a == 0) {
 				mes "[Mr. Doppel]";
 				mes "So, you are the party leader of Angeling Team.";
@@ -705,7 +703,7 @@ poring_w02,26,181,3	script	Mr. Doppel#wop_team_a	739,{
 					mes "So, I'll register your party name as - " +.@pname$ + " -.";
 					mes "Now, Tell your ^4d4dffmembers to confirm your party^000000.";
 					mes "I'll send you to the battlefield as soon as I confirm your party.";
-					set $@wop_team_a,getcharid(1);
+					$@wop_team_a = getcharid(1);
 					mapannounce "poring_w02","The registration of the Angeling Team has been confirmed. The party members must confirm their team with Mr. Doppel.",0,0x33FF66;
 					close;
 				case 3:
@@ -751,7 +749,7 @@ OnDisable:
 	end;
 }
 
-poring_w02,170,181,3	script	Mr. Doppel#wop_team_d	739,{
+poring_w02,170,181,3	script	Mr. Doppel#wop_team_d	8_DOPPEL,{
 	if (checkweight(714,3) == 0) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
@@ -760,8 +758,8 @@ poring_w02,170,181,3	script	Mr. Doppel#wop_team_d	739,{
 		mes "- after you loose some weight. -";
 		close;
 	}
-	set .@d_tname$,getpartyname($@wop_team_d);
-	set .@pname$,getpartyname(getcharid(1));
+	.@d_tname$ = getpartyname($@wop_team_d);
+	.@pname$ = getpartyname(getcharid(1));
 	if ($@wop_team_d != 0 && $@wop_team_d == getcharid(1)) {
 		mes "[Mr. Doppel]";
 		mes "So, everyone joined the party?";
@@ -779,7 +777,7 @@ poring_w02,170,181,3	script	Mr. Doppel#wop_team_d	739,{
 			mes "If you don't get there in time, you won't make it to the battle.";
 			close;
 		case 2:
-			if (is_party_leader() == true) {
+			if ((getpartyleader(getcharid(1),2) == getcharid(0))) {
 				mes "[Mr. Doppel]";
 				mes "So, you are the leader. Before going to the battlefield, you should check all your members.";
 				next;
@@ -793,7 +791,7 @@ poring_w02,170,181,3	script	Mr. Doppel#wop_team_d	739,{
 					mes "Very well. Nice you have done everything on time.";
 					delitem 7773,countitem(7773);
 					close2;
-					set wop_team,0;
+					wop_team = 0;
 					warp "poring_w02",153,82;
 					end;
 				}
@@ -803,13 +801,13 @@ poring_w02,170,181,3	script	Mr. Doppel#wop_team_d	739,{
 				mes "Wait for all the other party members there.";
 				delitem 7773,countitem(7773);
 				close2;
-				set wop_team,0;
+				wop_team = 0;
 				warp "poring_w02",153,82;
 				end;
 			}
 		}
 	} else {
-		if (is_party_leader() == true) {
+		if ((getpartyleader(getcharid(1),2) == getcharid(0))) {
 			if ($@wop_team_d == 0) {
 				mes "[Mr. Doppel]";
 				mes "So, you are the party leader of Deviling Team.";
@@ -834,7 +832,7 @@ poring_w02,170,181,3	script	Mr. Doppel#wop_team_d	739,{
 					mes "So, I'll register your party name as - " + .@pname$ + " -.";
 					mes "Now, Tell your ^4d4dffmembers to confirm your party^000000.";
 					mes "I'll send you to the battlefield as soon as I confirm your party.";
-					set $@wop_team_d,getcharid(1);
+					$@wop_team_d = getcharid(1);
 					mapannounce "poring_w02","The registration of the Deviling Team has been confirmed. The party members must confirm their team with Mr. Doppel.",0,0x33FF66;
 					close;
 				case 3:
@@ -891,13 +889,13 @@ OnReset:
 	donpcevent "#wop_angellium2::OnReset";
 	donpcevent "#wop_devillium1::OnReset";
 	donpcevent "#wop_devillium2::OnReset";
-	set $@wop_team_a,0;
-	set $@wop_team_d,0;
-	set $@wop_deadcount_a,0;
-	set $@wop_deadcount_d,0;
-	set $@wop_teamcount,0;
-	set $@wop_doorcount_a,0;
-	set $@wop_doorcount_d,0;
+	$@wop_team_a = 0;
+	$@wop_team_d = 0;
+	$@wop_deadcount_a = 0;
+	$@wop_deadcount_d = 0;
+	$@wop_teamcount = 0;
+	$@wop_doorcount_a = 0;
+	$@wop_doorcount_d = 0;
 	donpcevent "#wop_warp_a::OnDisable";
 	donpcevent "#wop_warp_d::OnDisable";
 	donpcevent "#wop_warp_rtry::OnDisable";
@@ -932,7 +930,7 @@ OnStop:
 	end;
 
 OnAngelingWin:
-	set .@i,1;
+	.@i = 1;
 OnDevilingWin:
 	removemapflag "poring_w02",mf_partylock;
 	removemapflag "poring_w02",mf_pvp;
@@ -1029,7 +1027,7 @@ OnTimer703000:
 	end;
 }
 
-poring_w02,51,82,0	script	#wop_warp_a	139,1,1,{
+poring_w02,51,82,0	script	#wop_warp_a	HIDDEN_WARP_NPC,1,1,{
 	end;
 
 OnInit:
@@ -1045,13 +1043,13 @@ OnDisable:
 	disablenpc "#wop_warp_a";
 	end;
 
-OnTouch_:
-	set wop_team,1;
+OnTouch:
+	wop_team = 1;
 	warp "poring_w02",57,82;
 	end;
 }
 
-poring_w02,146,82,0	script	#wop_warp_d	139,1,1,{
+poring_w02,146,82,0	script	#wop_warp_d	HIDDEN_WARP_NPC,1,1,{
 	end;
 
 OnInit:
@@ -1067,8 +1065,8 @@ OnDisable:
 	disablenpc "#wop_warp_d";
 	end;
 
-OnTouch_:
-	set wop_team,2;
+OnTouch:
+	wop_team = 2;
 	warp "poring_w02",140,82;
 	end;
 }
@@ -1088,7 +1086,7 @@ OnAngelingSpawn:
 	end;
 
 OnMyMobDead:
-	set $@wop_deadcount_a,$@wop_deadcount_a + 1;
+	++$@wop_deadcount_a;
 	if ($@wop_deadcount_a == 1) {
 		mapannounce "poring_w02","Mr. Doppel: The Angeling on the 1st base has been killed! 1 point lost!!",0,0x00ff00;
 		initnpctimer;
@@ -1103,7 +1101,7 @@ OnMyMobDead:
 	end;
 
 OnTimer120000:
-	set $@wop_deadcount_a,$@wop_deadcount_a - 1;
+	--$@wop_deadcount_a;
 	donpcevent "#wop_angellium1::OnAngelingSpawn";
 	mapannounce "poring_w02","Mr. Doppel: The Angeling on the 1st base has been revived! 1 point gained!!",0,0x00ff00;
 	stopnpctimer;
@@ -1122,7 +1120,7 @@ OnAngelingSpawn:
 	end;
 
 OnMyMobDead:
-	set $@wop_deadcount_a,$@wop_deadcount_a + 1;
+	++$@wop_deadcount_a;
 	if ($@wop_deadcount_a == 1) {
 		mapannounce "poring_w02","Mr. Doppel: The Angeling on the 2nd base has been killed! 1 point lost!!",0,0x00ff00;
 		initnpctimer;
@@ -1137,7 +1135,7 @@ OnMyMobDead:
 	end;
 
 OnTimer120000:
-	set $@wop_deadcount_a,$@wop_deadcount_a - 1;
+	--$@wop_deadcount_a;
 	donpcevent "#wop_angellium2::OnAngelingSpawn";
 	mapannounce "poring_w02","Mr. Doppel: The Angeling on the 2nd base has been revived! 1 point gained!!",0,0x00ff00;
 	stopnpctimer;
@@ -1157,7 +1155,7 @@ OnDevilingSpawn:
 	end;
 
 OnMyMobDead:
-	set $@wop_deadcount_d,$@wop_deadcount_d + 1;
+	++$@wop_deadcount_d;
 	if ($@wop_deadcount_d == 1) {
 		mapannounce "poring_w02","Mr. Doppel: The Deviling on the 1st base has been killed! 1 point lost!!",0,0x00ff00;
 		initnpctimer;
@@ -1172,8 +1170,8 @@ OnMyMobDead:
 	end;
 
 OnTimer120000:
-	set $@wop_deadcount_d,$@wop_deadcount_d - 1;
-	donpcevent "#wop_devillium1::OndevilingSpawn";
+	--$@wop_deadcount_d;
+	donpcevent "#wop_devillium1::OnDevilingSpawn";
 	mapannounce "poring_w02","Mr. Doppel: The Deviling on the 1st base has been revived! 1 point gained!!",0,0x00ff00;
 	stopnpctimer;
 	end;
@@ -1187,12 +1185,12 @@ OnReset:
 	stopnpctimer;
 	end;
 
-OndevilingSpawn:
+OnDevilingSpawn:
 	monster "poring_w02",98,124,"Deviling",1767,1,"#wop_devillium2::OnMyMobDead";
 	end;
 
 OnMyMobDead:
-	set $@wop_deadcount_d,$@wop_deadcount_d + 1;
+	++$@wop_deadcount_d;
 	if ($@wop_deadcount_d == 1) {
 		mapannounce "poring_w02","Mr. Doppel: The deviling on the 2nd base has been killed! 1 point lost!!",0,0x00ff00;
 		initnpctimer;
@@ -1207,15 +1205,15 @@ OnMyMobDead:
 	end;
 
 OnTimer120000:
-	set $@wop_deadcount_d,$@wop_deadcount_d - 1;
-	donpcevent "#wop_devillium2::OndevilingSpawn";
+	--$@wop_deadcount_d;
+	donpcevent "#wop_devillium2::OnDevilingSpawn";
 	mapannounce "poring_w02","Mr. Doppel: The deviling on the 2nd base has been revived! 1 point gained!!",0,0x00ff00;
 	stopnpctimer;
 }
 
 // Deviruchi
 //============================================================
-poring_w02,99,201,3	script	Deviruchi#wop_endmaster	738,{
+poring_w02,99,201,3	script	Deviruchi#wop_endmaster	4_DEVIRUCHI,{
 	if (MaxWeight-Weight < 2000 || checkweight(1201,1) == 0) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
@@ -1224,8 +1222,8 @@ poring_w02,99,201,3	script	Deviruchi#wop_endmaster	738,{
 		mes "- after you loose some weight. -";
 		close;
 	}
-	set .@a_point,$@wop_deadcount_a;
-	set .@d_point,$@wop_deadcount_d;
+	.@a_point = $@wop_deadcount_a;
+	.@d_point = $@wop_deadcount_d;
 	if (getcharid(1) == $@wop_team_a) {
 		if (.@a_point < .@d_point) {
 			mes "[Devi]";
@@ -1429,13 +1427,13 @@ OnTimer68100:
 	donpcevent "#wop_devillium2::OnReset";
 	donpcevent "#wop_angellium1::OnReset";
 	donpcevent "#wop_angellium2::OnReset";
-	set $@wop_team_a,0;
-	set $@wop_team_d,0;
-	set $@wop_deadcount_a,0;
-	set $@wop_deadcount_d,0;
-	set $@wop_teamcount,0;
-	set $@wop_doorcount_a,0;
-	set $@wop_doorcount_d,0;
+	$@wop_team_a = 0;
+	$@wop_team_d = 0;
+	$@wop_deadcount_a = 0;
+	$@wop_deadcount_d = 0;
+	$@wop_teamcount = 0;
+	$@wop_doorcount_a = 0;
+	$@wop_doorcount_d = 0;
 	donpcevent "#wop_warp_a::OnDisable";
 	donpcevent "#wop_warp_d::OnDisable";
 	donpcevent "Mr. Doppel#wop_team_a::OnDisable";
@@ -1450,7 +1448,7 @@ OnTimer68100:
 
 // Gate Guardian
 //============================================================
-poring_w02,99,52,0	script	Angeling Guardian#wop_da	111,{
+poring_w02,99,52,0	script	Angeling Guardian#wop_da	HIDDEN_NPC,{
 	cutin "wop_emb0" + $@wop_doorcount_a,1;
 	if ($@wop_doorcount_a < 4) {
 		if (wop_team == 2) {
@@ -1463,7 +1461,7 @@ poring_w02,99,52,0	script	Angeling Guardian#wop_da	111,{
 					if ($@wop_doorcount_a < 4) {
 						mes "War Badge equipped.";
 						delitem 7773,1; // War_Badge
-						set $@wop_doorcount_a,$@wop_doorcount_a + 1;
+						++$@wop_doorcount_a;
 						cutin "wop_emb0" + $@wop_doorcount_a,1;
 						if ($@wop_doorcount_a == 4) {
 							next;
@@ -1503,11 +1501,11 @@ poring_w02,99,52,0	script	Angeling Guardian#wop_da	111,{
 	end;
 
 OnInit:
-	set $@wop_doorcount_a,0;
+	$@wop_doorcount_a = 0;
 	end;
 }
 
-poring_w02,103,52,0	script	#aroom_ingate_wop	139,1,1,{
+poring_w02,103,52,0	script	#aroom_ingate_wop	HIDDEN_WARP_NPC,1,1,{
 	end;
 
 OnInit:
@@ -1522,12 +1520,12 @@ OnDisable:
 	disablenpc "#aroom_ingate_wop";
 	end;
 
-OnTouch_:
+OnTouch:
 	warp "poring_w02",99,49;
 	end;
 }
 
-poring_w02,93,51,0	script	#aroom_outgate_wop	139,1,1,{
+poring_w02,93,51,0	script	#aroom_outgate_wop	HIDDEN_WARP_NPC,1,1,{
 	end;
 
 OnInit:
@@ -1542,12 +1540,12 @@ OnDisable:
 	disablenpc "#aroom_outgate_wop";
 	end;
 
-OnTouch_:
+OnTouch:
 	warp "poring_w02",99,54;
 	end;
 }
 
-poring_w02,98,113,0	script	Deviling Guardian#wop_dd	111,{
+poring_w02,98,113,0	script	Deviling Guardian#wop_dd	HIDDEN_NPC,{
 	cutin "wop_emb0" + $@wop_doorcount_d,1;
 	if ($@wop_doorcount_d < 4) {
 		if (wop_team == 1) {
@@ -1560,7 +1558,7 @@ poring_w02,98,113,0	script	Deviling Guardian#wop_dd	111,{
 					if ($@wop_doorcount_d < 4) {
 						mes "War Badge equipped.";
 						delitem 7773,1; // War_Badge
-						set $@wop_doorcount_d,$@wop_doorcount_d + 1;
+						++$@wop_doorcount_d;
 						cutin "wop_emb0" + $@wop_doorcount_d,1;
 						if ($@wop_doorcount_d == 4) {
 							next;
@@ -1600,11 +1598,11 @@ poring_w02,98,113,0	script	Deviling Guardian#wop_dd	111,{
 	end;
 
 OnInit:
-	set $@wop_doorcount_d,0;
+	$@wop_doorcount_d = 0;
 	end;
 }
 
-poring_w02,93,113,0	script	#droom_ingate_wop	139,1,1,{
+poring_w02,93,113,0	script	#droom_ingate_wop	HIDDEN_WARP_NPC,1,1,{
 	end;
 
 OnInit:
@@ -1619,12 +1617,12 @@ OnDisable:
 	disablenpc "#droom_ingate_wop";
 	end;
 
-OnTouch_:
+OnTouch:
 	warp "poring_w02",98,116;
 	end;
 }
 
-poring_w02,103,114,0	script	#droom_outgate_wop	139,1,1,{
+poring_w02,103,114,0	script	#droom_outgate_wop	HIDDEN_WARP_NPC,1,1,{
 	end;
 
 OnInit:
@@ -1639,7 +1637,7 @@ OnDisable:
 	disablenpc "#droom_outgate_wop";
 	end;
 
-OnTouch_:
+OnTouch:
 	warp "poring_w02",98,111;
 	end;
 }
@@ -1654,19 +1652,19 @@ OnTouch_:
 	end;
 }
 
-poring_w01,79,102,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa1	1002
-poring_w01,80,107,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa2	1002
-poring_w01,84,108,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa3	1002
-poring_w01,84,112,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa4	1002
-poring_w01,88,112,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa5	1002
+poring_w01,79,102,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa1	PORING
+poring_w01,80,107,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa2	PORING
+poring_w01,84,108,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa3	PORING
+poring_w01,84,112,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa4	PORING
+poring_w01,88,112,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa5	PORING
 
-poring_w01,114,112,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd1	1242
-poring_w01,117,111,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd2	1242
-poring_w01,117,108,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd3	1242
-poring_w01,122,108,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd4	1242
-poring_w01,121,105,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd5	1242
+poring_w01,114,112,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd1	MARIN
+poring_w01,117,111,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd2	MARIN
+poring_w01,117,108,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd3	MARIN
+poring_w01,122,108,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd4	MARIN
+poring_w01,121,105,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd5	MARIN
 
-poring_w01,84,108,3	script	#wop_ex_1	139,3,3,{
+poring_w01,84,108,3	script	#wop_ex_1	HIDDEN_WARP_NPC,3,3,{
 	end;
 
 OnTouch:
@@ -1677,11 +1675,11 @@ OnTouch:
 	next;
 	mes "[Porings]";
 	mes "Let's go! Let's fight! Let's win, win, win!!!";
-	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa1");
-	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa2");
-	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa3");
-	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa4");
-	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa5");
+	emotion e_go,0,"Angeling Side Poring#wa1";
+	emotion e_go,0,"Angeling Side Poring#wa2";
+	emotion e_go,0,"Angeling Side Poring#wa3";
+	emotion e_go,0,"Angeling Side Poring#wa4";
+	emotion e_go,0,"Angeling Side Poring#wa5";
 	next;
 	if (wop_team == 1) {
 		mes "[Porings]";
@@ -1695,20 +1693,20 @@ OnTouch:
 		mes "Wait, YOU! Aren't you on the side of the Devilings?!";
 		mes "Get out now! Leave!!";
 		mes "Booooo~ Boo~ Boooo~";
-		emotion ET_HUK, getnpcid(0, "Angeling Side Poring#wa1");
-		emotion ET_FRET, getnpcid(0, "Angeling Side Poring#wa2");
-		emotion ET_HUK, getnpcid(0, "Angeling Side Poring#wa3");
-		emotion ET_FRET, getnpcid(0, "Angeling Side Poring#wa4");
-		emotion ET_SURPRISE, getnpcid(0, "Angeling Side Poring#wa5");
+		emotion e_omg,0,"Angeling Side Poring#wa1";
+		emotion e_an,0,"Angeling Side Poring#wa2";
+		emotion e_omg,0,"Angeling Side Poring#wa3";
+		emotion e_an,0,"Angeling Side Poring#wa4";
+		emotion e_gasp,0,"Angeling Side Poring#wa5";
 	}
 	else {
 		mes "[Porings]";
 		mes "Hey, human. How about fighting for us Porings on Angeling's side??!";
-		emotion ET_HELP, getnpcid(0, "Angeling Side Poring#wa1");
-		emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa2");
-		emotion ET_HELP, getnpcid(0, "Angeling Side Poring#wa3");
-		emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa4");
-		emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa5");
+		emotion e_hlp,0,"Angeling Side Poring#wa1";
+		emotion e_go,0,"Angeling Side Poring#wa2";
+		emotion e_hlp,0,"Angeling Side Poring#wa3";
+		emotion e_go,0,"Angeling Side Poring#wa4";
+		emotion e_go,0,"Angeling Side Poring#wa5";
 	}
 	next;
 	mes "[Porings]";
@@ -1719,7 +1717,7 @@ OnTouch:
 	close;
 }
 
-poring_w01,119,107,3	script	#wop_ex_2	139,3,3,{
+poring_w01,119,107,3	script	#wop_ex_2	HIDDEN_WARP_NPC,3,3,{
 	end;
 
 OnTouch:
@@ -1730,11 +1728,11 @@ OnTouch:
 	next;
 	mes "[Marins]";
 	mes "Let's go! Let's fight! Fight for Triumph!!!!";
-	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd1");
-	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd2");
-	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd3");
-	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd4");
-	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd5");
+	emotion e_go,0,"Deviling Side Marin#wd1";
+	emotion e_go,0,"Deviling Side Marin#wd2";
+	emotion e_go,0,"Deviling Side Marin#wd3";
+	emotion e_go,0,"Deviling Side Marin#wd4";
+	emotion e_go,0,"Deviling Side Marin#wd5";
 	next;
 	if (wop_team == 2) {
 		mes "[Marins]";
@@ -1747,20 +1745,20 @@ OnTouch:
 		mes "Wait, YOU! Aren't you on the side of the Angelings?!";
 		mes "Get out now! Leave!!";
 		mes "Booooo~ Boo~ Boooo~";
-		emotion ET_HUK, getnpcid(0, "Deviling Side Marin#wd1");
-		emotion ET_FRET, getnpcid(0, "Deviling Side Marin#wd2");
-		emotion ET_HUK, getnpcid(0, "Deviling Side Marin#wd3");
-		emotion ET_FRET, getnpcid(0, "Deviling Side Marin#wd4");
-		emotion ET_SURPRISE, getnpcid(0, "Deviling Side Marin#wd5");
+		emotion e_omg,0,"Deviling Side Marin#wd1";
+		emotion e_an,0,"Deviling Side Marin#wd2";
+		emotion e_omg,0,"Deviling Side Marin#wd3";
+		emotion e_an,0,"Deviling Side Marin#wd4";
+		emotion e_gasp,0,"Deviling Side Marin#wd5";
 	}
 	else {
 		mes "[Marins]";
 		mes "Hey, human. Don't you wanna fight for Deviling, the noble of darkness? What do you say?!";
-		emotion ET_HELP, getnpcid(0, "Deviling Side Marin#wd1");
-		emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd2");
-		emotion ET_HELP, getnpcid(0, "Deviling Side Marin#wd3");
-		emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd4");
-		emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd5");
+		emotion e_hlp,0,"Deviling Side Marin#wd1";
+		emotion e_go,0,"Deviling Side Marin#wd2";
+		emotion e_hlp,0,"Deviling Side Marin#wd3";
+		emotion e_go,0,"Deviling Side Marin#wd4";
+		emotion e_go,0,"Deviling Side Marin#wd5";
 	}
 	next;
 	mes "[Marins]";

@@ -1,21 +1,19 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Hunter Skills Quests
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Lupus, Reddozen, Kisuka
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.4
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= Quests for skills: Phantasmic Arrow
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 for fully working skills only [Lupus]
 //= 1.1 Added more new skill quests for more classes [Lupus]
 //=     Somehow eA engine doesn't let you keep learn't skill V_V'
 //= 1.2 Added to correct locations, correct NPC's, fixed
 //=     some of the items required and made them into real
-//=     quests. [Reddozen] 
+//=     quests. [Reddozen]
 //= 1.3 Fixed bugs and minor typos. Optimized [Lupus]
 //= 1.3a fixed an item ID typo, thx 2Spiritual Kid
 //= 1.3b Splitted into different files [DracoRPG]
@@ -24,7 +22,7 @@
 //= 1.4 Moved Arpesto from tu_archer and added his script. [Kisuka]
 //============================================================
 
-pay_arche,109,169,3	script	Arpesto	712,{
+pay_arche,109,169,3	script	Arpesto	4_M_05,{
 	if (BaseJob == Job_Hunter) {
 		if (qskill_hunter == 100) {
 			if (getskilllv("HT_PHANTASMIC")) {
@@ -39,7 +37,7 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "old man! You were";
 				mes "just scared! Me, on";
 				mes "the other hand...";
-				emotion ET_KIK, getnpcid(0, "Reidin Corse#tu");
+				emotion e_gg,"Reidin Corse#tu";
 				next;
 				mes "[Arpesto]";
 				mes "You little";
@@ -85,7 +83,7 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "You should be able to use the";
 				mes "Phantasmic Arrow skill now.";
 				mes "Travel safely now, you hear?";
-				skill "HT_PHANTASMIC",1,SKILL_PERM;
+				skill "HT_PHANTASMIC",1,0;
 				close;
 			}
 		}
@@ -104,7 +102,7 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "Didn't you call it";
 				mes "Arpesto's 3rd Form";
 				mes "or something at first?";
-				emotion ET_SWEAT, getnpcid(0, "Reidin Corse#tu");
+				emotion e_swt,"Reidin Corse#tu";
 				next;
 				mes "[Arpesto]";
 				mes "Er, yes, Arpesto's";
@@ -120,9 +118,9 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "That's the old name you";
 				mes "gave that skill, right?";
 				mes "Didn't you change it?";
-				emotion ET_HUK;
+				emotion e_omg;
 				next;
-				emotion ET_HUK;
+				emotion e_omg;
 				mes "[Arpesto]";
 				mes "What the hell";
 				mes "are you talkin--";
@@ -133,12 +131,12 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "was too cheesy. What";
 				mes "did we call it now? Um...";
 				mes "''Phantasmic Arrow?''";
-				emotion ET_THINK;
+				emotion e_dots;
 				next;
 				mes "[Arpesto]";
 				mes "...";
 				mes "......";
-				emotion ET_CRY;
+				emotion e_sob;
 				next;
 				mes "[Reidin Corse]";
 				mes "Umm....";
@@ -149,7 +147,7 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "''^3131FFPhantasmic Arrow^000000'' sounds";
 				mes "soooo much cooler than that";
 				mes "other name you came up with!";
-				emotion ET_AHA, getnpcid(0, "Reidin Corse#tu");
+				emotion e_ic,"Reidin Corse#tu";
 				next;
 				mes "[Arpesto]";
 				mes "You can be pretty handy";
@@ -180,8 +178,8 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "^3355FF*Swwwwwww!*";
 				mes "*Bang!*^000000";
 				specialeffect EF_HIT2;
-				emotion ET_HUK;
-				emotion ET_HUK, playerattached();
+				emotion e_omg;
+				emotion e_omg,1;
 				next;
 				mes "[Arpesto]";
 				mes "^333333*Pant Pant*";
@@ -190,13 +188,14 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				next;
 				mes "[Arpesto]";
 				mes "WHHHHHHHY MEEEEE?!";
-				emotion ET_HUK, getnpcid(0, "Reidin Corse#tu");
+				emotion e_omg,"Reidin Corse#tu";
 				next;
 				mes "^3355FF*Thump*^000000";
 				next;
 				mes "[Reidin Corse]";
 				mes "Ar-Arpesto, no!";
 				mes "...........................";
+				mes "";
 				mes "Oh. Oh, come on! The arrow";
 				mes "just glanced you! You'll be";
 				mes "alright. Quit being a baby.";
@@ -211,8 +210,8 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				delitem 724,5; //Cardinal_Jewel_
 				delitem 7115,5; //Harpy's_Feather
 				delitem 537,30; //Pet_Food
-				set qskill_hunter,100;
-				skill "HT_PHANTASMIC",1,SKILL_PERM;
+				qskill_hunter = 100;
+				skill "HT_PHANTASMIC",1,0;
 				close;
 			} else {
 				mes "[Arpesto]";
@@ -234,7 +233,7 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "was perfect. But next time, use";
 				mes "the skill on foes that deserve";
 				mes "to be beaten, alright? Good.";
-				set qskill_hunter,100;
+				qskill_hunter = 100;
 				close;
 			}
 			if (BaseJob == Job_Hunter && JobLevel < 40) {
@@ -293,9 +292,9 @@ pay_arche,109,169,3	script	Arpesto	712,{
 					mes "skill when you were bored";
 					mes "and just messing around";
 					mes "with one of the Bows!";
-					emotion ET_KIK, getnpcid(0, "Reidin Corse#tu");
+					emotion e_gg,"Reidin Corse#tu";
 					next;
-					emotion ET_HUK;
+					emotion e_omg;
 					mes "[Arpesto]";
 					mes "^333333*Ahem*^000000 Please Reidin,";
 					mes "don't entertain unfounded";
@@ -340,8 +339,8 @@ pay_arche,109,169,3	script	Arpesto	712,{
 					mes "......";
 					mes ".........";
 					mes "......Riiiight.";
-					emotion ET_THINK, getnpcid(0, "Reidin Corse#tu");
-					set qskill_hunter,1;
+					emotion e_dots,"Reidin Corse#tu";
+					qskill_hunter = 1;
 					close;
 				case 2:
 					mes "[Arpesto]";
@@ -359,14 +358,14 @@ pay_arche,109,169,3	script	Arpesto	712,{
 		mes "[Arpesto]";
 		mes "The sky still looks clear, but recently the winds that have been blowing through the land seem to carry with them an air of misfortune.";
 		next;
-		emotion ET_HNG, getnpcid(0, "Reidin Corse#tu");
+		emotion e_pif,"Reidin Corse#tu";
 		mes "[Reidin Corse]";
 		mes "So...";
 		mes "Danger's coming?";
 		mes "Heh! Chill, gramps~";
 		mes "I got it covered!";
 		next;
-		emotion ET_PROFUSELY_SWEAT;
+		emotion e_swt2;
 		mes "[Arpesto]";
 		mes "Ho ho...";
 		mes "Energetic, but";
@@ -374,4 +373,3 @@ pay_arche,109,169,3	script	Arpesto	712,{
 		close;
 	}
 }
-

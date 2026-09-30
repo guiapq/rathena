@@ -1,0 +1,1269 @@
+//===== rAthena Script =======================================
+//= RagnaRogue v4 — Efeitos Visuais de Portais & Selos de Rota
+//= Seed Ativa: radiante-evil-druid-1649
+//============================================================
+
+-	script	PortalAuraController	-1,{
+OnInit:
+	$@cur_world_seed$ = "radiante-evil-druid-1649";
+	$@cur_world_start_city$ = "amatsu";
+	query_sql("INSERT INTO `world_metadata` (`key`, `value`, `updated_at`) VALUES ('start_city', 'amatsu', NOW()) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = NOW();");
+	// Garantir que APENAS a cidade inicial ativa esteja conquistada por padrão
+	query_sql("DELETE FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` NOT IN ('amatsu') AND `conquered_by` = 'Sistema'");
+	query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('amatsu', '" + $@cur_world_seed$ + "', 'Sistema', NOW())");
+	disablenpc "ama_house2-1";
+	disablenpc "mocf003";
+	disablenpc "xmas_dun2-1";
+	disablenpc "ice004";
+	disablenpc "ama_warrior1-1";
+	disablenpc "prtf14-1";
+	disablenpc "ice002";
+	disablenpc "cwarp_1";
+	disablenpc "ama_deluxe1-1";
+	disablenpc "#to_ac02";
+	disablenpc "hugel13";
+	end;
+}
+
+amatsu,177,138,0	script	#paura_1	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a iz_dun00", 3407667;
+	end;
+}
+
+iz_dun00,168,173,0	script	#paura_2	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a amatsu", 3394815;
+	end;
+}
+
+iz_dun00,352,342,0	script	#paura_3	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a ein_fild08", 3381759;
+	end;
+}
+
+ein_fild08,164,380,0	script	#paura_4	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a iz_dun00", 3407667;
+	end;
+}
+
+ein_fild08,363,128,0	script	#paura_5	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a gl_church", 16724787;
+	end;
+}
+
+gl_church,156,4,0	script	#paura_6	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a ein_fild08", 3381759;
+	end;
+}
+
+gl_church,16,299,0	script	#paura_7	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a xmas_dun02", 16776960;
+	end;
+}
+
+xmas_dun02,129,130,0	script	#paura_8	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a gl_church", 16724787;
+	end;
+}
+
+amatsu,248,160,0	script	#paura_9	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer xmas_dun02
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` = 'xmas_dun02'", .@done);
+	if (.@done == 0) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] Caminho bloqueado! Derrote o Guardião Cavaleiro da Tempestade para quebrar o selo.", 0xFF3333;
+		warp "amatsu", 245, 160;
+		end;
+	}
+	enablenpc "ama_house2-1";
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a moc_fild12", 3407667;
+	end;
+}
+
+moc_fild12,118,30,0	script	#paura_10	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a amatsu", 3394815;
+	end;
+}
+
+moc_fild12,159,381,0	script	#paura_11	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer xmas_dun02
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` = 'xmas_dun02'", .@done);
+	if (.@done == 0) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] Caminho bloqueado! Derrote o Guardião Cavaleiro da Tempestade para quebrar o selo.", 0xFF3333;
+		warp "moc_fild12", 159, 378;
+		end;
+	}
+	enablenpc "mocf003";
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a xmas_dun01", 3381759;
+	end;
+}
+
+xmas_dun01,205,13,0	script	#paura_12	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a moc_fild12", 3407667;
+	end;
+}
+
+xmas_dun01,129,130,0	script	#paura_13	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer xmas_dun02
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` = 'xmas_dun02'", .@done);
+	if (.@done == 0) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] Caminho bloqueado! Derrote o Guardião Cavaleiro da Tempestade para quebrar o selo.", 0xFF3333;
+		warp "xmas_dun01", 132, 130;
+		end;
+	}
+	enablenpc "xmas_dun2-1";
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a ice_dun02", 16724787;
+	end;
+}
+
+ice_dun02,151,145,0	script	#paura_14	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a xmas_dun01", 3381759;
+	end;
+}
+
+ice_dun02,150,285,0	script	#paura_15	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer xmas_dun02
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` = 'xmas_dun02'", .@done);
+	if (.@done == 0) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] Caminho bloqueado! Derrote o Guardião Cavaleiro da Tempestade para quebrar o selo.", 0xFF3333;
+		warp "ice_dun02", 150, 280;
+		end;
+	}
+	enablenpc "ice004";
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a prt_sewb4", 16776960;
+	end;
+}
+
+prt_sewb4,100,96,0	script	#paura_16	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a ice_dun02", 16724787;
+	end;
+}
+
+amatsu,168,182,0	script	#paura_17	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer xmas_dun02
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` = 'xmas_dun02'", .@done);
+	if (.@done == 0) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] Caminho bloqueado! Derrote o Guardião Cavaleiro da Tempestade para quebrar o selo.", 0xFF3333;
+		warp "amatsu", 168, 179;
+		end;
+	}
+	enablenpc "ama_warrior1-1";
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a prt_fild08", 3407667;
+	end;
+}
+
+prt_fild08,16,187,0	script	#paura_18	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a amatsu", 3394815;
+	end;
+}
+
+prt_fild08,16,239,0	script	#paura_19	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer xmas_dun02
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` = 'xmas_dun02'", .@done);
+	if (.@done == 0) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] Caminho bloqueado! Derrote o Guardião Cavaleiro da Tempestade para quebrar o selo.", 0xFF3333;
+		warp "prt_fild08", 20, 239;
+		end;
+	}
+	enablenpc "prtf14-1";
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a ice_dun01", 3381759;
+	end;
+}
+
+ice_dun01,157,10,0	script	#paura_20	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a prt_fild08", 3407667;
+	end;
+}
+
+ice_dun01,146,161,0	script	#paura_21	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer xmas_dun02
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` = 'xmas_dun02'", .@done);
+	if (.@done == 0) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] Caminho bloqueado! Derrote o Guardião Cavaleiro da Tempestade para quebrar o selo.", 0xFF3333;
+		warp "ice_dun01", 146, 157;
+		end;
+	}
+	enablenpc "ice002";
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a iz_dun04", 16724787;
+	end;
+}
+
+iz_dun04,26,24,0	script	#paura_22	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a ice_dun01", 3381759;
+	end;
+}
+
+iz_dun04,280,300,0	script	#paura_23	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer xmas_dun02
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` = 'xmas_dun02'", .@done);
+	if (.@done == 0) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] Caminho bloqueado! Derrote o Guardião Cavaleiro da Tempestade para quebrar o selo.", 0xFF3333;
+		warp "iz_dun04", 274, 294;
+		end;
+	}
+	enablenpc "cwarp_1";
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a treasure02", 16776960;
+	end;
+}
+
+treasure02,102,103,0	script	#paura_24	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a iz_dun04", 16724787;
+	end;
+}
+
+amatsu,52,148,0	script	#paura_25	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer ALL_ACT1
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` IN ('xmas_dun02', 'prt_sewb4', 'treasure02')", .@done);
+	if (.@done < 3) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] O caminho para a próxima cidade exige derrotar os 3 Guardiões do Ato 1!", 0xFF3333;
+		warp "amatsu", 52, 145;
+		end;
+	}
+	query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('izlude', '" + $@cur_world_seed$ + "', 'Sistema', NOW())");
+	enablenpc "ama_deluxe1-1";
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a izlude", 3394815;
+	end;
+}
+
+izlude,20,98,0	script	#paura_26	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a amatsu", 3394815;
+	end;
+}
+
+izlude,110,182,0	script	#paura_27	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a gef_fild07", 3407667;
+	end;
+}
+
+gef_fild07,339,187,0	script	#paura_28	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a izlude", 3394815;
+	end;
+}
+
+gef_fild07,64,363,0	script	#paura_29	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a moc_pryd01", 3381759;
+	end;
+}
+
+moc_pryd01,10,195,0	script	#paura_30	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a gef_fild07", 3407667;
+	end;
+}
+
+moc_pryd01,195,9,0	script	#paura_31	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a ra_san01", 16724787;
+	end;
+}
+
+ra_san01,139,139,0	script	#paura_32	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a moc_pryd01", 3381759;
+	end;
+}
+
+ra_san01,280,280,0	script	#paura_33	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a gef_fild03", 16776960;
+	end;
+}
+
+gef_fild03,312,16,0	script	#paura_34	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a ra_san01", 16724787;
+	end;
+}
+
+izlude,52,172,0	script	#paura_35	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a prt_sewb1", 3407667;
+	end;
+}
+
+prt_sewb1,135,248,0	script	#paura_36	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a izlude", 3394815;
+	end;
+}
+
+prt_sewb1,188,247,0	script	#paura_37	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a iz_dun02", 3381759;
+	end;
+}
+
+iz_dun02,236,198,0	script	#paura_38	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a prt_sewb1", 3407667;
+	end;
+}
+
+iz_dun02,339,331,0	script	#paura_39	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a in_sphinx4", 16724787;
+	end;
+}
+
+in_sphinx4,10,224,0	script	#paura_40	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a iz_dun02", 3381759;
+	end;
+}
+
+in_sphinx4,120,113,0	script	#paura_41	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a moc_pryd06", 16776960;
+	end;
+}
+
+moc_pryd06,197,10,0	script	#paura_42	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a in_sphinx4", 16724787;
+	end;
+}
+
+izlude,125,257,0	script	#paura_43	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a xmas_fild01", 3407667;
+	end;
+}
+
+xmas_fild01,69,252,0	script	#paura_44	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a izlude", 3394815;
+	end;
+}
+
+xmas_fild01,90,252,0	script	#paura_45	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a gef_fild10", 3381759;
+	end;
+}
+
+gef_fild10,251,371,0	script	#paura_46	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a xmas_fild01", 3407667;
+	end;
+}
+
+gef_fild10,104,21,0	script	#paura_47	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a thor_v01", 16724787;
+	end;
+}
+
+thor_v01,21,224,0	script	#paura_48	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a gef_fild10", 3381759;
+	end;
+}
+
+thor_v01,201,37,0	script	#paura_49	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a pay_dun04", 16776960;
+	end;
+}
+
+pay_dun04,191,41,0	script	#paura_50	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a thor_v01", 16724787;
+	end;
+}
+
+izlude,130,257,0	script	#paura_51	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer ALL_ACT2
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` IN ('gef_fild03', 'moc_pryd06', 'pay_dun04')", .@done);
+	if (.@done < 3) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] O caminho para a próxima cidade exige derrotar os 3 Guardiões do Ato 2!", 0xFF3333;
+		warp "izlude", 127, 253;
+		end;
+	}
+	query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('hugel', '" + $@cur_world_seed$ + "', 'Sistema', NOW())");
+	enablenpc "#to_ac02";
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a hugel", 3394815;
+	end;
+}
+
+hugel,95,33,0	script	#paura_52	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a izlude", 3394815;
+	end;
+}
+
+hugel,155,114,0	script	#paura_53	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a pay_fild08", 3407667;
+	end;
+}
+
+pay_fild08,160,16,0	script	#paura_54	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a hugel", 3394815;
+	end;
+}
+
+pay_fild08,17,75,0	script	#paura_55	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a pay_dun01", 3381759;
+	end;
+}
+
+pay_dun01,15,33,0	script	#paura_56	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a pay_fild08", 3407667;
+	end;
+}
+
+pay_dun01,286,25,0	script	#paura_57	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a moc_pryd04", 16724787;
+	end;
+}
+
+moc_pryd04,12,15,0	script	#paura_58	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a pay_dun01", 3381759;
+	end;
+}
+
+moc_pryd04,15,187,0	script	#paura_59	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a thor_v03", 16776960;
+	end;
+}
+
+thor_v03,30,262,0	script	#paura_60	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a moc_pryd04", 16724787;
+	end;
+}
+
+hugel,153,153,0	script	#paura_61	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a pay_fild01", 3407667;
+	end;
+}
+
+pay_fild01,333,360,0	script	#paura_62	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a hugel", 3394815;
+	end;
+}
+
+pay_fild01,13,152,0	script	#paura_63	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a prt_sewb2", 3381759;
+	end;
+}
+
+prt_sewb2,100,176,0	script	#paura_64	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERDE] Iniciante (Lv 1 ~ 20) -> Rumo a pay_fild01", 3407667;
+	end;
+}
+
+prt_sewb2,140,24,0	script	#paura_65	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a nameless_n", 16724787;
+	end;
+}
+
+nameless_n,157,184,0	script	#paura_66	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Intermediário (Lv 21 ~ 45) -> Rumo a prt_sewb2", 3381759;
+	end;
+}
+
+nameless_n,340,340,0	script	#paura_67	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a abyss_03", 16776960;
+	end;
+}
+
+abyss_03,115,25,0	script	#paura_68	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a nameless_n", 16724787;
+	end;
+}
+
+hugel,92,167,0	script	#paura_69	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	// Tranca Condicional: Requer ALL_ACT3
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `seed` = '" + $@cur_world_seed$ + "' AND `map_name` IN ('thor_v03', 'abyss_03')", .@done);
+	if (.@done < 2) {
+		specialeffect 458;
+		dispbottom "[PORTAL SELADO] O caminho para a Capital Imperial exige derrotar os 2 Guardiões do Ato 3!", 0xFF3333;
+		warp "hugel", 92, 163;
+		end;
+	}
+	query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('prontera', '" + $@cur_world_seed$ + "', 'Sistema', NOW())");
+	enablenpc "hugel13";
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a prontera", 3394815;
+	end;
+}
+
+prontera,107,215,0	script	#paura_70	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a hugel", 3394815;
+	end;
+}
+
+prontera,120,267,0	script	#paura_71	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a gl_cas01", 16776960;
+	end;
+}
+
+gl_cas01,135,40,0	script	#paura_72	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AZUL] Cidade Segura (Ponto de Retorno) -> Rumo a prontera", 3394815;
+	end;
+}
+
+gl_cas01,149,314,0	script	#paura_73	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a gl_church", 16724787;
+	end;
+}
+
+gl_church,301,46,0	script	#paura_74	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a gl_cas01", 16776960;
+	end;
+}
+
+gl_church,312,312,0	script	#paura_75	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - AMARELO] AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) -> Rumo a gl_knt02", 16776960;
+	end;
+}
+
+gl_knt02,10,138,0	script	#paura_76	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "[ROTA DO GUARDIÃO - VERMELHO] Ameaça Alta (Lv 46 ~ 75) -> Rumo a gl_church", 16724787;
+	end;
+}
+
+iz_dun00,39,41,0	script	#paura_77	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL VERMELHO] Perigos do destino: Ameaça Alta (Lv 46 ~ 75) (ra_san01)", 16724787;
+	end;
+}
+
+ra_san01,280,280,0	script	#paura_78	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL VERDE] Perigos do destino: Iniciante (Lv 1 ~ 20) (iz_dun00)", 3407667;
+	end;
+}
+
+xmas_dun01,260,260,0	script	#paura_79	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL VERMELHO] Perigos do destino: Ameaça Alta (Lv 46 ~ 75) (nameless_n)", 16724787;
+	end;
+}
+
+nameless_n,340,340,0	script	#paura_80	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL AZUL] Perigos do destino: Intermediário (Lv 21 ~ 45) (xmas_dun01)", 3381759;
+	end;
+}
+
+gef_fild07,18,191,0	script	#paura_81	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL AMARELO] Perigos do destino: AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) (thor_v03)", 16776960;
+	end;
+}
+
+thor_v03,300,300,0	script	#paura_82	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_SANCTUARY;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL VERDE] Perigos do destino: Iniciante (Lv 1 ~ 20) (gef_fild07)", 3407667;
+	end;
+}
+
+iz_dun02,400,400,0	script	#paura_83	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL VERMELHO] Perigos do destino: Ameaça Alta (Lv 46 ~ 75) (thor_v01)", 16724787;
+	end;
+}
+
+thor_v01,300,300,0	script	#paura_84	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_WATERFALL;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL AZUL] Perigos do destino: Intermediário (Lv 21 ~ 45) (iz_dun02)", 3381759;
+	end;
+}
+
+moc_pryd04,184,11,0	script	#paura_85	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_GLORIA;
+	specialeffect 568; // Coluna de Luz Dourada Sagrada
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL AMARELO] Perigos do destino: AMEAÇA CRÍTICA / CHEFE (Lv 76 ~ 99+) (gl_cas01)", 16776960;
+	end;
+}
+
+gl_cas01,167,191,0	script	#paura_86	HIDDEN_WARP_NPC,1,1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer1500:
+	specialeffect EF_FIREPILLAR;
+	initnpctimer;
+	end;
+OnTouch:
+	dispbottom "⚠️ [AVISO DE RUMO] Você sente correntes estranhas... este portal parece estar no rumo errado e você poderá se perder profundamente!", 0xFFAA00;
+	dispbottom "[PORTAL VERMELHO] Perigos do destino: Ameaça Alta (Lv 46 ~ 75) (moc_pryd04)", 16724787;
+	end;
+}

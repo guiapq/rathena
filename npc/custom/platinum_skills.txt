@@ -32,3 +32,26 @@ prontera,128,200,6	script	Platinum Skill NPC	94,{
 	mes "There you go!";
 	close;
 }
+
+// Duplicatas em Todas as Cidades
+alberta,30,240,6	duplicate(Platinum Skill NPC)	Platinum Skill#alb	94
+aldebaran,139,118,6	duplicate(Platinum Skill NPC)	Platinum Skill#alde	94
+amatsu,202,79,4	duplicate(Platinum Skill NPC)	Platinum Skill#ama	94
+ayothaya,211,169,6	duplicate(Platinum Skill NPC)	Platinum Skill#ayo	94
+comodo,188,158,6	duplicate(Platinum Skill NPC)	Platinum Skill#com	94
+einbech,61,36,6	duplicate(Platinum Skill NPC)	Platinum Skill#einbe	94
+einbroch,61,202,6	duplicate(Platinum Skill NPC)	Platinum Skill#einbr	94
+geffen,119,72,6	duplicate(Platinum Skill NPC)	Platinum Skill#gef	94
+gonryun,160,122,6	duplicate(Platinum Skill NPC)	Platinum Skill#gon	94
+hugel,93,150,6	duplicate(Platinum Skill NPC)	Platinum Skill#hug	94
+izlude,125,150,6	duplicate(Platinum Skill NPC)	Platinum Skill#izl	94
+jawaii,254,139,4	duplicate(Platinum Skill NPC)	Platinum Skill#jaw	94
+lighthalzen,156,100,6	duplicate(Platinum Skill NPC)	Platinum Skill#lhz	94
+louyang,230,103,4	duplicate(Platinum Skill NPC)	Platinum Skill#lou	94
+morocc,157,97,6	duplicate(Platinum Skill NPC)	Platinum Skill#mor	94
+payon,183,106,4	duplicate(Platinum Skill NPC)	Platinum Skill#pay	94
+rachel,129,116,6	duplicate(Platinum Skill NPC)	Platinum Skill#rac	94
+umbala,109,148,3	duplicate(Platinum Skill NPC)	Platinum Skill#umb	94
+veins,221,121,4	duplicate(Platinum Skill NPC)	Platinum Skill#ve	94
+xmas,147,136,4	duplicate(Platinum Skill NPC)	Platinum Skill#xmas	94
+yuno,168,45,4	duplicate(Platinum Skill NPC)	Platinum Skill#yuno	94

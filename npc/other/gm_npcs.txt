@@ -1,16 +1,14 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= GM Management NPCs
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Euphy
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.0
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= Controls the official GM management NPCs in certain scripts.
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 First version.
-//============================================================ 
+//============================================================
 
 // callfunc("F_GM_NPC"{,<password>,<0:int | 1:str>{,<min>,<max>}})
 function	script	F_GM_NPC	{
@@ -19,9 +17,9 @@ function	script	F_GM_NPC	{
 	//end;
 
 	// To set a minimum GM level to access the NPCs, edit the line below.
-	if (getgmlevel() < 99) {
+	if (getgmlevel() < 99) {/* TODO: perhaps better to just add a group permission? [Ind] */
 		// Log the event.
-		getmapxy(.@map$,.@x,.@y,BL_NPC);
+		getmapxy(.@map$,.@x,.@y,1);
 		logmes strcharinfo(0)+" attempted to access GM NPC "+strnpcinfo(0)+" ("+.@map$+","+.@x+","+.@y+").";
 		end;
 	}
@@ -88,10 +86,11 @@ List of GM Management NPCs (incomplete)
 - Purification Admin#nyd2
 - Bakonawa's Rage (RE)
 - Bangungot Gate (RE)
-- Horror Toy Factory (RE)
-- Faceworm's Nest (RE)
 
 [ Job-related ]
+----- Extended (RE) ------
+- Battle Test Control#ko
+- Guide#ko_helper
 ----- 3rd Class (RE) -----
 - control#arch
 - #GMhelper01_gc
@@ -102,9 +101,6 @@ List of GM Management NPCs (incomplete)
 - sorcereryal
 - Button Girl#wl
 - Button Girl#sura
-- Battle Test Control#ko
-- Guide#ko_helper
-- Admin1
 --------------------------
 - Soul Linker Var
 - 1st Job Quest Reset
@@ -121,9 +117,6 @@ List of GM Management NPCs (incomplete)
 - Field Bush Switch
 - Bakonawa Intro Helper
 - Pintados Manager#pin
-- #pa0829Reactor11
-- New Oz Image#1
-- Professor Aide#worm
 --------------------------
 - Allied Manager#gm
 - #timer_alba01
@@ -156,9 +149,5 @@ List of GM Management NPCs (incomplete)
 --------------------------
 - Monster Race Manager
 - Vote Globalvar Girl#yuno (disabled)
-- 2013questreset2#xmas (event, disabled)
---------------------------
-- Mercenary Switch#Spear
-- Mercenary Switch#Bow
-- Mercenary Switch#Sword
+
 */

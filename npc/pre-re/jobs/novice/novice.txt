@@ -132,31 +132,18 @@ new_1-2,100,29,4	script	Receptionist#nv1	86,{
 			set nov_3_magician,0;
 			set nov_3_acolyte,0;
 			set nov_3_merchant,0;
-			switch(rand(6)) {
-			case 0:
-				savepoint "prontera",273,354,1,1;
-				warp "prontera",273,354;
-				break;
-			case 1:
-				savepoint "morocc",160,94,1,1;
-				warp "morocc",160,94;
-				break;
-			case 2:
-				savepoint "geffen",120,100,1,1;
-				warp "geffen",120,100;
-				break;
-			case 3:
-				savepoint "payon",70,100,1,1;
-				warp "payon",70,100;
-				break;
-			case 4:
-				savepoint "alberta",116,57,1,1;
-				warp "alberta",116,57;
-				break;
-			case 5:
-				savepoint "izlude",94,103,1,1;
-				warp "izlude",94,103;
+			.@start_city$ = $@cur_world_start_city$;
+			if (.@start_city$ == "") {
+				.@rc = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'start_city' LIMIT 1", .@sc$);
+				if (.@rc > 0 && .@sc$[0] != "") .@start_city$ = .@sc$[0];
+				else .@start_city$ = "comodo";
 			}
+			.@found = query_sql("SELECT `x`, `y` FROM `world_map_spawns` WHERE `map_name` = '" + escape_sql(.@start_city$) + "' LIMIT 1", .@sx, .@sy);
+			if (.@found > 0) { .@x = .@sx[0]; .@y = .@sy[0]; }
+			else { .@x = 156; .@y = 191; }
+			specialeffect2 568;
+			savepoint .@start_city$, .@x, .@y;
+			warp .@start_city$, .@x, .@y;
 			end;
 		case 3:
 			mes "[Training Grounds Receptionist]";
@@ -1278,164 +1265,28 @@ new_1-2,118,108,3	script	Kafra Employee#nv1	117,{
 	}
 	next;
 	mes "[Kafra Employee]";
-	mes "I've been dispatched from Kafra Corporation Headquarters to assist new players such as yourself.";
+	mes "Como funcionária da Corporação Kafra no Centro de Treinamento, estou aqui para orientar novos aventureiros e encaminhá-los para o teste prático de combate.";
 	next;
-	mes "[Kafra Employee]";
-	mes "Please, take heed!";
-	mes "If you move to a town";
-	mes "^4d4dffyou will be unable to return to the Training Grounds ever again^000000.";
-	next;
-	if ( select("Teleport Service","About Kafra services") == 1 ) {
-		if (nov_get_item02 < 10 && nov_get_item03 < 10 && nov_get_item04 < 10) {
-			mes "[Kafra Employee]";
-			mes "I see, you must want to teleport to a town in Rune-Midgard imediately. First, let me briefly inform you about the different towns and cities in Ragnarok.";
-			next;
-			mes "[Kafra Employee]";
-			mes "Prontera is the capital of the Rune-Midgarts kingdom, and its satellite, Izlude, is closeby.";
-			next;
-			mes "[Kafra Employee]";
-			mes "^996633Morroc^000000 is in the desert. It's the town where you can change your job to the Thief and Assassin classes.";
-			next;
-			mes "[Kafra Employee]";
-			mes "^006600Payon^000000 is in the mountains, and is famous for its Archer Village, where Novices can change their jobs to Archers.";
-			next;
-			mes "[Kafra Employee]";
-			mes "The city of magic, ^993300Geffen^000000, is where people go to become Mages and Wizards.";
-			next;
-			mes "[Kafra Employee]";
-			mes "^003399Alberta^000000, the port city, is where the Merchant Guild is located. You must also go to Alberta if you wish to travel by sea.";
-			next;
-			mes "[Kafra Employee]";
-			mes "Please choose";
-			mes "your destination.";
-			next;
-			switch(select("Prontera:Morroc:Payon:Alberta:Geffen")) {
-			case 1:
-				set .@dest$,"Prontera";
-				set .@mapn$,"prontera";
-				set .@saveX,117; set .@saveY,72;
-				set .@warpX,150; set .@warpY,50;
-				break;
-			case 2:
-				set .@dest$,"Morroc";
-				set .@mapn$,"morocc";
-				set .@saveX,150; set .@saveY,99;
-				set .@warpX,155; set .@warpY,110;
-				break;
-			case 3:
-				set .@dest$,"Payon";
-				set .@mapn$,"payon";
-				set .@saveX,70; set .@saveY,100;
-				set .@warpX,166; set .@warpY,67;
-				break;
-			case 4:
-				set .@dest$,"Alberta";
-				set .@mapn$,"alberta";
-				set .@saveX,30; set .@saveY,232;
-				set .@warpX,114; set .@warpY,58;
-				break;
-			case 5:
-				set .@dest$,"Geffen";
-				set .@mapn$,"geffen";
-				set .@saveX,119; set .@saveY,37;
-				set .@warpX,122; set .@warpY,65;
-				break;
-			}
-			mes "[Kafra Employee]";
-			mes "You have decided";
-			mes "to go to "+.@dest$+".";
-			mes "May God be with you.";
-			close2;
+	switch(select("Ir para o Campo de Combate:Sobre os serviços Kafra:Cancelar")) {
+	case 1:
+		mes "[Kafra Employee]";
+		mes "Deseja ir para a área de Treinamento Prático de Combate?";
+		mes "Lá você poderá testar suas forças contra monstros e falar com o ^00AA00Test Examiner^000000 para concluir sua formação e partir para a cidade inicial!";
+		next;
+		if (select("Sim, me leve para o Campo de Combate!:Ainda não, quero continuar aqui.") == 1) {
 			if (nov_get_item05 < 11) {
-				set nov_get_item05,11;
-				getitem 569,100; //Novice_Potion
-				getitem 1243,1; //Novice_Knife
-				getitem 2414,1; //Novice_Boots
-				getitem 2510,1; //Novice_Hood
-				getitem 2352,1; //Novice_Plate
-				getitem 2112,1; //Novice_Guard
-				getitem 601,10; //Wing_Of_Fly
-				getitem 602,2; //Wing_Of_Butterfly
-				getitem 7059,5; //Cargo_Free_Ticket
-				getitem 7060,5; //Warp_Free_Ticket
+				set nov_get_item05, 11;
+				getitem 7059, 5; // Cargo_Free_Ticket
+				getitem 7060, 5; // Warp_Free_Ticket
 			}
-			set nov_1st_cos,0;
-			set nov_2nd_cos,0;
-			set nov_3_swordman,0;
-			set nov_3_archer,0;
-			set nov_3_thief,0;
-			set nov_3_magician,0;
-			set nov_3_acolyte,0;
-			set nov_3_merchant,0;
-			savepoint .@mapn$,.@saveX,.@saveY,1,1;
-			warp .@mapn$,.@warpX,.@warpY;
+			mes "[Kafra Employee]";
+			mes "Muito bem! Boa sorte no seu treinamento!";
+			close2;
+			warp "new_1-2",28,178;
 			end;
 		}
-		else {
-			switch(select("Field Combat Course:Prontera:Morroc:Payon:Alberta:Geffen")) {
-			case 1:
-				mes "[Kafra Employee]";
-				mes "Thank you, let";
-				mes "me send you to the";
-				mes "Field Combat Training Course.";
-				close2;
-				warp "new_1-2",28,178;
-				end;
-			case 2:
-				set .@dest$,"Prontera";
-				set .@mapn$,"prontera";
-				set .@saveX,117; set .@saveY,72;
-				set .@warpX,150; set .@warpY,50;
-				break;
-			case 3:
-				set .@dest$,"Morroc";
-				set .@mapn$,"morocc";
-				set .@saveX,150; set .@saveY,99;
-				set .@warpX,155; set .@warpY,110;
-				break;
-			case 4:
-				set .@dest$,"Payon";
-				set .@mapn$,"payon";
-				set .@saveX,70; set .@saveY,100;
-				set .@warpX,166; set .@warpY,67;
-				break;
-			case 5:
-				set .@dest$,"Alberta";
-				set .@mapn$,"alberta";
-				set .@saveX,30; set .@saveY,232;
-				set .@warpX,114; set .@warpY,58;
-				break;
-			case 6:
-				set .@dest$,"Geffen";
-				set .@mapn$,"geffen";
-				set .@saveX,119; set .@saveY,37;
-				set .@warpX,122; set .@warpY,65;
-				break;
-			}
-			mes "[Kafra Employee]";
-			mes "You have decided";
-			mes "to go to "+.@dest$+".";
-			mes "May God be with you.";
-			close2;
-			if (nov_get_item05 < 11) {
-				set nov_get_item05,11;
-				getitem 7059,5; //Cargo_Free_Ticket
-				getitem 7060,5; //Warp_Free_Ticket
-			}
-			set nov_1st_cos,0;
-			set nov_2nd_cos,0;
-			set nov_3_swordman,0;
-			set nov_3_archer,0;
-			set nov_3_thief,0;
-			set nov_3_magician,0;
-			set nov_3_acolyte,0;
-			set nov_3_merchant,0;
-			savepoint .@mapn$,.@saveX,.@saveY,1,1;
-			warp .@mapn$,.@warpX,.@warpY;
-			end;
-		}
-	}
-	else {
+		close;
+	case 2:
 		mes "[Kafra Employee]";
 		mes "Let me introduce you";
 		mes "to the Kafra Services.";
@@ -1554,6 +1405,11 @@ new_1-2,118,108,3	script	Kafra Employee#nv1	117,{
 			}
 
 		}
+		end;
+	case 3:
+		mes "[Kafra Employee]";
+		mes "Tenha um bom dia e bons estudos!";
+		close;
 	}
 }
 
@@ -2723,27 +2579,98 @@ new_4-3,95,30,4	duplicate(NovHoffman)	Trainer#nv4	84
 new_5-3,95,30,4	duplicate(NovHoffman)	Trainer#nv5	84
 
 new_1-3,96,174,3	script	Test Examiner#nv1::NovKeyman	85,{
-	mes "[Keyman]";
-	mes "Good!!";
-	mes "Now you know how to fight";
-	mes "against monsters, don't you?";
-	mes "Would you like to move";
-	mes "to the next course?";
+	mes "[Test Examiner]";
+	mes "Parabéns, bravo Aprendiz!";
+	mes "Você provou sua coragem contra os monstros e concluiu o treinamento básico.";
+	mes "Deseja partir agora para iniciar sua jornada pelo mundo de RagnaRogue?";
 	next;
-	switch(select("Yes:No")) {
+	switch(select("Sim, me envie para a Cidade Inicial!:Ainda não, quero treinar mais um pouco.")) {
 	case 1:
-		mes "[Keyman]";
-		mes "I hope you will be";
-		mes "a good fighter in the";
-		mes "future. Bon voyage.";
+		if (nov_3_swordman < 40) {
+			set nov_3_swordman, 40;
+			getitem 501, 10; // Red Potion
+			getitem 503, 5;  // Yellow Potion
+			getitem 506, 5;  // Green Potion
+
+			// Concede arma tier 1 de acordo com a classe do personagem
+			switch (BaseClass) {
+			case Job_Swordman:
+				getitem 1108, 1; // Blade [4]
+				break;
+			case Job_Mage:
+				getitem 1602, 1; // Rod [4]
+				break;
+			case Job_Archer:
+				getitem 1705, 1; // Composite Bow [4]
+				getitem 1751, 500; // Silver Arrow
+				break;
+			case Job_Acolyte:
+				getitem 1505, 1; // Mace [4]
+				break;
+			case Job_Merchant:
+				getitem 1302, 1; // Axe [4]
+				break;
+			case Job_Thief:
+				getitem 1208, 1; // Main Gauche [4]
+				break;
+			default:
+				if (BaseJob == Job_Gunslinger) {
+					getitem 13101, 1; // Six Shooter [2]
+					getitem 13200, 500; // Bullet
+				} else if (BaseJob == Job_Ninja) {
+					getitem 13010, 1; // Asura [2]
+					getitem 13250, 500; // Shuriken
+				} else if (BaseJob == Job_Taekwon) {
+					getitem 2401, 1; // Sandals [1]
+				} else if (BaseJob == Job_Super_Novice) {
+					getitem 1208, 1; // Main Gauche [4]
+				} else {
+					getitem 1104, 1; // Falchion
+				}
+				break;
+			}
+		}
+		.@start_city$ = $@cur_world_start_city$;
+		if (.@start_city$ == "") {
+			.@rc = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'start_city' LIMIT 1", .@sc$);
+			if (.@rc > 0 && .@sc$[0] != "") {
+				.@start_city$ = .@sc$[0];
+			} else {
+				.@start_city$ = "comodo";
+			}
+		}
+		.@x = 0; .@y = 0;
+		.@found = query_sql("SELECT `x`, `y` FROM `world_map_spawns` WHERE `map_name` = '" + escape_sql(.@start_city$) + "' LIMIT 1", .@sx, .@sy);
+		if (.@found > 0) {
+			.@x = .@sx[0];
+			.@y = .@sy[0];
+		} else {
+			if (.@start_city$ == "comodo") { .@x = 209; .@y = 143; }
+			else if (.@start_city$ == "alberta") { .@x = 192; .@y = 147; }
+			else if (.@start_city$ == "xmas" || .@start_city$ == "lutie") { .@x = 147; .@y = 134; }
+			else if (.@start_city$ == "gonryun") { .@x = 160; .@y = 120; }
+			else if (.@start_city$ == "ayothaya") { .@x = 151; .@y = 117; }
+			else if (.@start_city$ == "amatsu") { .@x = 198; .@y = 84; }
+			else { .@x = 156; .@y = 191; }
+		}
+		mes "[Test Examiner]";
+		mes "Excelente! O destino da sua expedição começa agora.";
+		if (Class != Job_Novice) {
+			mes "Vejo que você já escolheu sua vocação como ^0055FF" + jobname(Class) + "^000000! Tome esta arma inicial para auxiliá-lo em sua jornada.";
+		} else {
+			mes "Como Aprendiz, tome esta espada inicial para auxiliá-lo em sua jornada.";
+		}
+		mes "Vou transportá-lo diretamente para a ^00AA00cidade inicial da sua jornada^000000:";
+		mes "^0055FF" + .@start_city$ + "^000000!";
+		mes "Boa sorte, aventureiro!";
 		close2;
-		warp "new_1-4",99,10;
-		return
+		specialeffect2 568; // Coluna de Luz Sagrada
+		savepoint .@start_city$, .@x, .@y;
+		warp .@start_city$, .@x, .@y;
 		end;
 	case 2:
-		mes "[Keyman]";
-		mes "I see...";
-		mes "It can't hurt to practice until you're more comfortable with the basics of battle.";
+		mes "[Test Examiner]";
+		mes "Entendido. Pratique o quanto for necessário antes de cruzar o portal.";
 		close;
 	}
 }
@@ -3759,31 +3686,18 @@ new_1-4,100,29,1	script	Hanson#nv	46,{
 			set nov_3_magician,0;
 			set nov_3_acolyte,0;
 			set nov_3_merchant,0;
-			set .@startmap,rand(1,6);
-			if ((.@startmap > 0) && (.@startmap < 2)) {
-				savepoint "prontera",117,72,1,1;
-				warp "prt_fild08",170,371;
+			.@start_city$ = $@cur_world_start_city$;
+			if (.@start_city$ == "") {
+				.@rc = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'start_city' LIMIT 1", .@sc$);
+				if (.@rc > 0 && .@sc$[0] != "") .@start_city$ = .@sc$[0];
+				else .@start_city$ = "comodo";
 			}
-			else if ((.@startmap > 1) && (.@startmap < 3)) {
-				savepoint "geffen",119,37,1,1;
-				warp "gef_fild07",327,188;
-			}
-			else if ((.@startmap > 2) && (.@startmap < 4)) {
-				savepoint "alberta",30,232,1,1;
-				warp "pay_fild03",388,70;
-			}
-			else if ((.@startmap > 3) && (.@startmap < 5)) {
-				savepoint "morocc",150,99,1,1;
-				warp "moc_fild07",198,39;
-			}
-			else if ((.@startmap > 4) && (.@startmap < 6)) {
-				savepoint "payon",256,242,1,1;
-				warp "pay_fild01",334,354;
-			}
-			else if ((.@startmap > 5) && (.@startmap < 7)) {
-				savepoint "izlude",93,104,1,1;
-				warp "prt_fild08",357,212;
-			}
+			.@found = query_sql("SELECT `x`, `y` FROM `world_map_spawns` WHERE `map_name` = '" + escape_sql(.@start_city$) + "' LIMIT 1", .@sx, .@sy);
+			if (.@found > 0) { .@x = .@sx[0]; .@y = .@sy[0]; }
+			else { .@x = 156; .@y = 191; }
+			specialeffect2 568;
+			savepoint .@start_city$, .@x, .@y;
+			warp .@start_city$, .@x, .@y;
 			end;
 		}
 	}
@@ -3810,31 +3724,18 @@ new_1-4,100,29,1	script	Hanson#nv	46,{
 		set nov_3_magician,0;
 		set nov_3_acolyte,0;
 		set nov_3_merchant,0;
-		set .@startmap,rand(1,6);
-		if ((.@startmap > 0) && (.@startmap < 2)) {
-			savepoint "prontera",117,72,1,1;
-			warp "prt_fild08",170,371;
+		.@start_city$ = $@cur_world_start_city$;
+		if (.@start_city$ == "") {
+			.@rc = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'start_city' LIMIT 1", .@sc$);
+			if (.@rc > 0 && .@sc$[0] != "") .@start_city$ = .@sc$[0];
+			else .@start_city$ = "comodo";
 		}
-		else if ((.@startmap > 1) && (.@startmap < 3)) {
-			savepoint "geffen",119,37,1,1;
-			warp "gef_fild07",327,188;
-		}
-		else if ((.@startmap > 2) && (.@startmap < 4)) {
-			savepoint "alberta",30,232,1,1;
-			warp "pay_fild03",388,70;
-		}
-		else if ((.@startmap > 3) && (.@startmap < 5)) {
-			savepoint "morocc",150,99,1,1;
-			warp "moc_fild07",198,39;
-		}
-		else if ((.@startmap > 4) && (.@startmap < 6)) {
-			savepoint "payon",70,100,1,1;
-			warp "pay_fild01",334,354;
-		}
-		else if ((.@startmap > 5) && (.@startmap < 7)) {
-			savepoint "izlude",93,104,1,1;
-			warp "prt_fild08",357,212;
-		}
+		.@found = query_sql("SELECT `x`, `y` FROM `world_map_spawns` WHERE `map_name` = '" + escape_sql(.@start_city$) + "' LIMIT 1", .@sx, .@sy);
+		if (.@found > 0) { .@x = .@sx[0]; .@y = .@sy[0]; }
+		else { .@x = 156; .@y = 191; }
+		specialeffect2 568;
+		savepoint .@start_city$, .@x, .@y;
+		warp .@start_city$, .@x, .@y;
 		end;
 	}
 	else {
@@ -3958,30 +3859,18 @@ S_UserJobchoice:
 	set nov_3_magician,0;
 	set nov_3_acolyte,0;
 	set nov_3_merchant,0;
-	if(@menu == 1) {
-		savepoint "izlude",93,104,1,1;
-		warp "izlude_in",74,167;
+	.@start_city$ = $@cur_world_start_city$;
+	if (.@start_city$ == "") {
+		.@rc = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'start_city' LIMIT 1", .@sc$);
+		if (.@rc > 0 && .@sc$[0] != "") .@start_city$ = .@sc$[0];
+		else .@start_city$ = "comodo";
 	}
-	else if (@menu == 2) {
-		savepoint "geffen",119,37,1,1;
-		warp "geffen_in",163,98;
-	}
-	else if (@menu == 3) {
-		savepoint "alberta",30,232,1,1;
-		warp "alberta_in",62,44;
-	}
-	else if (@menu == 4) {
-		savepoint "morocc",150,99,1,1;
-		warp "moc_ruins",155,44;
-	}
-	else if (@menu == 5) {
-		savepoint "payon",70,100,1,1;
-		warp "payon_in02",64,65;
-	}
-	else {
-		savepoint "prontera",117,72,1,1;
-		warp "prt_church",172,19;
-	}
+	.@found = query_sql("SELECT `x`, `y` FROM `world_map_spawns` WHERE `map_name` = '" + escape_sql(.@start_city$) + "' LIMIT 1", .@sx, .@sy);
+	if (.@found > 0) { .@x = .@sx[0]; .@y = .@sy[0]; }
+	else { .@x = 156; .@y = 191; }
+	specialeffect2 568;
+	savepoint .@start_city$, .@x, .@y;
+	warp .@start_city$, .@x, .@y;
 	return;
 }
 

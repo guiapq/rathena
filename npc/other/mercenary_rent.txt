@@ -1,49 +1,46 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Mercenary related NPCs
-//===== By: ================================================== 
+//===== By: ==================================================
 //= L0ne_W0lf
-//===== Current Version: ===================================== 
-//= 1.5
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Current Version: =====================================
+//= 1.4
+//===== Description: =========================================
 //= [Official Conversion]
 //= Sells Lancer, Sword, and Archer mercenaries,
 //= along with related mercenary items.
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 First version. [L0ne_W0lf]
 //= 1.1 Optimization. [Zephyrus]
 //= 1.2 Removed redundent input. [L0ne_W0lf]
 //= 1.3 Duplicates now spawned from floating NPCs. [L0ne_W0lf]
 //= 1.4 Optimized and fixed wrong item id. [Joseph]
-//= 1.5 Added Mercenary Guild Switch & fixed a bug
-//=		in izlude duplicate. [Capuche]
-//= 1.5a Change to F_GM_NPC function in Mercenary Guild Switch
-//============================================================ 
+//============================================================
 
 -	script	Mercenary Manager#main	-1,{
 	setarray .@name$, 	"Spear", 			"Sword", 			"Bow";
 	setarray .@faith$, 	"SPEAR_MERC_GUILD",	"SWORD_MERC_GUILD",	"ARCH_MERC_GUILD";
 	setarray .@item, 	12182,				12172,				12162;
 	.@npc$ = strnpcinfo(2);
-	for (.@size = getarraysize(.@name$); .@type < .@size; .@type++)
-		if( compare( .@npc$,.@name$[.@type] ) ) break;
+	.@size = getarraysize(.@name$);
+	for (.@i = 0; .@i < .@size; ++.@i)
+		if (.@npc$ == .@name$[.@i]) .@type = .@i;
 	.@faith_merc = mercenary_get_faith(getd(.@faith$[.@type]));
 	mes "[Mercenary Manager]";
 	mes "Welcome to the";
-	mes .@name$[.@type] + " Mercenary Guild.";
+	mes .@npc$ + " Mercenary Guild.";
 	mes "What can I do for you?";
 	next;
 	switch(select("Hire Mercenary:Mercenary Info:Nothing:10th Grade Mercenaries")) {
 		case 1:
 			mes "[Mercenary Manager]";
 			mes "You want to hire a";
-			mes .@name$[.@type] + " Mercenary?";
+			mes .@npc$ + " Mercenary?";
 			mes "Which Grade were you";
 			mes "interested in hiring?";
 			next;
-			for (.@i = 1; .@i <= 9; .@i++)
-				.@menu$ = .@menu$ + callfunc("F_GetNumSuffix",.@i) + " Grade " + .@name$[.@type] + " Mercenary:";
+			setarray .@suffix$, "th","st","nd","rd";
+			for (.@i = 1; .@i <= 9; ++.@i)
+				.@menu$ += .@i + .@suffix$[((.@i <= 3)? .@i : 0)] + " Grade " + .@npc$ + " Mercenary:";
 			.@Grade = select(.@menu$);
 			.@BaseLevel = 5 + (.@Grade * 10);
 			.@BaseLevel = (.@val > 90)? 90 : .@BaseLevel;
@@ -51,8 +48,8 @@
 			setarray .@FaithCost[7], 50,100,300;
 			.@FaithCost = .@FaithCost[.@Grade];
 			mes "[Mercenary Manager]";
-			mes "So you want to hire a " + callfunc("F_GetNumSuffix",.@Grade);
-			mes "Grade " + .@name$[.@type] + " Mercenary?";
+			mes "So you want to hire a " + .@Grade + .@suffix$[((.@Grade <= 3)? .@i : 0)];
+			mes "Grade " + .@npc$ + " Mercenary?";
 			mes "You need to have attained";
 			mes "Base Level " + .@BaseLevel + " or higher, and";
 			mes "must pay the " + .@ZenyCost + ",000 zeny fee.";
@@ -69,7 +66,7 @@
 			else if(.@FaithCost && .@faith_merc < .@FaithCost) {
 				mes "[Mercenary Manager]";
 				mes "Oh... Your Loyalty rating";
-				mes "with the " + .@name$[.@type] + " Mercenary";
+				mes "with the " + .@npc$ + " Mercenary";
 				mes "Guild isn't high enough to";
 				mes "hire this Mercenary. Please";
 				mes "come back after you earn";
@@ -98,7 +95,7 @@
 				mes "Summoned Mercenaries will";
 				mes "offer their support to you for";
 				mes "30 minutes. Take care now.";
-				Zeny = Zeny - (.@ZenyCost * 1000);
+				Zeny -= (.@ZenyCost * 1000);
 				getitem .@item[.@type] - 10 + .@Grade, 1;
 			}
 			close;
@@ -225,8 +222,9 @@ pay_arche,99,167,4	duplicate(Mercenary Manager#main)	Mercenary Manager#Bow	4_M_J
 	next;
 	setarray .@item, 12184,	12185,	12241,	12242,	12243;
 	setarray .@cost, 1750,	3000,	560,	1050,	2100;
-	for (.@size = getarraysize(.@item); .@i < .@size; .@i++)
-		.@menu$ = .@menu$ + getitemname(.@item[.@i]) + ":";
+	.@size = getarraysize(.@item);
+	for (.@i = 0; .@i < .@size; ++.@i)
+		.@menu$ += getitemname(.@item[.@i]) + ":";
 	.@m = select(.@menu$)-1;
 	.@str$ = .@cost[.@m] + "";
 	.@len = getstrlen(.@str$);
@@ -245,7 +243,7 @@ pay_arche,99,167,4	duplicate(Mercenary Manager#main)	Mercenary Manager#Bow	4_M_J
 		mes "to buy any Mercenary Potions.";
 		close;
 	}
-	else if (.@input < 0 || .@input > 10000) {
+	if (.@input < 0 || .@input > 10000) {
 		mes "[Mercenary Goods Merchant]";
 		mes "I'm sorry, but you";
 		mes "can only buy up to";
@@ -254,7 +252,8 @@ pay_arche,99,167,4	duplicate(Mercenary Manager#main)	Mercenary Manager#Bow	4_M_J
 		mes "a number from 1 to 10,000.";
 		close;
 	}
-	else if (set(.@total_po, .@input * .@cost[.@m]) > Zeny) {
+	.@total_po = .@input * .@cost[.@m];
+	if (.@total_po > Zeny) {
 		mes "[Mercenary Goods Merchant]";
 		mes "I'm sorry, but you don't";
 		mes "have enough zeny for this";
@@ -264,7 +263,7 @@ pay_arche,99,167,4	duplicate(Mercenary Manager#main)	Mercenary Manager#Bow	4_M_J
 		mes "for your Mercenaries.";
 		close;
 	}
-	else if (!checkweight(.@item[.@m], .@input)) {
+	if (!checkweight(.@item[.@m], .@input)) {
 		mes "[Mercenary Goods Merchant]";
 		mes "If I gave you that many";
 		mes "potions, you wouldn't be";
@@ -275,58 +274,18 @@ pay_arche,99,167,4	duplicate(Mercenary Manager#main)	Mercenary Manager#Bow	4_M_J
 		close;
 	}
 	mes "[Mercenary Goods Merchant]";
-	if (.@input == 1) 
+	if (.@input == 1)
 		mes "Here's your " + getitemname(.@item[.@m]) + ".";
 	else {
 		mes "Here you are, this is exactly";
-		mes callfunc("F_InsertPlural",.@input,getitemname(.@item[.@m])) + ".";
+		mes .@input + " " + getitemname(.@item[.@m]) + "s.";
 	}
 	mes "Thank you, and please come";
 	mes "again when you need more";
 	mes "potions for your Mercenaries.";
-	Zeny = Zeny - .@total_po;
+	Zeny -= .@total_po;
 	getitem .@item[.@m], .@input;
 	close;
 }
 prontera,30,337,4	duplicate(MercMerchant)	Mercenary Merchant#Spear	8_F_GIRL
 pay_arche,102,167,5	duplicate(MercMerchant)	Mercenary Merchant#Bow	4_F_CAPEGIRL
-
-// Mercenary Switch NPCs
-//============================================================
--	script	Mercenary_Switch	-1,{
-
-	setarray .@name$, "Spear","Sword","Bow";
-	.@npc$ = strnpcinfo(2);
-	for (.@size = getarraysize(.@name$); .@type < .@size; .@type++)
-		if (.@npc$ == .@name$[.@type]) break;
-
-	mes "[Checker]";
-	mes "Please input a password.";
-	next;
-	.@i = callfunc("F_GM_NPC",1854,0,0,10000);
-	mes "[Checker]";
-	if (.@i == -2)
-		mes "Error.";
-	else if (.@i == 0)
-		mes "Wrong number";
-	else if (.@i == 1) {
-		mes "Please select.";
-		next;
-		switch( select( "Turn off Mercenary NPC","Turn on Mercenary NPC" ) ) {
-		case 1:
-			mes "NPCs are turned off.";
-			disablenpc "Mercenary Manager#" + .@name$[.@type];
-			disablenpc "Mercenary Merchant#" + .@name$[.@type];
-			break;
-		case 2:
-			mes "NPCs are turned on.";
-			enablenpc "Mercenary Manager#" + .@name$[.@type];
-			enablenpc "Mercenary Merchant#" + .@name$[.@type];
-			break;
-		}
-	}
-	close;
-}
-prontera,299,379,5	duplicate(Mercenary_Switch)	Mercenary Switch#Spear	8W_SOLDIER
-pay_arche,170,185,5	duplicate(Mercenary_Switch)	Mercenary Switch#Bow	4_F_CAPEGIRL
-izlude,245,250,4	duplicate(Mercenary_Switch)	Mercenary Switch#Sword	4_F_HUWOMAN

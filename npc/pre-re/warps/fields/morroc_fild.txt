@@ -62,7 +62,7 @@ moc_fild03,70,341,0	warp	mocf04-1	5,2,moc_fild02,332,23
 //moc_fild06,18,198,0	warp	mocf13	1,18,moc_fild07,378,201
 //moc_fild06,207,18,0	warp	mocf14	11,2,moc_fild10,208,295
 //moc_fild06,377,316,0	warp	mocf10-3	1,15,moc_fild05,24,153
-moc_fild07,198,21,0	warp	mocf001	2,2,morocc,160,294
+// [DISABLED_INACTIVE_CITY] moc_fild07,198,21,0	warp	mocf001	2,2,morocc,160,294
 //moc_fild07,381,201,0	warp	mocf13-1	2,16,moc_fild06,28,201
 moc_fild07,380,201,0	warp	mocf13-1	2,16,moc_fild20,36,177
 //moc_fild08,16,207,0	warp	mocf15	2,4,moc_fild09,371,195
@@ -84,9 +84,9 @@ moc_fild11,212,29,0	warp	mocf21	4,2,moc_fild17,218,366
 moc_fild11,26,161,0	warp	mocf22	2,10,moc_fild12,286,168
 //moc_fild11,379,197,0	warp	mocf23	2,6,moc_fild15,41,105
 moc_fild11,377,197,0	warp	mocf23	2,6,moc_fild20,36,177
-moc_fild12,118,30,0	warp	mocf24	4,2,moc_fild18,158,379
-moc_fild12,159,381,0	warp	mocf003	2,2,morocc,160,20
-moc_fild12,289,168,0	warp	mocf22-1	2,3,moc_fild11,29,161
+moc_fild12,118,30,0	warp	mocf24	4,2,amatsu,245,160
+moc_fild12,159,381,0	warp	mocf003	2,2,xmas_dun01,205,16
+// [DISABLED_OUT_OF_BOUNDS] moc_fild12,289,168,0	warp	mocf22-1	2,3,moc_fild11,29,161
 moc_fild13,146,368,0	warp	mocf05-1	5,2,moc_fild02,71,21
 //moc_fild13,29,171,0	warp	mocf17-1	2,4,moc_fild08,380,211
 moc_fild13,32,171,0	warp	mocf17-1	2,4,moc_fild20,349,179
@@ -110,7 +110,7 @@ moc_fild17,30,300,0	warp	moc29	2,5,moc_fild18,379,305
 moc_fild17,369,272,0	warp	mocf28-1	2,3,moc_fild16,19,179
 moc_fild18,158,382,0	warp	mocf24-1	4,2,moc_fild12,118,33
 moc_fild18,382,305,0	warp	moc29-1	2,4,moc_fild17,33,300
-moc_fild19,169,107,0	warp	mocf004	1,4,morocc,27,164
+// [DISABLED_INACTIVE_CITY] moc_fild19,169,107,0	warp	mocf004	1,4,morocc,27,164
 moc_fild19,71,170,0	warp	mocf018	8,2,moc_ruins,71,19
 moc_fild19,98,99,0	warp	mocf019	1,1,in_sphinx1,288,9
 

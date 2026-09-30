@@ -1,12 +1,10 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= 2004 Headgear Quests
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Dj-Yhn
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.6b
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= 2004 New Headgears. Official Quests
 //= 1) Black Cat Ears (payon 115 131)
@@ -21,7 +19,7 @@
 //= 10) Model Training Hat (payon_in03 8 193)
 //= 11) Tulip Haipin (geffen 83 189)
 //= 12) Party Hat, Straw Hat, Cowboy Hat, (xmas_in 35 30)
-//=     Sombrero, Beanie 
+//=     Sombrero, Beanie
 //= 13) Decorative Golden Bell, (yuno_in03 20 18)
 //=     Crown of Ancient Queen, Crown of Mistress
 //= 14) Alarm Mask (alde_alche 88 180)
@@ -39,7 +37,7 @@
 
 // Black Cat Ears
 //============================================================
-payon,115,131,3	script	Neko Neko#1	725,{
+payon,115,131,3	script	Neko Neko#1	4_F_JOB_ASSASSIN,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -70,7 +68,7 @@ payon,115,131,3	script	Neko Neko#1	725,{
 		delitem 2213,1; //Cat_Hairband
 		delitem 983,1; //Black_Dyestuffs
 		delitem 914,200; //Fluff
-		set Zeny, Zeny-10000;
+		Zeny -= 10000;
 		getitem 5057,1; //Ear_Of_Black_Cat
 		next;
 		mes "[Neko Neko]";
@@ -107,7 +105,7 @@ payon,115,131,3	script	Neko Neko#1	725,{
 
 // X Hairpin, Band Aid, Flower Hairpin
 //============================================================
-geffen,129,148,3	script	Argen#1	779,{
+geffen,129,148,3	script	Argen#1	4_M_YOYOROGUE,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "[Argen]";
@@ -115,7 +113,7 @@ geffen,129,148,3	script	Argen#1	779,{
 		mes "You mind sharing them with me?";
 		close;
 	}
-	emotion ET_SCRATCH;
+	emotion e_hmm;
 	mes "[Argen]";
 	mes "Man, oh man~";
 	mes "Am I bored~!";
@@ -124,8 +122,8 @@ geffen,129,148,3	script	Argen#1	779,{
 	mes "[" + strcharinfo(0) + "]";
 	mes "Impress the ladies...?";
 	next;
-	emotion ET_SURPRISE;
-	if (Sex == SEX_MALE) {
+	emotion e_gasp;
+	if (Sex) {
 		mes "[Argen]";
 		mes "Yeah dude. There are two things chicks dig. Small, adorable presents. And suave dudes.";
 		next;
@@ -153,7 +151,7 @@ geffen,129,148,3	script	Argen#1	779,{
 		mes "So go ahead and tell me what kinda hairpin you're interested in.";
 	}
 	next;
-	emotion ET_SMILE;
+	emotion e_heh;
 	switch(select("^3131FFX Hairpin^000000:^3131FFBand Aid^000000:^3131FFFlower Hairpin^000000:No thanks.")) {
 	case 1:
 		if (countitem(2294) > 0 && countitem(7220) > 399) {
@@ -161,7 +159,7 @@ geffen,129,148,3	script	Argen#1	779,{
 			mes "X Hairpin!";
 			mes "Nice choice~!";
 			next;
-			emotion ET_SURPRISE;
+			emotion e_gasp;
 			mes "[Argen]";
 			mes "Ah... Right.";
 			mes "About the Stellar...";
@@ -175,7 +173,7 @@ geffen,129,148,3	script	Argen#1	779,{
 				mes "^3131FF * Scrape Scrape * ^000000";
 				mes "^3131FF * Scrape Scrape * ^000000";
 				next;
-				emotion ET_BEST;
+				emotion e_no1;
 				mes "[Argen]";
 				mes "Alright, I'm done!";
 				mes "So what do you think?";
@@ -215,7 +213,7 @@ geffen,129,148,3	script	Argen#1	779,{
 			mes "^3131FF * Scrape Scrape * ^000000";
 			mes "^3131FF * Scrape Scrape * ^000000";
 			next;
-			emotion ET_BEST;
+			emotion e_no1;
 			mes "[Argen]";
 			mes "*Whew~!*";
 			mes "I'm finished!";
@@ -246,13 +244,13 @@ geffen,129,148,3	script	Argen#1	779,{
 			mes "^3131FF - Scrape Scrape - ^000000";
 			mes "^3131FF - Scrape Scrape - ^000000";
 			next;
-			emotion ET_BEST;
+			emotion e_no1;
 			mes "[Argen]";
 			mes "Ah... It's done!";
 			mes "Hey, that looks pretty smooth! Oh, and uh, you can keep this leftover Stem.";
 			delitem 2269,1; //Centimental_Flower
 			delitem 999,10; //Steel
-			set Zeny, Zeny-20000;
+			Zeny -= 20000;
 			getitem 5061,1; //Flower_Hairpin
 			getitem 905,1; //Stem
 			next;
@@ -289,7 +287,7 @@ geffen,129,148,3	script	Argen#1	779,{
 		mes "If you want some kinda hairpin, just come back. I'll just be here, looking ^FF3333suaaave^000000 with this yo-yo.";
 		close;
 	}
-	emotion ET_WRAP;
+	emotion e_paper;
 	mes "[Argen]";
 	mes "Feel free to come ask me if you want more hairpins. Hey, I know I look lazy, but I do like to make things for the ladies. See ya later~!";
 	close;
@@ -297,7 +295,7 @@ geffen,129,148,3	script	Argen#1	779,{
 
 // Hot-blooded Headband
 //============================================================
-yuno,300,188,5	script	Zhenbolt#1	753,{
+yuno,300,188,5	script	Zhenbolt#1	4_M_MONK,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -393,7 +391,7 @@ yuno,300,188,5	script	Zhenbolt#1	753,{
 
 // Red Ribbon
 //============================================================
-prontera,165,232,3	script	Nephia#1	744,{
+prontera,165,232,3	script	Nephia#1	4_F_ALCHE,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -435,7 +433,7 @@ prontera,165,232,3	script	Nephia#1	744,{
 	mes "[Nephia]";
 	mes "Ooh~! You know what would make your hair so much cuter? I think if you tied it back with a big, red ribbon, you would look sooo ^FF66CCadorable^000000!";
 	next;
-	if (Sex == SEX_MALE) {
+	if (Sex) {
 		if (select("Um, lady, I'm a dude.:^FF66CCOoh~! You're right!^000000") == 1) {
 			mes "["+ strcharinfo(0) +"]";
 			mes "Woman, can't you that I'm a man?";
@@ -508,7 +506,7 @@ prontera,165,232,3	script	Nephia#1	744,{
 
 // Indian Headband
 //============================================================
-comodo,237,217,5	script	Meruntei#1	732,{
+comodo,237,217,5	script	Meruntei#1	4_M_JOB_HUNTER,{
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
 		mes "- Currently you're carrying -";
@@ -526,7 +524,7 @@ comodo,237,217,5	script	Meruntei#1	732,{
 		delitem 5010,1; //Indian_Hair_Piece
 		delitem 5049,1; //Stripe_Band
 		delitem 7101,10; //Peco_Wing_Feather
-		set Zeny, Zeny-10000;
+		Zeny -= 10000;
 		getitem 5071,1; //Indian_Headband
 		next;
 		mes "[Meruntei]";
@@ -562,7 +560,7 @@ comodo,237,217,5	script	Meruntei#1	732,{
 
 // Mushroom Band
 //============================================================
-geffen,67,87,3	script	Ipore#1	700,{
+geffen,67,87,3	script	Ipore#1	8_F_GIRL,{
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
 		mes "- Currently you're carrying -";
@@ -642,7 +640,7 @@ geffen,67,87,3	script	Ipore#1	700,{
 
 // Angel Wing Ears, Devil Wing Ears
 //============================================================
-yuno,241,52,3	script	Old Blacksmith#hgear	813,{
+yuno,241,52,3	script	Old Blacksmith#hgear	2_M_OLDBLSMITH,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -710,7 +708,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 						mes "'Angel Wing Ears!'";
 						delitem 2254,1; //Angelic_Chain
 						delitem 2286,1; //Elven_Ears
-						set Zeny, Zeny-20000;
+						Zeny -= 20000;
 						getitem 5074,1; //Ear_Of_Angel's_Wing
 						next;
 						mes "[Hatbyr Mhore]";
@@ -765,7 +763,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 						mes "There you go, buddy. I am proud to say this is my masterpiece. I call it... 'Devil Wing Ears!'";
 						delitem 2255,1; //Satanic_Chain
 						delitem 2286,1; //Elven_Ears
-						set Zeny, Zeny-20000;
+						Zeny -= 20000;
 						getitem 5068,1; //Ear_Of_Devil's_Wing
 						next;
 						mes "[Hatbyr Mhore]";
@@ -835,7 +833,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 						mes "I am proud to say this is my masterpiece. Please take this item. I call it... 'Devil Wing Ears!'";
 						delitem 2255,1; //Satanic_Chain
 						delitem 2286,1; //Elven_Ears
-						set Zeny, Zeny-20000;
+						Zeny -= 20000;
 						getitem 5068,1; //Ear_Of_Devil's_Wing
 						next;
 						mes "[Hatbyr Mhore]";
@@ -889,7 +887,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 						mes "I am proud to say this is my masterpiece. Please take this item. I call it... 'Angel Wing Ears!'";
 						delitem 2254,1; //Angelic_Chain
 						delitem 2286,1; //Elven_Ears
-						set Zeny, Zeny-20000;
+						Zeny -= 20000;
 						getitem 5074,1; //Ear_Of_Angel's_Wing
 						next;
 						mes "[Hatbyr Mhore]";
@@ -963,7 +961,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 
 // Sea-Otter Hat
 //============================================================
-xmas,183,267,3	script	Pretty Lindsay#1	793,{
+xmas,183,267,3	script	Pretty Lindsay#1	4_F_NFLOSTGIRL,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -979,7 +977,7 @@ xmas,183,267,3	script	Pretty Lindsay#1	793,{
 		close;
 	}
 	else if (countitem(5033) > 0 && countitem(5064) > 0) {
-		emotion ET_SURPRISE;
+		emotion e_gasp;
 		mes "[Pretty Lindsay]";
 		mes "Whoa~";
 		mes "You brought everything!";
@@ -1009,12 +1007,12 @@ xmas,183,267,3	script	Pretty Lindsay#1	793,{
 		mes "I made this hat with all my heart, so you gotta promise me you will take care of this, okay?";
 		close;
 	}
-	if (Sex == SEX_MALE) {
+	if (Sex == 1) {
 		mes "[Pretty Lindsay]";
 		mes "Hello, there?";
 		mes "Mister...?";
 		next;
-		emotion ET_SMILE;
+		emotion e_heh;
 		mes "[Pretty Lindsay]";
 		mes "You look like you're freezing...";
 		mes "Um, I know! How about I make you a cute, warm and fuzzy Sea-Otter hat?";
@@ -1026,7 +1024,7 @@ xmas,183,267,3	script	Pretty Lindsay#1	793,{
 		mes "I have to put together ^0000FF1 Raccoon Hat^000000 and ^0000FF1 Smokie Leaf^000000 to make a ^4D4DFFSea-Otter Hat^000000 for you, though.";
 		next;
 		if (select("Okay, I will come back with the stuff.:Um... How come you need a Raccoon Hat?") == 1) {
-			emotion ET_SMILE;
+			emotion e_heh;
 			mes "[Pretty Lindsay]";
 			mes "Cool~! Come back soon as you can~!";
 			close;
@@ -1051,7 +1049,7 @@ xmas,183,267,3	script	Pretty Lindsay#1	793,{
 	mes "Hello, hello~!";
 	mes "You're such a pretty lady!";
 	next;
-	emotion ET_SMILE;
+	emotion e_heh;
 	mes "[Pretty Lindsay]";
 	mes "Hey hey! Can I make you a Sea-Otter hat! It's really really really really cute!";
 	next;
@@ -1059,7 +1057,7 @@ xmas,183,267,3	script	Pretty Lindsay#1	793,{
 	mes "I need ^0000FF1 Raccoon Hat^000000 and ^0000FF1 Smokie Leaf^000000 so I can make a ^4D4DFFSea-Otter Hat^000000 for you.";
 	next;
 	if (select("Okay, I will come back with the stuff.:Um, why do you want to make hats so much?") == 1) {
-		emotion ET_SMILE;
+		emotion e_heh;
 		mes "[Pretty Lindsay]";
 		mes "Cool~!";
 		mes "Come back as";
@@ -1078,7 +1076,7 @@ xmas,183,267,3	script	Pretty Lindsay#1	793,{
 
 // Teddybear Hat
 //============================================================
-xmas,175,156,3	script	Fuzzy Fuzz#1	712,{
+xmas,175,156,3	script	Fuzzy Fuzz#1	4_M_05,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -1097,7 +1095,7 @@ xmas,175,156,3	script	Fuzzy Fuzz#1	712,{
 		mes "[Fuzzy Fuzz]";
 		mes "Excellent! You brought everything! Please make yourself comfortable while I make you your Teddybear Hat.";
 		next;
-		emotion ET_DELIGHT;
+		emotion e_ho;
 		mes "[Fuzzy Fuzz]";
 		mes "Hmm Hm Hmm...";
 		mes "Tear this off...";
@@ -1105,11 +1103,11 @@ xmas,175,156,3	script	Fuzzy Fuzz#1	712,{
 		mes "Okay, it's almost done...";
 		next;
 		mes "[Fuzzy Fuzz]";
-		emotion ET_FRET;
+		emotion e_an;
 		mes "There is an old saying, 'Everything comes to those who wait.' Oh, are you freezing? Why don't you rub your hands together?";
 		next;
 		mes "[Fuzzy Fuzz]";
-		emotion ET_AHA;
+		emotion e_ic;
 		mes "It's complete! There you go. I think this one will look really good on you! Please take good care of this hat.";
 		delitem 5030,1; //Panda_Cap
 		delitem 7213,100; //Needle_Pouch
@@ -1118,7 +1116,7 @@ xmas,175,156,3	script	Fuzzy Fuzz#1	712,{
 		getitem 5059,1; //Brown_Bear_Cap
 		close;
 	}
-	emotion ET_SURPRISE;
+	emotion e_gasp;
 	mes "[Fuzzy Fuzz]";
 	mes "Hello there, young man.";
 	mes "What brings you to Lutie, town of goodwill and year round Christmas cheer?";
@@ -1130,7 +1128,7 @@ xmas,175,156,3	script	Fuzzy Fuzz#1	712,{
 	mes "My specialty is the 'Teddybear Hat.' When it's worn, it makes you as cute as a teddy bear, and your hugs twice as warm and cuddly.";
 	next;
 	mes "[Fuzzy Fuzz]";
-	if (Sex == SEX_MALE) {
+	if (Sex) {
 		mes "The 'Teddybear Hat' can't be worn by just anyone, since it's cuddling powers are easily abused.";
 		next;
 		mes "[Fuzzy Fuzz]";
@@ -1140,6 +1138,7 @@ xmas,175,156,3	script	Fuzzy Fuzz#1	712,{
 		mes "You can learn a lot about telling good people from the naughty after working for Santa for a loooong time...";
 	}
 	else {
+		mes "[Fuzzy Fuzz]";
 		mes "I sense that you are an adventurer with a good heart, and that a sweet girl like you deserves a nice gift.";
 		next;
 		mes "[Fuzzy Fuzz]";
@@ -1159,13 +1158,13 @@ xmas,175,156,3	script	Fuzzy Fuzz#1	712,{
 	next;
 	mes "[Fuzzy Fuzz]";
 	mes "So, do you think you can get all of them? I will be here waiting for you.";
-	emotion ET_SMILE;
+	emotion e_heh;
 	close;
 }
 
 // Model Training Hat
 //============================================================
-payon_in03,8,193,4	script	Nanhyang#1	77,{
+payon_in03,8,193,4	script	Nanhyang#1	1_F_ORIENT_03,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -1227,7 +1226,7 @@ payon_in03,8,193,4	script	Nanhyang#1	77,{
 	}
 	if (countitem(2285) > 0 && countitem(1550) > 0) {
 		mes "[Nanhyang]";
-		emotion ET_SMILE;
+		emotion e_heh;
 		mes "You brought the materials~";
 		next;
 		mes "[Nanhyang]";
@@ -1241,7 +1240,7 @@ payon_in03,8,193,4	script	Nanhyang#1	77,{
 		next;
 		if (select("Create:Cancel") == 1) {
 			mes "[Nanhyang]";
-			emotion ET_OK;
+			emotion e_ok;
 			mes "Thank you.";
 			mes "Let me create one for you right away. Please have a seat and make yourself comfortable.";
 			next;
@@ -1257,7 +1256,7 @@ payon_in03,8,193,4	script	Nanhyang#1	77,{
 			mes " . . . . . . . . . . . . . ";
 			next;
 			mes "[Nanhyang]";
-			emotion ET_AHA;
+			emotion e_ic;
 			mes "That wasn't too difficult. I hope you wear this hat everyday to improve your posture.";
 			next;
 			mes "[Nanhyang]";
@@ -1282,12 +1281,12 @@ payon_in03,8,193,4	script	Nanhyang#1	77,{
 			close;
 		}
 		mes "[Nanhyang]";
-		emotion ET_THINK;
+		emotion e_dots;
 		mes "I see. You must have brought items with cards or upgrades that you didn't want to lose. Feel free to come back anytime when you are ready.";
 		close;
 	}
 	mes "[Nanhyang]";
-	emotion ET_SURPRISE;
+	emotion e_gasp;
 	mes "Hello~";
 	mes "Welcome to the Handsome Charm Modeling School. May I help you?";
 	next;
@@ -1307,7 +1306,7 @@ payon_in03,8,193,4	script	Nanhyang#1	77,{
 		mes "Although we can't offer any classes at this time, I can create a special 'Model Training Hat' for you. That way, you can practice the glamourous way of walking down the catwalk on your own.";
 		next;
 		mes "[Nanhyang]";
-		emotion ET_QUESTION;
+		emotion e_what;
 		mes "But since our director is gone, we can't really use our budget to give you a hat. If you want, please bring me the following items...";
 		next;
 		mes "[Nanhyang]";
@@ -1326,7 +1325,7 @@ payon_in03,8,193,4	script	Nanhyang#1	77,{
 
 // Tulip Hairpin
 //============================================================
-geffen,83,189,5	script	Seth#1	716,{
+geffen,83,189,5	script	Seth#1	4_M_KID2,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes " [Seth]";
@@ -1337,27 +1336,27 @@ geffen,83,189,5	script	Seth#1	716,{
 	mes " [Seth]";
 	mes "Hello, my name is Seth!";
 	mes "I like folding paper and making origami. I made my mommy a big paper boat, and she gave me a big smile and patted my head!";
-	emotion ET_SMILE;
+	emotion e_heh;
 	next;
 	mes "[Seth]";
 	mes "Today at school, I learned how to make a paper flower! The flower was sort of hard, but now I can do it! Then I made a tiny tiny flower and put in on my head~";
-	emotion ET_THROB;
+	emotion e_lv;
 	next;
 	if (countitem(2278) > 0 && countitem(975) > 0) {
 		mes "[Seth]";
 		mes "Hey~!";
 		mes "You have a Mr. Smile and Scarlet Dyestuffs! Yaaay~! I could use those and make you a paper flower. C'mon, lemme show you!";
-		emotion ET_PROFUSELY_SWEAT;
+		emotion e_swt2;
 		next;
 		mes "[Seth]";
 		mes "Lemme make";
 		mes "one for you,";
 		mes "pwease pwease?";
-		emotion ET_PROFUSELY_SWEAT;
+		emotion e_swt2;
 		next;
 		switch(select("Alright!:No thanks kid.:Boys aren't supposed to make flowers.")) {
 		case 1:
-			emotion ET_SMILE;
+			emotion e_heh;
 			mes "[Seth]";
 			mes "Yay~";
 			mes "You're the best!";
@@ -1368,7 +1367,7 @@ geffen,83,189,5	script	Seth#1	716,{
 			mes "*Snip Snip Snip~~*";
 			mes "*Snip...Snip...*";
 			mes "Yyyyyaaaeeep...";
-			emotion ET_DELIGHT;
+			emotion e_ho;
 			next;
 			mes "[Seth]";
 			mes "Tah dah~!";
@@ -1381,7 +1380,7 @@ geffen,83,189,5	script	Seth#1	716,{
 			mes "I'm done!";
 			mes "I did a good job, didn't I?";
 			next;
-			if (BaseJob == Job_Novice || BaseJob == Job_Super_Novice) {
+			if (BaseJob == Job_Novice || BaseJob == Job_SuperNovice) {
 				mes "[Seth]";
 				mes "Oh, here's the leftovers. Mommy says that we should always save things. Heh heh~";
 				getitem 935,1; //Shell
@@ -1399,7 +1398,7 @@ geffen,83,189,5	script	Seth#1	716,{
 			mes "*Sniff sniff*";
 			mes "O-okay...";
 			mes "But I just wanted to show you how good I am...";
-			emotion ET_CRY;
+			emotion e_sob;
 			close;
 		case 3:
 			mes "[" + strcharinfo(0) + "]";
@@ -1411,7 +1410,7 @@ geffen,83,189,5	script	Seth#1	716,{
 			mes "[Seth]";
 			mes "Waaaaaaah~!";
 			mes "But flowers are so nice and pweety!!!";
-			emotion ET_CRY;
+			emotion e_sob;
 			close;
 		}
 	}
@@ -1436,16 +1435,16 @@ geffen,83,189,5	script	Seth#1	716,{
 			mes "Seth will wait for you here. Promise me you'll come back?";
 			close;
 		}
-		emotion ET_CRY;
+		emotion e_sob;
 		mes "[Seth]";
 		mes "Wah~~~~~!";
 		close;
 	}
 }
-	
+
 // Party Hat, Straw Hat, Cowboy Hat, Sombrero, Beanie
 //============================================================
-xmas_in,35,30,3	script	Hat Merchant#zero	797,{
+xmas_in,35,30,3	script	Hat Merchant#zero	4_M_NFLOSTMAN,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute !! -";
@@ -1736,7 +1735,7 @@ xmas_in,35,30,3	script	Hat Merchant#zero	797,{
 
 // Decorative Golden Bell, Crown of Ancient Queen, Crown of Mistress
 //============================================================
-yuno_in03,20,18,6	script	Nehris#1	726,{
+yuno_in03,20,18,6	script	Nehris#1	4_F_JOB_BLACKSMITH,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -1779,7 +1778,7 @@ yuno_in03,20,18,6	script	Nehris#1	726,{
 			delitem 10016,1; //Golden_Bell
 			delitem 714,1; //Emperium
 			delitem 969,3; //Gold
-			set Zeny, Zeny-20000;
+			Zeny -= 20000;
 			getitem 5091,1; //Big_Golden_Bell
 			mes "[Nehris]";
 			mes "Yoohoo~";
@@ -1817,7 +1816,7 @@ yuno_in03,20,18,6	script	Nehris#1	726,{
 			delitem 10006,1; //Queen's_Hair_Ornament
 			delitem 714,1; //Emperium
 			delitem 969,3; //Gold
-			set Zeny, Zeny-20000;
+			Zeny -= 20000;
 			getitem 5080,1; //Headgear_Of_Queen
 			mes "[Nehris]";
 			mes "Tah dah!";
@@ -1867,7 +1866,7 @@ yuno_in03,20,18,6	script	Nehris#1	726,{
 				delitem 2249,1; //Coronet
 				delitem 714,1; //Emperium
 				delitem 969,3; //Gold
-				set Zeny, Zeny-40000;
+				Zeny -= 40000;
 				getitem 5081,1; //Mistress_Crown
 				mes "[Nehris]";
 				mes "Yay! You've got a great looking crown!";
@@ -1901,7 +1900,7 @@ yuno_in03,20,18,6	script	Nehris#1	726,{
 
 // Alarm Mask
 //============================================================
-alde_alche,88,180,0	script	Muscle Man#Alarm Mask	748,{
+alde_alche,88,180,0	script	Muscle Man#Alarm Mask	4_M_ALCHE_A,{
 	if (checkweight(1201,1) == 0) {
 		mes "[Muscle Man]";
 		mes "Hmmm...";
@@ -1920,7 +1919,7 @@ alde_alche,88,180,0	script	Muscle Man#Alarm Mask	748,{
 	mes "It's sexy time!";
 	next;
 	specialeffect EF_FLASHER;
-	setnpcdisplay "Muscle Man#Alarm Mask", 1193;
+	setnpcdisplay "Muscle Man#Alarm Mask", ALARM;
 	enablenpc " #Alarm Mask Man1";
 	enablenpc " #Alarm Mask Man2";
 	enablenpc " #Alarm Mask Man3";
@@ -2035,7 +2034,7 @@ alde_alche,88,180,0	script	Muscle Man#Alarm Mask	748,{
 
 OnTimer4000:
 	specialeffect EF_FLASHER;
-	setnpcdisplay "Muscle Man#Alarm Mask", 748;
+	setnpcdisplay "Muscle Man#Alarm Mask", 4_M_ALCHE_A;
 	disablenpc " #Alarm Mask Man1";
 	disablenpc " #Alarm Mask Man2";
 	disablenpc " #Alarm Mask Man3";
@@ -2048,25 +2047,25 @@ OnTimer4000:
 	end;
 }
 
-alde_alche,86,184,0	script	 #Alarm Mask Man1	1193,{
+alde_alche,86,184,0	script	 #Alarm Mask Man1	ALARM,{
 OnInit:
 	disablenpc " #Alarm Mask Man1";
 	end;
 }
 
-alde_alche,89,184,0	script	 #Alarm Mask Man2	1193,{
+alde_alche,89,184,0	script	 #Alarm Mask Man2	ALARM,{
 OnInit:
 	disablenpc " #Alarm Mask Man2";
 	end;
 }
 
-alde_alche,92,184,0	script	 #Alarm Mask Man3	1193,{
+alde_alche,92,184,0	script	 #Alarm Mask Man3	ALARM,{
 OnInit:
 	disablenpc " #Alarm Mask Man3";
 	end;
 }
 
-alde_alche,95,184,0	script	 #Alarm Mask Man4	1193,{
+alde_alche,95,184,0	script	 #Alarm Mask Man4	ALARM,{
 OnInit:
 	disablenpc " #Alarm Mask Man4";
 	end;
@@ -2074,7 +2073,7 @@ OnInit:
 
 // Drooping Cat, Smokie Leaf, Lazy Smokie, Blue Fish
 //============================================================
-morocc,273,79,4	script	Educated Traveller	99,{
+morocc,273,79,4	script	Educated Traveller	4W_M_03,{
 	disable_items;
 	if ((MaxWeight-Weight) < 5000 || checkweight(1201,1) == 0) {
 		mes "- Wait a minute! -";
@@ -2145,7 +2144,7 @@ morocc,273,79,4	script	Educated Traveller	99,{
 				delitem 7206,300; //Black_Kitty_Doll
 				delitem 7030,1; //Claw_Of_Desert_Wolf
 				getitem 5058,1; //Drooping_Kitty
-				emotion ET_DELIGHT;
+				emotion e_ho;
 				close;
 			}
 			else {
@@ -2215,7 +2214,7 @@ morocc,273,79,4	script	Educated Traveller	99,{
 				delitem 945,600; //Raccoon_Leaf
 				delitem 7030,1; //Claw_Of_Desert_Wolf
 				getitem 5064,1; //Leaf_Headgear
-				emotion ET_SURPRISE;
+				emotion e_gasp;
 				close;
 			}
 			else {
@@ -2292,7 +2291,7 @@ morocc,273,79,4	script	Educated Traveller	99,{
 				delitem 945,10; //Raccoon_Leaf
 				delitem 7030,1; //Claw_Of_Desert_Wolf
 				getitem 5084,1; //Lazy_Raccoon
-				emotion ET_SMILE;
+				emotion e_heh;
 				close;
 			}
 			else {
@@ -2379,7 +2378,7 @@ morocc,273,79,4	script	Educated Traveller	99,{
 				delitem 938,100; //Sticky_Mucus
 				delitem 7030,1; //Claw_Of_Desert_Wolf
 				getitem 5065,1; //Fish_On_Head
-				emotion ET_AHA;
+				emotion e_ic;
 				close;
 			}
 			else {
@@ -2448,21 +2447,21 @@ morocc,273,79,4	script	Educated Traveller	99,{
 		next;
 		mes "[Lee Hester]";
 		mes "I hope you're having a good time here in Morroc. If you ever question the special abilities of animals, just think of the majestic Desert Wolf that's able to thrive in the harsh Morroc deserts.";
-		emotion ET_WRAP;
+		emotion e_paper;
 		close;
 	}
 }
 
 // Kitsune Mask
 //============================================================
-pay_dun03,48,84,4	script	Nine Tails#Kitsune Mask	1180,1,1,{
+pay_dun03,48,84,4	script	Nine Tails#Kitsune Mask	NINE_TAIL,1,1,{
 	end;
 
 OnInit:
 	disablenpc "Nine Tails#Kitsune Mask";
 	end;
 
-OnTouch_:
+OnTouch:
 	mes "[Nine Tails]";
 	mes "Yelp! Yelp yelp!";
 	mes "Yelp! Yelp yelp!";
@@ -2473,31 +2472,31 @@ OnTouch_:
 		close2;
 		set getvariableofnpc(.MyMobs1,"SpawnManager#Kitsune"),1;
 		switch(rand(1,25)) {
-		case 1: set .@x,118;	set .@y,66;	break;
-		case 2: set .@x,103;	set .@y,194;	break;
-		case 3: set .@x,116;	set .@y,50;	break;
-		case 4: set .@x,49;	set .@y,94;	break;
-		case 5: set .@x,232;	set .@y,232;	break;
-		case 6: set .@x,245;	set .@y,86;	break;
-		case 7: set .@x,217;	set .@y,133;	break;
-		case 8: set .@x,50;	set .@y,157;	break;
-		case 9: set .@x,245;	set .@y,60;	break;
-		case 10: set .@x,220;	set .@y,77;	break;
-		case 11: set .@x,198;	set .@y,62;	break;
-		case 12: set .@x,158;	set .@y,41;	break;
-		case 13: set .@x,57;	set .@y,210;	break;
-		case 14: set .@x,251;	set .@y,207;	break;
-		case 15: set .@x,86;	set .@y,130;	break;
-		case 16: set .@x,216;	set .@y,233;	break;
-		case 17: set .@x,192;	set .@y,245;	break;
-		case 18: set .@x,117;	set .@y,234;	break;
-		case 19: set .@x,144;	set .@y,255;	break;
-		case 20: set .@x,190;	set .@y,216;	break;
-		case 21: set .@x,63;	set .@y,66;	break;
-		case 22: set .@x,247;	set .@y,183;	break;
-		case 23: set .@x,37;	set .@y,225;	break;
-		case 24: set .@x,247;	set .@y,118;	break;
-		case 25: set .@x,154;	set .@y,130;	break;
+		case 1:  .@x = 118; .@y =  66; break;
+		case 2:  .@x = 103; .@y = 194; break;
+		case 3:  .@x = 116; .@y =  50; break;
+		case 4:  .@x =  49; .@y =  94; break;
+		case 5:  .@x = 232; .@y = 232; break;
+		case 6:  .@x = 245; .@y =  86; break;
+		case 7:  .@x = 217; .@y = 133; break;
+		case 8:  .@x =  50; .@y = 157; break;
+		case 9:  .@x = 245; .@y =  60; break;
+		case 10: .@x = 220; .@y =  77; break;
+		case 11: .@x = 198; .@y =  62; break;
+		case 12: .@x = 158; .@y =  41; break;
+		case 13: .@x =  57; .@y = 210; break;
+		case 14: .@x = 251; .@y = 207; break;
+		case 15: .@x =  86; .@y = 130; break;
+		case 16: .@x = 216; .@y = 233; break;
+		case 17: .@x = 192; .@y = 245; break;
+		case 18: .@x = 117; .@y = 234; break;
+		case 19: .@x = 144; .@y = 255; break;
+		case 20: .@x = 190; .@y = 216; break;
+		case 21: .@x =  63; .@y =  66; break;
+		case 22: .@x = 247; .@y = 183; break;
+		case 23: .@x =  37; .@y = 225; break;
+		case 24: .@x = 247; .@y = 118; break;
+		case 25: .@x = 154; .@y = 130; break;
 		}
 		monster "pay_dun03",.@x,.@y,"Nine Tail",1180,1,"SpawnManager#Kitsune::OnMyMobDead";
 		specialeffect EF_FLASHER;
@@ -2511,7 +2510,7 @@ OnTouch_:
 	end;
 }
 
-pay_dun03,48,84,4	script	Nine Tails#Kitsune Man	762,{
+pay_dun03,48,84,4	script	Nine Tails#Kitsune Man	4_M_JPN2,{
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a moment! -";
@@ -2572,31 +2571,31 @@ pay_dun03,48,84,4	script	Nine Tails#Kitsune Man	762,{
 	}
 	set getvariableofnpc(.MyMobs2,"SpawnManager#Kitsune"),1;
 	switch(rand(1,25)) {
-	case 1: set .@x,118;	set .@y,66;	break;
-	case 2: set .@x,103;	set .@y,194;	break;
-	case 3: set .@x,116;	set .@y,50;	break;
-	case 4: set .@x,49;	set .@y,94;	break;
-	case 5: set .@x,232;	set .@y,232;	break;
-	case 6: set .@x,245;	set .@y,86;	break;
-	case 7: set .@x,217;	set .@y,133;	break;
-	case 8: set .@x,50;	set .@y,157;	break;
-	case 9: set .@x,245;	set .@y,60;	break;
-	case 10: set .@x,220;	set .@y,77;	break;
-	case 11: set .@x,198;	set .@y,62;	break;
-	case 12: set .@x,158;	set .@y,41;	break;
-	case 13: set .@x,57;	set .@y,210;	break;
-	case 14: set .@x,251;	set .@y,207;	break;
-	case 15: set .@x,86;	set .@y,130;	break;
-	case 16: set .@x,216;	set .@y,233;	break;
-	case 17: set .@x,192;	set .@y,245;	break;
-	case 18: set .@x,117;	set .@y,234;	break;
-	case 19: set .@x,144;	set .@y,255;	break;
-	case 20: set .@x,190;	set .@y,216;	break;
-	case 21: set .@x,63;	set .@y,66;	break;
-	case 22: set .@x,247;	set .@y,183;	break;
-	case 23: set .@x,37;	set .@y,225;	break;
-	case 24: set .@x,247;	set .@y,118;	break;
-	case 25: set .@x,154;	set .@y,130;	break;
+	case 1:  .@x = 118; .@y =  66; break;
+	case 2:  .@x = 103; .@y = 194; break;
+	case 3:  .@x = 116; .@y =  50; break;
+	case 4:  .@x =  49; .@y =  94; break;
+	case 5:  .@x = 232; .@y = 232; break;
+	case 6:  .@x = 245; .@y =  86; break;
+	case 7:  .@x = 217; .@y = 133; break;
+	case 8:  .@x =  50; .@y = 157; break;
+	case 9:  .@x = 245; .@y =  60; break;
+	case 10: .@x = 220; .@y =  77; break;
+	case 11: .@x = 198; .@y =  62; break;
+	case 12: .@x = 158; .@y =  41; break;
+	case 13: .@x =  57; .@y = 210; break;
+	case 14: .@x = 251; .@y = 207; break;
+	case 15: .@x =  86; .@y = 130; break;
+	case 16: .@x = 216; .@y = 233; break;
+	case 17: .@x = 192; .@y = 245; break;
+	case 18: .@x = 117; .@y = 234; break;
+	case 19: .@x = 144; .@y = 255; break;
+	case 20: .@x = 190; .@y = 216; break;
+	case 21: .@x =  63; .@y =  66; break;
+	case 22: .@x = 247; .@y = 183; break;
+	case 23: .@x =  37; .@y = 225; break;
+	case 24: .@x = 247; .@y = 118; break;
+	case 25: .@x = 154; .@y = 130; break;
 	}
 	monster "pay_dun03",.@x,.@y,"Nine Tail",1180,1,"SpawnManager#Kitsune::OnMyMobDead2";
 	specialeffect EF_BLASTMINEBOMB;
@@ -2612,18 +2611,18 @@ OnInit:
 
 pay_dun03,48,84,4	script	SpawnManager#Kitsune	-1,{
 OnInit:
-	set .MyMobs1,1;
-	set .MyMobs2,1;
+	.MyMobs1 = 1;
+	.MyMobs2 = 1;
 	end;
 
 OnMyMobDead:
-	set .MyMobs1,.MyMobs1-1;
+	--.MyMobs1;
 	if (.MyMobs1 < 1)
 		enablenpc "Nine Tails#Kitsune Man";
 	end;
 
 OnMyMobDead2:
-	set .MyMobs2,.MyMobs2-1;
+	--.MyMobs2;
 	if (.MyMobs2 < 1)
 		enablenpc "Nine Tails#Kitsune Mask";
 	end;
@@ -2632,8 +2631,8 @@ OnMyMobDead2:
 
 // Orc Hero Helmet
 //============================================================
-in_orcs01,31,93,1	script	Orc Warrior#1	1023,2,2,{
-OnTouch_:
+in_orcs01,31,93,1	script	Orc Warrior#1	ORK_WARRIOR,2,2,{
+OnTouch:
 	disable_items;
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute !! -";
@@ -2685,7 +2684,7 @@ OnTouch_:
 				warp "gef_fild10",100,100;
 				end;
 			}
-			set orcs_hero_hat,1;
+			orcs_hero_hat = 1;
 			mes "[Orc Warrior]";
 			mes "Hah! It's a promise then!";
 			mes "Bwahahahahhahahahahahaha!";
@@ -2759,7 +2758,7 @@ OnTouch_:
 			mes "I hate humans! In fact, all Orcs hate humans! Hate you hate you hate you with a passion!";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,2;
+			orcs_hero_hat = 2;
 			mes "[Orc Warrior]";
 			mes "So...";
 			mes "Still in the mood to talk?!";
@@ -2818,7 +2817,7 @@ OnTouch_:
 			mes "Bah! Humans have built their own towns and cities. Do they keep their senseless killing amongst each other?! NO! Humans have to rampage and ravage everything!!";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,3;
+			orcs_hero_hat = 3;
 			mes "[Orc Warrior]";
 			mes "Now, if you want";
 			mes "to listen to more,";
@@ -2883,7 +2882,7 @@ OnTouch_:
 			mes "That's enough for today!";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,4;
+			orcs_hero_hat = 4;
 			mes "[Orc Warrior]";
 			mes "Grrr~! If you want to listen longer go bring me ^FF00001000 Jellopy^000000 again.";
 			close;
@@ -2919,7 +2918,7 @@ OnTouch_:
 			mes "That's the end of the conversation for today.";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,5;
+			orcs_hero_hat = 5;
 			mes "[Orc Warrior]";
 			mes "Now, if you want to listen some more, go bring me";
 			mes "^FF00001000 Jellopy^000000 again tomorrow.";
@@ -2955,7 +2954,7 @@ OnTouch_:
 			mes "Orcs never restore health during battle using your silly medicines. Hmpf. Humans can be so weak, drinking bottles of Potion to keep up in a fight. Oh well, though, I'm not sure if you're the same.";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,6;
+			orcs_hero_hat = 6;
 			mes "[Orc Warrior]";
 			mes "Now, if you want";
 			mes "to listen to me";
@@ -2997,7 +2996,7 @@ OnTouch_:
 			mes "Hm, well to you humans, we may all look the same, but we Orcs can tell each other apart. How about you, human? Do I look the same as every Warrior outside to you?";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,7;
+			orcs_hero_hat = 7;
 			mes "[Orc Warrior]";
 			mes "Now...";
 			mes "If you want to";
@@ -3044,7 +3043,7 @@ OnTouch_:
 			mes "Well, humans rarely get the chance to see this helmet unless they're in battle with an Orc Hero themselves...";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,8;
+			orcs_hero_hat = 8;
 			mes "[Orc Warrior]";
 			mes "Now, if you want";
 			mes "to listen longer,";
@@ -3088,7 +3087,7 @@ OnTouch_:
 			mes "Every Orc can recognize him by his distinguished helm with the three horns.";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,9;
+			orcs_hero_hat = 9;
 			mes "[Orc Warrior]";
 			mes "Now...";
 			mes "If you want to";
@@ -3134,7 +3133,7 @@ OnTouch_:
 			mes "I don't think there is a curse which transforms humans into a totally ugly creature depending on their deeds. So it is difficult to tell which humans are honorable...";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,10;
+			orcs_hero_hat = 10;
 			mes "[Orc Warrior]";
 			mes "Now...";
 			mes "If you want";
@@ -3165,7 +3164,7 @@ OnTouch_:
 			mes "I suggest you that you experience more battles with the many different Orcs out there. That's the best way of understanding and learning about the Orc tribe.";
 			next;
 			delitem 909,1000; //Jellopy
-			set orcs_hero_hat,11;
+			orcs_hero_hat = 11;
 			getitem 1304,1; //Orcish_Axe
 			mes "[Orc Warrior]";
 			mes "This is a small token of my gratitue. This axe used to aid me in many battles and is very precious to me. I hope you will take care of this.";
@@ -3224,8 +3223,8 @@ OnTouch_:
 				mes "Ah, spoken like a true warrior. Alright then, go forth and do battle with others of my tribe, and bring me 10,000 Orcish Vouchers.";
 				next;
 				delitem 931,100; //Orcish_Voucher
-				set orcs_hero_hat,13;
-				set orcs_hero_hat2,100;
+				orcs_hero_hat = 13;
+				orcs_hero_hat2 = 100;
 				mes "[Orc Warrior]";
 				mes "I took 100 Orcish Voucher from you now. Now, fight and fight until you have defeated 10,000 more Orc Warriors so that the whole tribe will have to recognize you!";
 				close;
@@ -3252,7 +3251,7 @@ OnTouch_:
 	else if (orcs_hero_hat2 > 99 && orcs_hero_hat2 < 10000) {
 		if (countitem(931) > 0) {
 			if (orcs_hero_hat2 > 9999)
-				set orcs_hero_hat2,10000;
+				orcs_hero_hat2 = 10000;
 			mes "[Orc Warrior]";
 			mes "You've come back...";
 			mes "It doesn't seem that you've accomplished your goal yet, but I do not expect you to defeat 10,000 Orc Warriors so easily.";
@@ -3266,10 +3265,10 @@ OnTouch_:
 			mes "victory with me?";
 			next;
 			if (select("Yes, I do.:I will do it later.") == 1) {
-				set .@total_vouchers,orcs_hero_hat2+countitem(931);
+				.@total_vouchers = orcs_hero_hat2+countitem(931);
 				if (.@total_vouchers < 10000) {
 					delitem 931,countitem(931); //Orcish_Voucher
-					set orcs_hero_hat2,.@total_vouchers;
+					orcs_hero_hat2 = .@total_vouchers;
 					mes "[Orc Warrior]";
 					mes "I hope you will";
 					mes "continue your efforts";
@@ -3301,14 +3300,14 @@ OnTouch_:
 					next;
 					mes "[Orc Warrior]";
 					mes "You are now...";
-					if (Sex == SEX_MALE)
+					if (Sex)
 						mes "an Orc Warrior!!";
 					else
 						mes "an Orc Lady!!";
 					next;
 					delitem 931,countitem(931); //Orcish_Voucher
-					set orcs_hero_hat,14;
-					set orcs_hero_hat2,10000;
+					orcs_hero_hat = 14;
+					orcs_hero_hat2 = 10000;
 					getitem 2299,1; //Viking_Helm
 					mes "[Orc Warrior]";
 					mes "This is a present for you. I am not sure if it will fit to your head or not, but try it. If your head is too big to wear this, I suggest that you carry this with you.";
@@ -3390,7 +3389,7 @@ OnTouch_:
 				mes "[Orc Warrior]";
 				mes "Go fight with 100 Orc Heroes and bring me the tokens of the battles you have endured. Even if you're an excellent warrior, I assure you this test will be the hardest one you'll ever get.";
 				next;
-				set orcs_hero_hat,15;
+				orcs_hero_hat = 15;
 				mes "[Orc Warrior]";
 				mes "Now, go, warrior! I believe that you have a chance to succeed. Fight with 100 Orc Heroes, and I will grant you, a human, recognition as an Orc Hero!";
 				close;
@@ -3444,7 +3443,7 @@ OnTouch_:
 				mes "You deserve to be an Orc Hero, the most powerful Orc warrior! As of today, you are now an Orc Hero!";
 				next;
 				delitem 968,100; //Voucher_Of_Orcish_Hero
-				set orcs_hero_hat,16;
+				orcs_hero_hat = 16;
 				getitem 1124,1; //Orcish_Sword
 				mes "[Orc Warrior]";
 				mes "This is a sword only given to our heroes. I am not sure if you can use this or not, but as an Orc Hero, you're obligated to carry this with you always.";
@@ -3503,8 +3502,8 @@ OnTouch_:
 	}
 }
 
-in_orcs01,162,33,1	script	Orc Hero#1	1087,2,2,{
-OnTouch_:
+in_orcs01,162,33,1	script	Orc Hero#1	ORK_HERO,2,2,{
+OnTouch:
 	if (checkweight(1201,1) == 0) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
@@ -3579,7 +3578,7 @@ OnTouch_:
 					mes "Although you're a human, you're an Orc Hero amongst us now, so you should have a helm suitable for your position...";
 					next;
 					delitem 2299,1; //Viking_Helm
-					set orcs_hero_hat,17;
+					orcs_hero_hat = 17;
 					getnameditem 5094,strcharinfo(0); //Orc_Hero_Helm
 					mes "[Orc Hero]";
 					mes "There you go. I marked a small indication on it. So wear this helm from now on. Do you understand? My human Orc Hero.";
@@ -3633,9 +3632,9 @@ OnTouch_:
 	close;
 }
 
-//============================================================ 
+//============================================================
 // Old changelog
-//============================================================ 
+//============================================================
 //= 1.01 Fixed items names iRO->kRO, fixed some bugs [Qwadrat]
 //=     Fixed possible item exploits, fixed Straw Hat
 //=     Added missing checks [Lupus]

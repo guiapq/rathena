@@ -25,7 +25,7 @@ yuno_fild03,19,79,0	warp	yunfild04	1,1,yuno_fild04,373,84
 yuno_fild04,375,84,0	warp	yunfild04-1	1,1,yuno_fild03,21,79
 yuno_fild03,20,155,0	warp	yunfild05	1,1,yuno_fild04,373,150
 yuno_fild04,375,150,0	warp	yunfild05-1	1,1,yuno_fild03,22,155
-yuno_fild04,231,288,0	warp	yunfild-yun	1,1,yuno,158,17
+// [DISABLED_INACTIVE_CITY] yuno_fild04,231,288,0	warp	yunfild-yun	1,1,yuno,158,17
 yuno_fild03,32,139,0	warp	yunfild-mag01	1,1,mag_dun01,126,68
 
 //= New Yuno Fields ==========================================
@@ -62,8 +62,8 @@ yuno_fild05,59,28,0	warp	newjun14a	1,1,yuno_fild04,42,367
 
 
 //= Al de Baran <-> Yuno Connection ==========================
-aldebaran,140,244,0	warp	alde-yunfild	1,1,yuno_fild01,208,19
-yuno_fild01,208,17,0	warp	yunfild-alde	1,1,aldebaran,140,242
+// [DISABLED_INACTIVE_CITY] aldebaran,140,244,0	warp	alde-yunfild	1,1,yuno_fild01,208,19
+// [DISABLED_INACTIVE_CITY] yuno_fild01,208,17,0	warp	yunfild-alde	1,1,aldebaran,140,242
 
 //= Hugel Field
 //= Version 1

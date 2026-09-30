@@ -1,4 +1,4 @@
-// Mapflags de loadevent para RagnaRogue v3
+// Mapflags de loadevent para RagnaRogue v4
 alb_ship	mapflag	loadevent
 alb2trea	mapflag	loadevent
 alberta	mapflag	loadevent

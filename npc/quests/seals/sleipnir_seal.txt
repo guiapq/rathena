@@ -1,12 +1,10 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= God Item Quest - Sleipnir Seal
-//===== By: ================================================== 
+//===== By: ==================================================
 //= MasterOfMuppets
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.4
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= Quest for breaking the seal of Sleipnir.
 //===== Additional Comments: =================================
 //= 1.0 First version. [MasterOfMuppets]
@@ -16,7 +14,7 @@
 //= 1.4 Renewal script update. [Euphy]
 //============================================================
 
-yuno,164,200,4	script	Noyee#G	101,{
+yuno,164,200,4	script	Noyee#G	4W_F_01,{
 	if (BaseLevel < 70) {
 		mes "[Noyee]";
 		mes "Did you know that there's a difference between the armor you can buy from NPC shops and the kinds you obtain from hunting monsters?";
@@ -55,13 +53,13 @@ yuno,164,200,4	script	Noyee#G	101,{
 			mes "Anyway, no one is really sure if it is or not. Recently, it's been the focus of many rumors. I have no idea if any of them are true though.";
 			close2;
 			if (god_sl_1 == 0) {
-				set god_sl_1,1;
+				god_sl_1 = 1;
 			}
 		}
 	}
 }
 
-que_god01,98,98,4	script	Manager#G	69,{
+que_god01,98,98,4	script	Manager#G	1_F_04,{
 	if (checkweight(908,500) == 0) {
 		mes "^3355FFWait a second! Right now, you're carrying too many items with you. Please come back after putting some of your things into Kafra Storage.^000000";
 		close;
@@ -74,7 +72,7 @@ que_god01,98,98,4	script	Manager#G	69,{
 		mes "Wait...!";
 		mes "I can't even remember the last";
 		mes "time I went out with a guy! At this rate, I might retire before I can find a boyfriend. Noooo, I'm still in my prime~!";
-		emotion ET_PROFUSELY_SWEAT;
+		emotion e_swt2;
 		close;
 	}
 	if ($God1 < $@god_check2) {
@@ -86,7 +84,7 @@ que_god01,98,98,4	script	Manager#G	69,{
 			mes "Wait...!";
 			mes "I can't even remember the last";
 			mes "time I went out with a guy! At this rate, I might retire before I can find a boyfriend. Noooo, I'm still in my prime~!";
-			emotion ET_PROFUSELY_SWEAT;
+			emotion e_swt2;
 			close;
 		}
 		else if (god_sl_1 == 1) {
@@ -136,7 +134,7 @@ que_god01,98,98,4	script	Manager#G	69,{
 				mes "^3355FFYou've received";
 				mes "a temporary";
 				mes "admission pass.^000000";
-				set god_sl_1,2;
+				god_sl_1 = 2;
 				close2;
 				break;
 			}
@@ -198,7 +196,7 @@ que_god01,98,98,4	script	Manager#G	69,{
 			mes "Ah, there it is.";
 			mes "It might not be much, but I hope you accept it as a token of my gratitude. Good luck on your travels!";
 			if ($God1 < $@god_check2)
-				set $God1,$God1+1;
+				$God1 += 1;
 			if ($God1 == $@god_check1)
 				announce "The 1st seal of [Sleipnir] has appeared.",bc_all;
 			else if ($God1 == $@god_check2) {
@@ -207,10 +205,10 @@ que_god01,98,98,4	script	Manager#G	69,{
 				else
 					announce "The 1st seal of [Sleipnir] has been released.",bc_all;
 			}
-			set god_sl_1,51;
-			set .@god_treasure,rand(1,900);
-			set .@god_treasure1,rand(1,1000);
-			if (checkre(0)) {
+			god_sl_1 = 51;
+			.@god_treasure = rand(1,900);
+			.@god_treasure1 = rand(1,1000);
+			if (RENEWAL) {
 				if (.@god_treasure < 101) {
 					     if (.@god_treasure1 < 210) getitem 2102,1; //Guard_
 					else if (.@god_treasure1 < 420) getitem 2104,1; //Buckler_
@@ -472,7 +470,7 @@ que_god01,98,98,4	script	Manager#G	69,{
 			mes "Wait...!";
 			mes "I can't even remember the last";
 			mes "time I went out with a guy! At this rate, I might retire before I can find a boyfriend. Noooo, I'm still in my prime~!";
-			emotion ET_PROFUSELY_SWEAT;
+			emotion e_swt2;
 			close2;
 		}
 		else if (god_sl_1 < 51) {
@@ -507,10 +505,10 @@ que_god01,98,98,4	script	Manager#G	69,{
 	end;
 }
 
-que_god01,66,125,6	script	Researcher#G1	89,{
+que_god01,66,125,6	script	Researcher#G1	4_M_ORIENT02,{
 	if ($God1 < $@god_check2) {
 		if (god_sl_1 == 2) {
-			set god_sl_1,11;
+			god_sl_1 = 11;
 		}
 		if ((god_sl_1 == 11) || (god_sl_1 == 22) || (god_sl_1 == 33) || (god_sl_1 == 44)) {
 			if (god_sl_2 == 0) {
@@ -536,7 +534,7 @@ que_god01,66,125,6	script	Researcher#G1	89,{
 				next;
 				mes "[Hallandaute]";
 				mes "Since he's working on a project similar to mine, he might be in a position to help me. Metto lives in Juno, so you can easily find me.";
-				set god_sl_2,1;
+				god_sl_2 = 1;
 				close;
 			}
 			else if (god_sl_2 == 1) {
@@ -567,13 +565,13 @@ que_god01,66,125,6	script	Researcher#G1	89,{
 					mes "[Hallandaute]";
 					mes "A mad scientist?";
 					mes "That doesn't sound right. In my wildest dreams, I never would have suspected Metto of turning out that way...";
-					emotion ET_SCRATCH;
+					emotion e_hmm;
 					next;
 					mes "[Hallandaute]";
 					mes "Huh. That's...";
 					mes "That's too bad. I don't know what to say. We used to go watch movies and celebrate our birthdays together. P-please give me a moment...";
-					emotion ET_THINK;
-					set god_sl_2,2;
+					emotion e_dots;
+					god_sl_2 = 2;
 					close;
 				}
 			}
@@ -607,18 +605,18 @@ que_god01,66,125,6	script	Researcher#G1	89,{
 					next;
 					mes "[Hallandaute]";
 					mes "Anyway, I thank you for helping me out earlier. That's basically all I needed, so please talk to the other researchers and see if they need any assistance.";
-					set god_sl_2,0;
+					god_sl_2 = 0;
 					if (god_sl_1 == 11) {
-						set god_sl_1,12;
+						god_sl_1 = 12;
 					}
 					if (god_sl_1 == 22) {
-						set god_sl_1,23;
+						god_sl_1 = 23;
 					}
 					if (god_sl_1 == 33) {
-						set god_sl_1,34;
+						god_sl_1 = 34;
 					}
 					if (god_sl_1 == 44) {
-						set god_sl_1,50;
+						god_sl_1 = 50;
 					}
 					close;
 				}
@@ -673,10 +671,10 @@ que_god01,66,125,6	script	Researcher#G1	89,{
 	}
 }
 
-que_god01,11,136,6	script	Researcher#G2	742,{
+que_god01,11,136,6	script	Researcher#G2	2_M_SAGE_B,{
 	if ($God1 < $@god_check2) {
 		if (god_sl_1 == 2) {
-			set god_sl_1,21;
+			god_sl_1 = 21;
 		}
 		if ((god_sl_1 == 21) || (god_sl_1 == 32) || (god_sl_1 == 43) || (god_sl_1 == 14)) {
 			if (god_sl_2 == 0) {
@@ -726,7 +724,7 @@ que_god01,11,136,6	script	Researcher#G2	742,{
 				next;
 				mes "[Aadin]";
 				mes "Have a safe trip~";
-				set god_sl_2,1;
+				god_sl_2 = 1;
 				close;
 			}
 			else if (god_sl_2 == 1) {
@@ -778,7 +776,7 @@ que_god01,11,136,6	script	Researcher#G2	742,{
 				next;
 				mes "[Aadin]";
 				mes "Are you sure you've listened to the tale in its entirety? I'm sorry to ask this of you, but would you go to Payon and listen to this story once more?";
-				set god_sl_2,3;
+				god_sl_2 = 3;
 				close;
 			}
 			else if (god_sl_2 == 3) {
@@ -857,18 +855,18 @@ que_god01,11,136,6	script	Researcher#G2	742,{
 				next;
 				mes "[Aadin]";
 				mes "After all, finding answers tends to cause new questions to arise. Nonetheless, I thank you for your help.";
-				set god_sl_2,0;
+				god_sl_2 = 0;
 				if (god_sl_1 == 21) {
-					set god_sl_1,22;
+					god_sl_1 = 22;
 				}
 				if (god_sl_1 == 32) {
-					set god_sl_1,33;
+					god_sl_1 = 33;
 				}
 				if (god_sl_1 == 43) {
-					set god_sl_1,44;
+					god_sl_1 = 44;
 				}
 				if (god_sl_1 == 14) {
-					set god_sl_1,50;
+					god_sl_1 = 50;
 				}
 				close;
 			}
@@ -892,10 +890,10 @@ que_god01,11,136,6	script	Researcher#G2	742,{
 	}
 }
 
-que_god01,55,47,3	script	Researcher#G3	803,{
+que_god01,55,47,3	script	Researcher#G3	1_F_SIGNZISK,{
 	if ($God1 < $@god_check2) {
 		if (god_sl_1 == 2) {
-			set god_sl_1,31;
+			god_sl_1 = 31;
 		}
 		if ((god_sl_1 == 31) || (god_sl_1 == 42) || (god_sl_1 == 13) || (god_sl_1 == 24)) {
 			if (god_sl_2 == 0) {
@@ -935,7 +933,7 @@ que_god01,55,47,3	script	Researcher#G3	803,{
 				next;
 				mes "[Kurdt]";
 				mes "Anyway, I hope you don't run into too much trouble finding what I need for this experiment. Good luck~";
-				set god_sl_2,1;
+				god_sl_2 = 1;
 				close;
 			}
 			else if (god_sl_2 == 1) {
@@ -951,64 +949,64 @@ que_god01,55,47,3	script	Researcher#G3	803,{
 				mes "You adventurers carry";
 				mes "a lot of things, don't you?";
 				if (countitem(918) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(950) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(951) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(956) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(959) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(960) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(961) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(962) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(963) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(964) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(965) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(966) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(7013) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(1054) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(1053) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(1052) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(1051) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(1050) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(1024) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				if (countitem(1023) > 8) {
-					set .@count_sl_1,.@count_sl_1 + 1;
+					++.@count_sl_1;
 				}
 				next;
 				if (.@count_sl_1 > 14) {
@@ -1090,18 +1088,18 @@ que_god01,55,47,3	script	Researcher#G3	803,{
 					if (countitem(7013) > 8) {
 						delitem 7013,9;  //Coral_Reef
 					}
-					set god_sl_2,0;
+					god_sl_2 = 0;
 					if (god_sl_1 ==31) {
-						set god_sl_1,32;
+						god_sl_1 = 32;
 					}
 					if (god_sl_1 == 42) {
-						set god_sl_1,43;
+						god_sl_1 = 43;
 					}
 					if (god_sl_1 == 13) {
-						set god_sl_1,14;
+						god_sl_1 = 14;
 					}
 					if (god_sl_1 == 24) {
-						set god_sl_1,50;
+						god_sl_1 = 50;
 					}
 					close;
 				}
@@ -1158,10 +1156,10 @@ que_god01,55,47,3	script	Researcher#G3	803,{
 	}
 }
 
-que_god01,14,47,3	script	Researcher#G4	713,{
+que_god01,14,47,3	script	Researcher#G4	4_M_06,{
 	if ($God1 < $@god_check2) {
 		if (god_sl_1 == 2) {
-			set god_sl_1,41;
+			god_sl_1 = 41;
 		}
 		if ((god_sl_1 == 41) || (god_sl_1 == 12) || (god_sl_1 == 23) || (god_sl_1 == 34)) {
 			if (god_sl_2 == 0) {
@@ -1179,7 +1177,7 @@ que_god01,14,47,3	script	Researcher#G4	713,{
 				next;
 				mes "[Pavel]";
 				mes "Anyway, go look at --^333333*Aaachooo!*^000000 that ^333333*Achoooo!*^000000 thing... ^333333*Sniff sniff*^000000";
-				set god_sl_2,1;
+				god_sl_2 = 1;
 				close;
 			}
 			else if (god_sl_2 == 1) {
@@ -1212,7 +1210,7 @@ que_god01,14,47,3	script	Researcher#G4	713,{
 				mes "[Pavel]";
 				mes "^333333*Sniff sniff*^000000";
 				mes "So I hope you don't mind ^333333*Achoo!*^000000 helping me remove ^333333*Cough*^000000 the device. Thank you so much. ^333333*Sniff*^000000";
-				set god_sl_2,3;
+				god_sl_2 = 3;
 				close;
 			}
 			else if (god_sl_2 == 3) {
@@ -1235,18 +1233,18 @@ que_god01,14,47,3	script	Researcher#G4	713,{
 				mes "[Pavel]";
 				mes "Great job~";
 				mes "You did some ^333333*Sniff*^000000 good work. Thank you so much for helping me. ^333333*Achoo! Achoo!*^000000";
-				set god_sl_2,0;
+				god_sl_2 = 0;
 				if (god_sl_1 == 41) {
-					set god_sl_1,42;
+					god_sl_1 = 42;
 				}
 				if (god_sl_1 == 12) {
-					set god_sl_1,13;
+					god_sl_1 = 13;
 				}
 				if (god_sl_1 == 23) {
-					set god_sl_1,24;
+					god_sl_1 = 24;
 				}
 				if (god_sl_1 == 34) {
-					set god_sl_1,50;
+					god_sl_1 = 50;
 				}
 				close;
 			}
@@ -1264,7 +1262,7 @@ que_god01,14,47,3	script	Researcher#G4	713,{
 	}
 }
 
-que_god01,20,48,0	script	Slab#G	111,{
+que_god01,20,48,0	script	Slab#G	HIDDEN_NPC,{
 	if ($God1 < $@god_check2) {
 		if ((god_sl_1 == 41) || (god_sl_1 == 12) || (god_sl_1 == 23) || (god_sl_1 == 34)) {
 			if ((god_sl_2 == 1) || (god_sl_2 == 2)) {
@@ -1274,7 +1272,7 @@ que_god01,20,48,0	script	Slab#G	111,{
 				mes "wkdusgks ^ff00fftkaryf^000000dnl durjfflrhsjs wkrdjswhgks ......";
 				mes "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
 				mes "^ff00ffghswka^000000gks ........fusjs tmld.........";
-				set god_sl_2,2;
+				god_sl_2 = 2;
 				next;
 				mes "^3355FFThere is some writing engraved on this slab of stone. Since you can't read it and the stone looks weathered with time, it seems to be written in an ancient language.^000000";
 				next;
@@ -1371,7 +1369,7 @@ que_god01,20,48,0	script	Slab#G	111,{
 				mes "^3355FFYou still don't";
 				mes "understand what is";
 				mes "written on the slab.^000000";
-				set god_sl_2,4;
+				god_sl_2 = 4;
 				next;
 				mes "After a while, the original engraving on the slab re-appeared, once again concealing the writing underneath. It seems you can only reveal the hidden letters temporarily.";
 				close;
@@ -1410,7 +1408,7 @@ que_god01,20,48,0	script	Slab#G	111,{
 	}
 }
 
-payon,79,171,4	script	Friar#G5	95,{
+payon,79,171,4	script	Friar#G5	4_F_SISTER,{
 	if ($God1 < $@god_check2) {
 		if ((god_sl_1 == 21) || (god_sl_1 == 32) || (god_sl_1 == 43) || (god_sl_1 == 14)) {
 			if ((god_sl_2 == 1) || (god_sl_2 == 3)) {
@@ -1774,9 +1772,9 @@ payon,79,171,4	script	Friar#G5	95,{
 						mes "If you wish to listen to this story again, you're always welcome.";
 						mes "Be safe on your adventures~";
 						if (god_sl_2 == 1) {
-							set god_sl_2,2;
+							god_sl_2 = 2;
 						} else if (god_sl_2 == 3) {
-							set god_sl_2,4;
+							god_sl_2 = 4;
 						}
 						close;
 					}
@@ -1820,7 +1818,7 @@ payon,79,171,4	script	Friar#G5	95,{
 	}
 }
 
-que_god01,84,95,0	script	Switch#God0	111,{
+que_god01,84,95,0	script	Switch#God0	HIDDEN_NPC,{
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1836,8 +1834,8 @@ que_god01,84,95,0	script	Switch#God0	111,{
 	}
 }
 
-que_god01,84,92,0	script	god_sl_w0	45,1,1,{
-OnTouch_:
+que_god01,84,92,0	script	god_sl_w0	WARPNPC,1,1,{
+OnTouch:
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1850,7 +1848,7 @@ OnTouch_:
 	}
 }
 
-que_god01,49,97,0	script	Switch#God1	111,{
+que_god01,49,97,0	script	Switch#God1	HIDDEN_NPC,{
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1863,8 +1861,8 @@ que_god01,49,97,0	script	Switch#God1	111,{
 	}
 }
 
-que_god01,46,97,0	script	god_sl_w1	45,1,1,{
-OnTouch_:
+que_god01,46,97,0	script	god_sl_w1	WARPNPC,1,1,{
+OnTouch:
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1877,7 +1875,7 @@ OnTouch_:
 	}
 }
 
-que_god01,19,97,0	script	Switch#God2	111,{
+que_god01,19,97,0	script	Switch#God2	HIDDEN_NPC,{
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1890,8 +1888,8 @@ que_god01,19,97,0	script	Switch#God2	111,{
 	}
 }
 
-que_god01,16,97,0	script	god_sl_w2	45,1,1,{
-OnTouch_:
+que_god01,16,97,0	script	god_sl_w2	WARPNPC,1,1,{
+OnTouch:
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1904,7 +1902,7 @@ OnTouch_:
 	}
 }
 
-que_god01,14,80,0	script	Switch#God3	111,{
+que_god01,14,80,0	script	Switch#God3	HIDDEN_NPC,{
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1917,8 +1915,8 @@ que_god01,14,80,0	script	Switch#God3	111,{
 	}
 }
 
-que_god01,17,80,0	script	god_sl_w3	45,1,1,{
-OnTouch_:
+que_god01,17,80,0	script	god_sl_w3	WARPNPC,1,1,{
+OnTouch:
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1931,7 +1929,7 @@ OnTouch_:
 	}
 }
 
-que_god01,44,80,0	script	Switch#God4	111,{
+que_god01,44,80,0	script	Switch#God4	HIDDEN_NPC,{
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;
@@ -1944,8 +1942,8 @@ que_god01,44,80,0	script	Switch#God4	111,{
 	}
 }
 
-que_god01,47,80,0	script	god_sl_w4	45,1,1,{
-OnTouch_:
+que_god01,47,80,0	script	god_sl_w4	WARPNPC,1,1,{
+OnTouch:
 	if ((god_sl_1 > 1) && (god_sl_1 < 51)) {
 		mes "^3355FFThe door is locked. You slide your temporary pass on the security device on the right side of the door, and the door unlocks.^000000";
 		next;

@@ -1,20 +1,18 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Mage Solutions
-//===== By: ================================================== 
+//===== By: ==================================================
 //= kobra_k88; L0ne_W0lf
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.0
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= Traders for Morroc Solution and Payon Solution, used in
 //= the Sage skill quests and the Pre-Renewal Mage job quest.
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 Split from Pre-Renewal Mage job quest. [Zopokx]
-//============================================================ 
+//============================================================
 
-pay_arche,122,100,0	script	Dollshoi	88,{
+pay_arche,122,100,0	script	Dollshoi	4_M_ORIENT01,{
 	mes "[Mage Guildsman]";
 	mes "You want a Solution? Hmm, give me 50 Zeny and at least 1 Empty Test Tube.";
 	next;
@@ -29,13 +27,13 @@ pay_arche,122,100,0	script	Dollshoi	88,{
 			close;
 		}
 		delitem 1092,1; //Empty_Cylinder
-		set Zeny, Zeny-50;
+		Zeny -= 50;
 		getitem 1089,1; //Payon_Potion
 	}
 	close;
 }
 
-moc_ruins,91,150,0	script	Ponka-Hontas	93,{
+moc_ruins,91,150,0	script	Ponka-Hontas	4_F_04,{
 	mes "[Mage Guildsman]";
 	mes "Would you like a Solution? Then please give me 50 Zeny and at least 1 Empty Test Tube.";
 	next;
@@ -50,7 +48,7 @@ moc_ruins,91,150,0	script	Ponka-Hontas	93,{
 			close;
 		}
 		delitem 1092,1; //Empty_Cylinder
-		set Zeny, Zeny-50;
+		Zeny -= 50;
 		getitem 1088,1; //Morocc_Potion
 	}
 	close;

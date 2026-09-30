@@ -1,9 +1,54 @@
+//===== rAthena Script =======================================
+//= RagnaRogue v3 — Sistema de Placar por Goal (Metas Roguelike) & Final da Run
+//===== Descrição: ============================================
+//= - Rastreia conquistas por meta:
+//=   * Fragmentos do Cometa destruídos (+5.000 pts cada)
+//=   * Golpe Final no 7º Fragmento (+15.000 pts bônus: Salvador Cósmico)
+//=   * Mapas purificados/conquistados (+500 pts cada)
+//=   * MVPs regulares eliminados (+1.000 pts cada)
+//=   * Abates PvP (+300 pts cada)
+//=   * Monstros normais (+1 pt cada)
+//=   * Bônus Speedrun Nv 99 (até +5.000 pts)
+//=   * Mortes sofridas (-200 pts cada)
+//= - Ao destruírem o 7º fragmento:
+//=   * Placar solidificado e congelado.
+//=   * Pódio e estatísticas anunciados globalmente.
+//=   * Contagem regressiva de 10 minutos para fechamento elegante do servidor (@mapexit).
+//= - Comandos: @placar, @goals, @ranking, @metas
+//============================================================
+
 -	script	EventTelemetry	-1,{
+
+OnInit:
+	bindatcmd("placar", "EventTelemetry::OnShowLeaderboard", 0, 99);
+	bindatcmd("goals", "EventTelemetry::OnShowLeaderboard", 0, 99);
+	bindatcmd("ranking", "EventTelemetry::OnShowLeaderboard", 0, 99);
+	bindatcmd("metas", "EventTelemetry::OnShowLeaderboard", 0, 99);
+
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
+	end;
+
 OnPCLoginEvent:
 	if (getgmlevel() > 0 || getcharid(3) >= 2000010) end;
+
+	if ($@current_world_seed$ == "") {
+		query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		$@current_world_seed$ = (.@seed$[0] != "") ? .@seed$[0] : "v3-world";
+	}
+
 	if (char_created_tick == 0) {
 		char_created_tick = gettimetick(2);
 	}
+
+	// Garantir registro inicial na tabela do placar
+	query_sql("INSERT INTO `run_goal_leaderboard` (`char_id`, `char_name`, `class`, `seed`, `created_at`, `updated_at`) VALUES (" + getcharid(0) + ", '" + escape_sql(strcharinfo(0)) + "', " + Class + ", '" + $@current_world_seed$ + "', NOW(), NOW()) ON DUPLICATE KEY UPDATE `char_name` = VALUES(`char_name`), `class` = VALUES(`class`), `updated_at` = NOW()");
 	end;
 
 OnPCBaseLvUpEvent:
@@ -15,21 +60,201 @@ OnPCBaseLvUpEvent:
 			char_created_tick = .@now_tick;
 		}
 		.@total_seconds = .@now_tick - char_created_tick;
-		if (.@total_seconds < 1) {
-			.@total_seconds = 1;
-		}
+		if (.@total_seconds < 1) .@total_seconds = 1;
 		.@mins = .@total_seconds / 60;
-		query_sql("INSERT INTO event_speedruns (char_id, name, class, base_level, job_level, total_seconds, achieved_at, created_at, updated_at) VALUES (" + getcharid(0) + ", '" + escape_sql(strcharinfo(0)) + "', " + Class + ", " + BaseLevel + ", " + JobLevel + ", " + .@total_seconds + ", NOW(), NOW(), NOW()) ON DUPLICATE KEY UPDATE total_seconds = VALUES(total_seconds), updated_at = NOW()");
-		announce "[TORNEIO SPEEDRUN] " + strcharinfo(0) + " alcançou o Nível 99 em " + .@mins + " minutos!", bc_all, 0x00FF00;
+
+		query_sql("INSERT INTO `event_speedruns` (`char_id`, `name`, `class`, `base_level`, `job_level`, `total_seconds`, `achieved_at`, `created_at`, `updated_at`) VALUES (" + getcharid(0) + ", '" + escape_sql(strcharinfo(0)) + "', " + Class + ", " + BaseLevel + ", " + JobLevel + ", " + .@total_seconds + ", NOW(), NOW(), NOW()) ON DUPLICATE KEY UPDATE `total_seconds` = VALUES(`total_seconds`), `updated_at` = NOW()");
+
+		// Registrar meta de Nível 99 no Placar Roguelike
+		query_sql("UPDATE `run_goal_leaderboard` SET `level_99_time` = " + .@total_seconds + " WHERE `char_id` = " + getcharid(0) + " AND `seed` = '" + $@current_world_seed$ + "'");
+		callsub S_RecalculateScore, getcharid(0);
+
+		announce "[META ATINGIDA] " + strcharinfo(0) + " conquistou o Nível 99 em " + .@mins + " minutos! (+Bônus de Placar)", bc_all, 0x00FF00;
 	}
 	end;
 
 OnNPCKillEvent:
 	if (getgmlevel() > 0 || getcharid(3) >= 2000010) end;
+
+	.@cid = getcharid(0);
 	if (getmonsterinfo(killedrid, MOB_MVPEXP) > 0) {
 		.@mob_name$ = getmonsterinfo(killedrid, MOB_NAME);
-		query_sql("INSERT INTO event_mvp_kills (char_id, char_name, mob_id, mob_name, killed_at, created_at, updated_at) VALUES (" + getcharid(0) + ", '" + escape_sql(strcharinfo(0)) + "', " + killedrid + ", '" + escape_sql(.@mob_name$) + "', NOW(), NOW(), NOW())");
-		announce "[MVP BOUNTY] " + strcharinfo(0) + " derrotou o chefe " + .@mob_name$ + "!", bc_all, 0xFF8800;
+		query_sql("INSERT INTO `event_mvp_kills` (`char_id`, `char_name`, `mob_id`, `mob_name`, `killed_at`, `created_at`, `updated_at`) VALUES (" + .@cid + ", '" + escape_sql(strcharinfo(0)) + "', " + killedrid + ", '" + escape_sql(.@mob_name$) + "', NOW(), NOW(), NOW())");
+
+		query_sql("UPDATE `run_goal_leaderboard` SET `mvp_kills` = `mvp_kills` + 1 WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+		callsub S_RecalculateScore, .@cid;
+
+		dispbottom "[META MVP] Você eliminou " + .@mob_name$ + "! (+1.000 pontos no Placar)", 0xFFAA00;
+	} else {
+		// Monstro comum: incrementa abates
+		query_sql("UPDATE `run_goal_leaderboard` SET `mob_kills` = `mob_kills` + 1 WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+		// Recalcula score a cada 10 monstros para performance
+		if (rand(1, 10) == 1) {
+			callsub S_RecalculateScore, .@cid;
+		}
 	}
+	end;
+
+OnPCKillEvent:
+	if (getgmlevel() > 0) end;
+	.@killer_cid = getcharid(0);
+	.@victim_name$ = rid2name(killedrid);
+
+	query_sql("UPDATE `run_goal_leaderboard` SET `pvp_kills` = `pvp_kills` + 1 WHERE `char_id` = " + .@killer_cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+	callsub S_RecalculateScore, .@killer_cid;
+
+	dispbottom "[META PVP] Você abateu " + .@victim_name$ + " em combate! (+300 pontos no Placar)", 0xFF3333;
+	end;
+
+OnPCDieEvent:
+	if (getgmlevel() > 0) end;
+	.@cid = getcharid(0);
+
+	query_sql("UPDATE `run_goal_leaderboard` SET `deaths` = `deaths` + 1 WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+	callsub S_RecalculateScore, .@cid;
+	end;
+
+OnMapConquered:
+	.@cid = getcharid(0);
+	if (.@cid <= 0) end;
+
+	query_sql("UPDATE `run_goal_leaderboard` SET `maps_conquered` = `maps_conquered` + 1 WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+	callsub S_RecalculateScore, .@cid;
+
+	dispbottom "[META CONQUISTA] Você libertou um novo território! (+500 pontos no Placar)", 0x00FF00;
+	return;
+
+OnFragmentKill:
+	.@cid = getcharid(0);
+	if (.@cid <= 0) end;
+
+	query_sql("UPDATE `run_goal_leaderboard` SET `fragments_destroyed` = `fragments_destroyed` + 1 WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+	callsub S_RecalculateScore, .@cid;
+
+	dispbottom "[META CÓSMICA] Fragmento do Cometa destruído! (+5.000 pontos no Placar)", 0xFFD700;
+	return;
+
+OnFinalFragmentKill:
+	.@cid = getcharid(0);
+	if (.@cid <= 0) end;
+
+	// Registrar o 7º fragmento e o Título de Golpe Final
+	query_sql("UPDATE `run_goal_leaderboard` SET `fragments_destroyed` = `fragments_destroyed` + 1, `delivered_final_blow` = 1 WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+	callsub S_RecalculateScore, .@cid;
+
+	// Solidificar placar no banco de dados
+	query_sql("INSERT INTO `run_metadata` (`seed`, `is_finished`, `finished_at`, `winning_killer`) VALUES ('" + $@current_world_seed$ + "', 1, NOW(), '" + escape_sql(strcharinfo(0)) + "') ON DUPLICATE KEY UPDATE `is_finished` = 1, `finished_at` = NOW(), `winning_killer` = VALUES(`winning_killer`)");
+	$@run_solidified = 1;
+
+	// Calcular posições finais do ranking
+	query_sql("SELECT `char_id` FROM `run_goal_leaderboard` WHERE `seed` = '" + $@current_world_seed$ + "' ORDER BY `total_score` DESC", .@ranked_ids);
+	for (.@r = 0; .@r < getarraysize(.@ranked_ids); .@r++) {
+		query_sql("UPDATE `run_goal_leaderboard` SET `rank_position` = " + (.@r + 1) + " WHERE `char_id` = " + .@ranked_ids[.@r] + " AND `seed` = '" + $@current_world_seed$ + "'");
+	}
+
+	// Buscar pódio dos 3 maiores heróis
+	query_sql("SELECT `char_name`, `total_score`, `medals` FROM `run_goal_leaderboard` WHERE `seed` = '" + $@current_world_seed$ + "' ORDER BY `total_score` DESC LIMIT 3", .@p_names$, .@p_scores, .@p_medals$);
+
+	announce "=========================================================", bc_all, 0xFFD700;
+	announce "*** [PLACAR SOLIDIFICADO DA RUN] ***", bc_all, 0xFFD700;
+	if (getarraysize(.@p_names$) > 0) {
+		announce "1o LUGAR: " + .@p_names$[0] + " com " + .@p_scores[0] + " pontos! " + .@p_medals$[0], bc_all, 0x00FF00;
+	}
+	if (getarraysize(.@p_names$) > 1) {
+		announce "2o LUGAR: " + .@p_names$[1] + " com " + .@p_scores[1] + " pontos!", bc_all, 0x00FFFF;
+	}
+	if (getarraysize(.@p_names$) > 2) {
+		announce "3o LUGAR: " + .@p_names$[2] + " com " + .@p_scores[2] + " pontos!", bc_all, 0xFFAA00;
+	}
+	announce "Use @placar para inspecionar seus resultados detalhados e medalhas!", bc_all, 0xFFFF00;
+	announce "=========================================================", bc_all, 0xFFD700;
+
+	// Iniciar sequência de contagem regressiva de 10 minutos
+	donpcevent "EventTelemetry::OnShutdownCountdown";
+	return;
+
+OnShutdownCountdown:
+	announce "[FIM DA RUN] O reino foi salvo! O servidor sera encerrado em 10 minutos para consagracao da vitoria!", bc_all, 0xFFFF00;
+	sleep 300000; // 5 minutos restantes
+	announce "[FIM DA RUN] Restam 5 minutos antes do encerramento final do mundo!", bc_all, 0xFFFF00;
+	sleep 180000; // 2 minutos restantes
+	announce "[FIM DA RUN] Restam 2 minutos! Aproveitem os ultimos momentos na Era da Luz!", bc_all, 0xFFFF00;
+	sleep 60000;  // 1 minuto restante
+	announce "[FIM DA RUN] Resta 1 minuto para o fechamento do servidor!", bc_all, 0xFFAA00;
+	sleep 30000;  // 30 segundos restantes
+	announce "[FIM DA RUN] 30 segundos restantes! Salvando dados da vitoria...", bc_all, 0xFF5500;
+	sleep 20000;  // 10 segundos restantes
+	announce "[FIM DA RUN] 10 segundos... 9, 8, 7, 6, 5, 4, 3, 2, 1!", bc_all, 0xFF0000;
+	sleep 10000;
+	announce "[ERA DA LUZ] Obrigado a todos os herois! Ate a proxima grande aventura!", bc_all, 0x00FF00;
+	atcommand "@mapexit";
+	end;
+
+S_RecalculateScore:
+	.@cid = getarg(0);
+	if (.@cid <= 0) return;
+
+	// 1. Recalcular Score Total
+	query_sql("UPDATE `run_goal_leaderboard` SET `total_score` = GREATEST(0, (`fragments_destroyed` * 5000) + (`delivered_final_blow` * 15000) + (`maps_conquered` * 500) + (`mvp_kills` * 1000) + (`pvp_kills` * 300) + (`mob_kills` * 1) + (CASE WHEN `level_99_time` > 0 THEN GREATEST(500, 5000 - (`level_99_time` / 2)) ELSE 0 END) - (`deaths` * 200)), `updated_at` = NOW() WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+
+	// 2. Construir Medalhas e Títulos
+	query_sql("SELECT `fragments_destroyed`, `delivered_final_blow`, `maps_conquered`, `mvp_kills`, `pvp_kills`, `deaths`, `level_99_time` FROM `run_goal_leaderboard` WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "' LIMIT 1", .@frags, .@fblow, .@maps, .@mvps, .@pvps, .@dths, .@lv99);
+
+	.@medals$ = "";
+	if (.@fblow[0] == 1) .@medals$ = .@medals$ + "[Salvador Cosmico] ";
+	if (.@frags[0] >= 1) .@medals$ = .@medals$ + "[Quebrador de Estrelas] ";
+	if (.@maps[0] >= 5) .@medals$ = .@medals$ + "[Desbravador] ";
+	if (.@mvps[0] >= 2) .@medals$ = .@medals$ + "[Cacador de Chefes] ";
+	if (.@pvps[0] >= 1) .@medals$ = .@medals$ + "[Gladiador] ";
+	if (.@lv99[0] > 0) .@medals$ = .@medals$ + "[Mestre 99] ";
+	if (.@dths[0] == 0 && (.@maps[0] > 0 || .@frags[0] > 0)) .@medals$ = .@medals$ + "[Imortal] ";
+
+	if (.@medals$ == "") .@medals$ = "[Aventureiro]";
+
+	query_sql("UPDATE `run_goal_leaderboard` SET `medals` = '" + escape_sql(.@medals$) + "' WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "'");
+	return;
+
+OnShowLeaderboard:
+	.@cid = getcharid(0);
+
+	if ($@current_world_seed$ == "") {
+		query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		$@current_world_seed$ = (.@seed$[0] != "") ? .@seed$[0] : "v3-world";
+	}
+
+	callsub S_RecalculateScore, .@cid;
+
+	// Buscar dados do jogador
+	.@found = query_sql("SELECT `fragments_destroyed`, `delivered_final_blow`, `maps_conquered`, `mvp_kills`, `pvp_kills`, `mob_kills`, `deaths`, `level_99_time`, `total_score`, `medals` FROM `run_goal_leaderboard` WHERE `char_id` = " + .@cid + " AND `seed` = '" + $@current_world_seed$ + "' LIMIT 1", .@frags, .@fblow, .@maps, .@mvps, .@pvps, .@mobs, .@dths, .@lv99, .@tot_score, .@medals$);
+
+	dispbottom "================ [PLACAR POR GOAL DA RUN] ================", 0xFFD700;
+	dispbottom "Seed Ativa: " + $@current_world_seed$, 0x00FFFF;
+
+	if (.@found > 0) {
+		dispbottom "--- SUAS METAS & PONTUACAO INDIVIDUAL ---", 0xFFFF88;
+		dispbottom "- Fragmentos Destruidos: " + .@frags[0] + "x  (+" + (.@frags[0] * 5000) + " pts)", 0x00FF00;
+		if (.@fblow[0] == 1) {
+			dispbottom "- Golpe Final no 7o Fragmento: SIM! (+15.000 pts)", 0xFFD700;
+		}
+		dispbottom "- Territorios Purificados: " + .@maps[0] + "x  (+" + (.@maps[0] * 500) + " pts)", 0x00FF00;
+		dispbottom "- MVPs Abatidos: " + .@mvps[0] + "x  (+" + (.@mvps[0] * 1000) + " pts)", 0x00FF00;
+		dispbottom "- Abates PvP: " + .@pvps[0] + "x  (+" + (.@pvps[0] * 300) + " pts)", 0x00FF00;
+		dispbottom "- Monstros Comuns: " + .@mobs[0] + "x  (+" + .@mobs[0] + " pts)", 0x00FF00;
+		dispbottom "- Mortes Sofridas: " + .@dths[0] + "x  (-" + (.@dths[0] * 200) + " pts)", (.@dths[0] > 0 ? 0xFF5555 : 0x00FF00);
+		if (.@lv99[0] > 0) {
+			dispbottom "- Tempo Nv 99: " + (.@lv99[0] / 60) + " min  (+Bonus Speedrun)", 0x00FF00;
+		}
+		dispbottom "PONTUACAO TOTAL: " + .@tot_score[0] + " PONTOS", 0xFFD700;
+		dispbottom "Titulos Conquistados: " + .@medals$[0], 0x00FFFF;
+	}
+
+	// Buscar Top 5 da Run
+	.@top_count = query_sql("SELECT `char_name`, `total_score`, `medals` FROM `run_goal_leaderboard` WHERE `seed` = '" + $@current_world_seed$ + "' ORDER BY `total_score` DESC LIMIT 5", .@t_names$, .@t_scores, .@t_medals$);
+
+	dispbottom "----------------- TOP 5 LIDERES DA RUN -----------------", 0xFFAA00;
+	for (.@i = 0; .@i < .@top_count; .@i++) {
+		dispbottom "#" + (.@i + 1) + " " + .@t_names$[.@i] + " -- " + .@t_scores[.@i] + " pts " + .@t_medals$[.@i], 0xFFFFAA;
+	}
+	dispbottom "=========================================================", 0xFFD700;
 	end;
 }

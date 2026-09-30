@@ -1,0 +1,350 @@
+//===== rAthena Script =======================================
+//= RagnaRogue v3 — Sistema dos 7 Fragmentos do Cometa & Névoa de Guerra
+//===== Descrição: ============================================
+//= - 7 Fragmentos caídos do Cometa Negro geram a névoa maligna pelo reino.
+//= - Cada fragmento foi devorado por um chefe cósmico (HP/ATK calibrados para 99).
+//= - Para destruir o Fragmento, o golpe final DEVE ser com uma Relíquia Sagrada (Arma Tier 4).
+//= - Mapas não purificados removem buffs positivos e aplicam miasma progressivo (1 debuff/minuto).
+//= - Radar cósmico (Taxi Distance em saltos de portal no grafo) informa a proximidade do fragmento vivo.
+//= - Comandos: @radar e @cometa
+//============================================================
+
+-	script	CometSystem	-1,{
+
+OnInit:
+	bindatcmd("radar", "CometSystem::OnRadarCommand", 0, 99);
+	bindatcmd("cometa", "CometSystem::OnCometStatus", 0, 99);
+
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
+
+	// Carregar e invocar todos os chefes de fragmentos ainda não derrotados
+	.@frag_count = query_sql("SELECT `id`, `map_name`, `mob_id`, `mob_name` FROM `world_comet_fragments` WHERE `seed` = '" + $@current_world_seed$ + "' AND `defeated` = 0", .@ids, .@maps$, .@mobs, .@names$);
+	
+	for (.@i = 0; .@i < .@frag_count; .@i++) {
+		killmonster .@maps$[.@i], "CometSystem::OnCometBossKill";
+		monster .@maps$[.@i], 0, 0, .@names$[.@i], .@mobs[.@i], 1, "CometSystem::OnCometBossKill", 2;
+	}
+	end;
+
+OnPCLoadMapEvent:
+	.@map$ = strcharinfo(3);
+
+	// Ignorar interiores, instâncias protegidas ou castelos
+	if (compare(.@map$, "_in") || compare(.@map$, "cas") || compare(.@map$, "sec_in") || compare(.@map$, "job_") || compare(.@map$, "gld_") || compare(.@map$, "pvp_")) end;
+
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
+
+	// -------------------------------------------------------------
+	// 1. Radar de Proximidade (Taxi Distance no Grafo de Mapas)
+	// -------------------------------------------------------------
+	.@row_radar = query_sql("SELECT r.`distance_hops`, f.`id`, f.`mob_name`, f.`map_name`, f.`title`, f.`star_name` FROM `world_fragment_distances` r JOIN `world_comet_fragments` f ON r.`fragment_id` = f.`id` AND r.`seed` = f.`seed` WHERE r.`seed` = '" + $@current_world_seed$ + "' AND r.`from_map` = '" + .@map$ + "' AND f.`defeated` = 0 ORDER BY r.`distance_hops` ASC LIMIT 1", .@hops, .@frag_id, .@boss_name$, .@boss_map$, .@frag_title$, .@star_name$);
+
+	if (.@row_radar > 0) {
+		.@d = .@hops[0];
+		if (.@d == 0) {
+			mapannounce .@map$, "⚠️ [ALERTA CÓSMICO] VOCÊ ADENTROU O COVIL DO [" + .@frag_title$[0] + ": " + .@boss_name$[0] + "]!", bc_map, 0xFF0000;
+			message strcharinfo(0), "=========================================================";
+			message strcharinfo(0), "⚠️ [ALERTA CÓSMICO] VOCÊ ESTÁ NO MAPA DO " + .@frag_title$[0] + "!";
+			message strcharinfo(0), "⚠️ O Chefe Cósmico [" + .@boss_name$[0] + "] domina esta região!";
+			message strcharinfo(0), "⚠️ Apenas o golpe de uma Relíquia Sagrada (Arma Tier 4) pode ferir o Fragmento!";
+			message strcharinfo(0), "=========================================================";
+			specialeffect2 458;
+			specialeffect2 568;
+
+			// Iniciar debuff temático contínuo do Fragmento
+			@active_frag_id = .@frag_id[0];
+			deltimer "CometSystem::OnThematicDebuffTick";
+			addtimer 3000, "CometSystem::OnThematicDebuffTick";
+		} else if (.@d == 1) {
+			dispbottom "⚡ [RADAR ESTELAR] O solo vibra intensamente com poeira cósmica...", 0xFFAA00;
+			dispbottom "Há um Fragmento do Cometa [" + .@frag_title$[0] + ": " + .@boss_name$[0] + "] a apenas 1 portal de distância!", 0xFFFF55;
+			specialeffect2 568;
+			deltimer "CometSystem::OnThematicDebuffTick";
+		} else if (.@d >= 2 && .@d <= 3) {
+			dispbottom "🌌 [RADAR ESTELAR] Você sente a presença do [" + .@frag_title$[0] + "] vindo de " + .@d + " mapas adiante.", 0x00FFFF;
+			deltimer "CometSystem::OnThematicDebuffTick";
+		} else if (.@d >= 4 && .@d <= 5) {
+			dispbottom "🌠 [RADAR ESTELAR] Um eco tênue de poeira cósmica ressoa no horizonte distante (" + .@d + " mapas até o " + .@frag_title$[0] + ")...", 0x88AAFF;
+			deltimer "CometSystem::OnThematicDebuffTick";
+		} else {
+			deltimer "CometSystem::OnThematicDebuffTick";
+		}
+	}
+
+	// -------------------------------------------------------------
+	// 2. Sistema de Névoa & Miasma Tóxico
+	// -------------------------------------------------------------
+	.@conquered = 0;
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
+
+	if (.@conquered > 0) {
+		// Mapa já libertado: interrompe miasma e limpa efeitos
+		deltimer "CometSystem::OnMiasmaTick";
+		deltimer "CometSystem::OnThematicDebuffTick";
+		@miasma_stage = 0;
+		sc_end SC_SLOWDOWN;
+		sc_end SC_BLIND;
+		sc_end SC_HALLUCINATION;
+		sc_end SC_CURSE;
+		sc_end SC_BLEEDING;
+		end;
+	}
+
+	// Se o mapa não tiver monstros cadastrados ou ativos, não pune com miasma
+	.@mob_spawns = 0;
+	query_sql("SELECT ifnull(max(`total_spawns`), 0) FROM `world_map_has_mobs` WHERE `map_name` = '" + .@map$ + "'", .@mob_spawns);
+	if (.@mob_spawns == 0 && mobcount("this", "all") <= 0) {
+		deltimer "CometSystem::OnMiasmaTick";
+		deltimer "CometSystem::OnThematicDebuffTick";
+		@miasma_stage = 0;
+		end;
+	}
+
+	// Iniciar contagem do miasma progressivo suave (2 minutos)
+	@miasma_stage = 0;
+	deltimer "CometSystem::OnMiasmaTick";
+	addtimer 120000, "CometSystem::OnMiasmaTick";
+	end;
+
+OnThematicDebuffTick:
+	.@map$ = strcharinfo(3);
+
+	// Verificar se ainda há fragmento vivo neste mapa
+	.@alive = 0;
+	query_sql("SELECT count(*) FROM `world_comet_fragments` WHERE `seed` = '" + $@current_world_seed$ + "' AND `map_name` = '" + .@map$ + "' AND `defeated` = 0", .@alive);
+	if (.@alive == 0) {
+		deltimer "CometSystem::OnThematicDebuffTick";
+		sc_end SC_SLOWDOWN;
+		sc_end SC_BLIND;
+		sc_end SC_HALLUCINATION;
+		sc_end SC_CURSE;
+		sc_end SC_BLEEDING;
+		end;
+	}
+
+	// Aplicar debuff temático específico do chefe correspondente
+	if (@active_frag_id == 1) {
+		// 1: Baphomet (Flamejante) - Chamas Solares (drena HP + calor infernal)
+		percentheal -2, 0;
+		specialeffect2 431;
+		dispbottom "[CHAMAS SOLARES] O calor cósmico do Fragmento Flamejante queima sua carne (-2% HP)!", 0xFF5533;
+	} else if (@active_frag_id == 2) {
+		// 2: Phreeoni (do Vazio) - Vácuo Gravitacional (drena SP + lentidão pesada)
+		percentheal 0, -3;
+		sc_start SC_SLOWDOWN, 7000, 1;
+		specialeffect2 432;
+		dispbottom "[VÁCUO GRAVITACIONAL] O vácuo espacial do Fragmento do Vazio drena sua energia (-3% SP) e dobra o peso dos seus passos!", 0xAA55FF;
+	} else if (@active_frag_id == 3) {
+		// 3: Eddga (Tempestuoso) - Tempestade Estelar (arcos elétricos e atraso de conjuração)
+		sc_start SC_DECREASEAGI, 7000, 1;
+		specialeffect2 429;
+		dispbottom "[TEMPESTADE ESTELAR] Arcos voltaicos de eletricidade estática desestabilizam seus movimentos!", 0xFFFF33;
+	} else if (@active_frag_id == 4) {
+		// 4: Moonlight (Astral / Ilusão) - Névoa Hipnótica (alucinação ondulada e cegueira)
+		sc_start SC_HALLUCINATION, 12000, 1;
+		sc_start SC_BLIND, 8000, 1;
+		specialeffect2 473;
+		dispbottom "[NÉVOA HIPNÓTICA] A luz lunar do Fragmento distorce o espaço e cega sua visão!", 0x55FFFF;
+	} else if (@active_frag_id == 5) {
+		// 5: Garm (Glacial) - Zero Absoluto (nevasca polar cortante)
+		sc_start SC_SLOWDOWN, 7000, 1;
+		percentheal -1, 0;
+		specialeffect2 433;
+		dispbottom "[ZERO ABSOLUTO] O frio polar congelante do Fragmento Glacial gela seus músculos!", 0x88CCFF;
+	} else if (@active_frag_id == 6) {
+		// 6: Dark Lord (Meteoro / Corrupção) - Miasma Necrótico (maldição constante)
+		sc_start SC_CURSE, 12000, 1;
+		specialeffect2 443;
+		dispbottom "[MIASMA NECRÓTICO] A corrupção cadavérica do Fragmento amaldiçoa sua força e sorte!", 0xFF0000;
+	} else if (@active_frag_id == 7) {
+		// 7: Lord of Death (Crepúsculo / Morte) - Marca da Condenação (sangramento e anulação de cura)
+		sc_start SC_BLEEDING, 12000, 1;
+		percentheal -2, -2;
+		specialeffect2 440;
+		dispbottom "[MARCA DA CONDENAÇÃO] A aura da morte consome seu sangue e enfraquece seu espírito!", 0xAA0000;
+	}
+
+	// Reagendar tick temático a cada 6 segundos enquanto estiver no mapa do chefe
+	addtimer 6000, "CometSystem::OnThematicDebuffTick";
+	end;
+
+OnMiasmaTick:
+	.@map$ = strcharinfo(3);
+
+	// Se já foi conquistado ou saiu do mapa com névoa, para
+	.@conquered = 0;
+	query_sql("SELECT count(*) FROM `world_map_conquests` WHERE `map_name` = '" + .@map$ + "' AND `seed` = '" + $@current_world_seed$ + "'", .@conquered);
+	if (.@conquered > 0) {
+		@miasma_stage = 0;
+		end;
+	}
+
+	@miasma_stage = @miasma_stage + 1;
+	specialeffect2 458;
+
+	if (@miasma_stage == 1) {
+		dispbottom "[MIASMA - ESTÁGIO 1] A névoa se adensa... Suas pernas pesam e seus reflexos diminuem (-20% MoveSpeed)!", 0xFF8800;
+		sc_start SC_SLOWDOWN, 65000, 1;
+	} else if (@miasma_stage == 2) {
+		dispbottom "[MIASMA - ESTÁGIO 2] O ar rarefeito sufoca seus pulmões! Você perde energia cósmica (-20% SP)!", 0xFF5500;
+		percentheal 0, -20;
+	} else if (@miasma_stage == 3) {
+		dispbottom "[MIASMA - ESTÁGIO 3] As sombras se distorcem! A névoa cega sua visão e causa alucinações!", 0xFF0055;
+		sc_start SC_BLIND, 65000, 1;
+		sc_start SC_HALLUCINATION, 30000, 1;
+	} else {
+		dispbottom "[MIASMA - ESTÁGIO 4] CORROSÃO CÓSMICA FATAL! Seu corpo está se dissolvendo no miasma! Purifique o mapa ou use @sos!", 0xFF0000;
+		percentheal -25, -25;
+	}
+
+	// Próximo estágio em 60 segundos
+	addtimer 60000, "CometSystem::OnMiasmaTick";
+	end;
+
+OnMapPurified:
+	deltimer "CometSystem::OnMiasmaTick";
+	@miasma_stage = 0;
+	sc_end SC_SLOWDOWN;
+	sc_end SC_BLIND;
+	sc_end SC_HALLUCINATION;
+	return;
+
+OnCometBossKill:
+	.@wlv = getequipweaponlv(EQI_HAND_R);
+	.@map$ = strcharinfo(3);
+
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
+
+	.@frag_found = query_sql("SELECT `id`, `mob_id`, `mob_name`, `title` FROM `world_comet_fragments` WHERE `seed` = '" + $@current_world_seed$ + "' AND `map_name` = '" + .@map$ + "' AND `defeated` = 0 LIMIT 1", .@fids, .@fmobs, .@fnames$, .@ftitles$);
+	if (.@frag_found == 0) end;
+
+	.@fid = .@fids[0];
+	.@fmob = .@fmobs[0];
+	.@fname$ = .@fnames$[0];
+	.@ftitle$ = .@ftitles$[0];
+
+	// VERIFICAÇÃO DA RELÍQUIA SAGRADA (ARMA TIER 4)
+	if (.@wlv < 4) {
+		// Não portava arma de nível 4! O chefe renasce da poeira estelar!
+		monster .@map$, 0, 0, .@fname$, .@fmob, 1, "CometSystem::OnCometBossKill", 2;
+		specialeffect2 458;
+		dispbottom "=========================================================", 0xFF3333;
+		dispbottom "[NÚCLEO INDESTRUTÍVEL] A carapaça cósmica absorveu o golpe comum!", 0xFF3333;
+		dispbottom "O Fragmento Cósmico regenerou o corpo de " + .@fname$ + "!", 0xFF5555;
+		dispbottom "Apenas uma Relíquia Sagrada (Arma de Nível 4) pode ferir o Fragmento!", 0xFFFF00;
+		dispbottom "=========================================================", 0xFF3333;
+		end;
+	}
+
+	// ABATE BEM-SUCEDIDO COM ARMA TIER 4!
+	query_sql("UPDATE `world_comet_fragments` SET `defeated` = 1, `defeated_by` = '" + escape_sql(strcharinfo(0)) + "', `defeated_at` = NOW() WHERE `id` = " + .@fid + " AND `seed` = '" + $@current_world_seed$ + "'");
+
+	// Purifica o mapa do boss automaticamente
+	query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('" + .@map$ + "', '" + $@current_world_seed$ + "', '" + escape_sql(strcharinfo(0)) + "', NOW())");
+
+	// Limpar miasmas do herói
+	callsub OnMapPurified;
+
+	// Efeitos visuais e recompensa lendária
+	specialeffect2 568;
+	specialeffect2 569;
+	specialeffect2 10;
+	set Zeny, Zeny + 50000;
+	getitem 603, 2; // 2x Velha Caixa Azul
+	getitem 607, 3; // 3x Fruto de Yggdrasil
+	getitem 969, 1; // 1x Ouro
+
+	dispbottom "=========================================================", 0x00FF00;
+	dispbottom "🌟 VOCÊ ESTILHAÇOU O FRAGMENTO DO COMETA COM SUA RELÍQUIA SAGRADA!", 0x00FF00;
+	dispbottom "Recompensa da Coroa: +50.000 Zeny, Velhas Caixas Azuis e Frutos Sagrados!", 0xFFFF00;
+	dispbottom "=========================================================", 0x00FF00;
+
+	// Verificar quantos fragmentos restam vivos
+	.@remaining = 0;
+	query_sql("SELECT count(*) FROM `world_comet_fragments` WHERE `seed` = '" + $@current_world_seed$ + "' AND `defeated` = 0", .@remaining);
+
+	if (.@remaining > 0) {
+		announce "[ERA DA LUZ] O valoroso herói " + strcharinfo(0) + " empunhou sua Relíquia Sagrada (Arma Tier 4) e DESTRUIU o " + .@ftitle$ + " [" + .@fname$ + "] em " + .@map$ + "!", bc_all, 0xFFD700;
+		announce "Ainda restam " + .@remaining + " Fragmentos da Névoa corrompendo Rune-Midgard! Sigam a pulsação do radar!", bc_all, 0xFFFF55;
+		donpcevent "EventTelemetry::OnFragmentKill";
+	} else {
+		announce "👑👑👑 [SALVAÇÃO TOTAL DE RUNE-MIDGARD] TODOS OS 7 FRAGMENTOS DO COMETA FORAM DESTRUÍDOS!", bc_all, 0x00FF00;
+		announce "O bravo herói " + strcharinfo(0) + " quebrou o último Fragmento! A Névoa Malígna foi dissipada de todas as terras para sempre!", bc_all, 0x00FFFF;
+		donpcevent "EventTelemetry::OnFinalFragmentKill";
+	}
+	end;
+
+OnRadarCommand:
+	.@map$ = strcharinfo(3);
+
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
+
+	.@c = query_sql("SELECT r.`distance_hops`, f.`mob_name`, f.`map_name`, f.`title` FROM `world_fragment_distances` r JOIN `world_comet_fragments` f ON r.`fragment_id` = f.`id` AND r.`seed` = f.`seed` WHERE r.`seed` = '" + $@current_world_seed$ + "' AND r.`from_map` = '" + .@map$ + "' AND f.`defeated` = 0 ORDER BY r.`distance_hops` ASC LIMIT 3", .@hops, .@bnames$, .@bmaps$, .@btitles$);
+
+	if (.@c == 0) {
+		dispbottom "[RADAR ESTELAR] O céu está calmo. Não há fragmentos ativos detectados ou todos foram destruídos!", 0x00FF00;
+		end;
+	}
+
+	dispbottom "------ [RADAR DO COMETA NEGRO] ------", 0x00FFFF;
+	for (.@i = 0; .@i < .@c; .@i++) {
+		if (.@hops[.@i] == 0) {
+			dispbottom "⚠️ #" + (.@i + 1) + " " + .@btitles$[.@i] + " (" + .@bnames$[.@i] + "): VOCÊ ESTÁ NO MESMO MAPA DO CHEFE!", 0xFF3333;
+		} else {
+			dispbottom "#" + (.@i + 1) + " " + .@btitles$[.@i] + " (" + .@bnames$[.@i] + "): " + .@hops[.@i] + " mapa(s) de distância via portais.", 0xFFFF88;
+		}
+	}
+	dispbottom "-------------------------------------", 0x00FFFF;
+	end;
+
+OnCometStatus:
+	if ($@current_world_seed$ == "") {
+		.@row_count = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'active_seed' LIMIT 1", .@seed$);
+		if (.@row_count > 0 && .@seed$[0] != "") {
+			$@current_world_seed$ = .@seed$[0];
+		} else {
+			$@current_world_seed$ = "v3-world";
+		}
+	}
+
+	.@total = query_sql("SELECT `id`, `mob_name`, `title`, `map_name`, `defeated`, ifnull(`defeated_by`, 'Nenhum') FROM `world_comet_fragments` WHERE `seed` = '" + $@current_world_seed$ + "' ORDER BY `id` ASC", .@ids, .@names$, .@titles$, .@maps$, .@defs, .@by$);
+
+	dispbottom "====== [OS 7 FRAGMENTOS DO COMETA] ======", 0xFFAA00;
+	for (.@i = 0; .@i < .@total; .@i++) {
+		if (.@defs[.@i] == 1) {
+			dispbottom "[DESTRUÍDO] " + .@titles$[.@i] + " (" + .@names$[.@i] + ") — Derrotado por: " + .@by$[.@i], 0x00FF00;
+		} else {
+			dispbottom "[ATIVO] " + .@titles$[.@i] + " (" + .@names$[.@i] + ") — Localização: " + .@maps$[.@i], 0xFF5555;
+		}
+	}
+	dispbottom "=========================================", 0xFFAA00;
+	end;
+}

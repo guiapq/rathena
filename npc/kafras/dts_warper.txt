@@ -1,11 +1,9 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Dungeon Teleport Service
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Evera
-//===== Current Version: ===================================== 
-//= 2.9a
-//===== Compatible With: ===================================== 
-//= rAthena Project
+//===== Current Version: =====================================
+//= 2.9
 //===== Description: =========================================
 //= [Official Conversion]
 //= Cool Event Corp NPCs vs. Kafra Dungeon Teleport Service and voting system.
@@ -25,7 +23,7 @@
 // For Detailed information on what each varibale does, see
 // the "Vote Globalvar Girl#yuno" NPC at the end of the file.
 // Character Variable in use: lhz_vote (how many times player has voted, keeps htem from re-voting.)
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 Initial release [Evera]
 //= 1.1 SVN release, removed from major town (found true info after research),
 //=     put more arg(2) parameters, fixed a few bugs [Evera]
@@ -54,15 +52,14 @@
 //= 2.7 Fixed a typo, a - to a +. Not sure how that happened. [L0ne_w0lf]
 //= 2.8 Corrected another typo this time in a variable.
 //= 2.9 Added GM management function. [Euphy]
-//= 2.9a Tweaked NPC sprite & cutin used. [Liam]
-//============================================================ 
+//============================================================
 
 einbroch,246,70,0	script	Vote Timer#ein	-1,{
 OnInit:
 	if ($dts) {
-		set $dts,0;
-		set $dtsvote,0;
-		set $dtsday,0;
+		$dts = 0;
+		$dtsvote = 0;
+		$dtsday = 0;
 	}
 	initnpctimer;
 	end;
@@ -123,45 +120,45 @@ OnTimer60000:
 				if ($DTS_JondaVotes > $DTS_KafraVotes) {
 					if ($DTS_JondaWins == 0) {
 						if ($DTS_KafraWins < 2) {
-							set $DTS_KafraWins,$DTS_KafraWins+1;
-							set $DTS_Result,1;
-							set $DTS_Time,0;
+							++$DTS_KafraWins;
+							$DTS_Result = 1;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#6::OnEnable";
 							donpcevent "Vote Timer2#ein::OnEnable";
 						}
 						else if ($DTS_KafraWins == 2) {
-							set $DTS_Result,1;
-							set $DTS_Time,0;
+							$DTS_Result = 1;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#6::OnEnable";
 							donpcevent "Vote Timer2#ein::OnEnable";
 						}
 					}
 					else if ($DTS_JondaWins == 1) {
 						if ($DTS_KafraWins < 2) {
-							set $DTS_KafraWins,$DTS_KafraWins+1;
-							set $DTS_Result,1;
-							set $DTS_Time,0;
+							++$DTS_KafraWins;
+							$DTS_Result = 1;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#6::OnEnable";
 							donpcevent "Vote Timer2#ein::OnEnable";
 						}
 						else {
-							set $DTS_Time,0;
-							set $DTS_Result,1;
+							$DTS_Time = 0;
+							$DTS_Result = 1;
 							donpcevent "Scrutiny Association#6::OnEnable";
 							donpcevent "Vote Timer3#ein::OnEnable";
 						}
 					}
 					else {
 						if ($DTS_KafraWins < 2) {
-							set $DTS_KafraWins,$DTS_KafraWins+1;
-							set $DTS_Result,1;
-							set $DTS_Time,0;
+							++$DTS_KafraWins;
+							$DTS_Result = 1;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#6::OnEnable";
 							donpcevent "Vote Timer2#ein::OnEnable";
 						}
 						else {
-							set $DTS_Result,1;
-							set $DTS_Time,0;
+							$DTS_Result = 1;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#6::OnEnable";
 							donpcevent "Vote Timer3#ein::OnEnable";
 						}
@@ -170,45 +167,45 @@ OnTimer60000:
 				else {
 					if ($DTS_KafraWins == 0) {
 						if ($DTS_JondaWins < 2) {
-							set $DTS_JondaWins,$DTS_JondaWins+1;
-							set $DTS_Result,2;
-							set $DTS_Time,0;
+							++$DTS_JondaWins;
+							$DTS_Result = 2;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#7::OnEnable";
 							donpcevent "Vote Timer2#ein::OnEnable";
 						}
 						else {
-							set $DTS_Result,2;
-							set $DTS_Time,0;
+							$DTS_Result = 2;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#7::OnEnable";
 							donpcevent "Vote Timer2#ein::OnEnable";
 						}
 					}
 					else if ($DTS_KafraWins == 1) {
 						if ($DTS_JondaWins < 2) {
-							set $DTS_JondaWins,$DTS_JondaWins+1;
-							set $DTS_Result,2;
-							set $DTS_Time,0;
+							++$DTS_JondaWins;
+							$DTS_Result = 2;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#7::OnEnable";
 							donpcevent "Vote Timer2#ein::OnEnable";
 						}
 						else {
-							set $DTS_Result,2;
-							set $DTS_Time,0;
+							$DTS_Result = 2;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#7::OnEnable";
 							donpcevent "Vote Timer4#ein::OnEnable";
 						}
 					}
 					else {
 						if ($DTS_JondaWins < 2) {
-							set $DTS_JondaWins,$DTS_JondaWins+1;
-							set $DTS_Result,2;
-							set $DTS_Time,0;
+							++$DTS_JondaWins;
+							$DTS_Result = 2;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#7::OnEnable";
 							donpcevent "Vote Timer2#ein::OnEnable";
 						}
 						else {
-							set $DTS_Result,2;
-							set $DTS_Time,0;
+							$DTS_Result = 2;
+							$DTS_Time = 0;
 							donpcevent "Scrutiny Association#7::OnEnable";
 							donpcevent "Vote Timer4#ein::OnEnable";
 						}
@@ -216,13 +213,13 @@ OnTimer60000:
 				}
 			}
 			else {
-				set $DTS_Result,3;
-				set $DTS_Time,0;
+				$DTS_Result = 3;
+				$DTS_Time = 0;
 				donpcevent "Vote Timer#ein::OnEnable";
 			}
 		}
 		else {
-			set $DTS_Time,$DTS_Time+1;
+			++$DTS_Time;
 			donpcevent "Vote Timer#ein::OnEnable";
 		}
 	}
@@ -237,15 +234,14 @@ OnEnable:
 OnTimer60000:
 	stopnpctimer;
 	if ($DTS_PeriodCheck == 8640) {
-		set $DTS_PeriodCheck,0;
-		set $DTS_Result,0;
-		set $DTS_KafraVotes,0;
-		set $DTS_JondaVotes,0;
-		set $DTS_VoteCount,$DTS_VoteCount+1;
+		$DTS_PeriodCheck = 0;
+		$DTS_Result = 0;
+		$DTS_KafraVotes = 0;
+		$DTS_JondaVotes = 0;
+		++$DTS_VoteCount;
 		donpcevent "Vote Timer#ein::OnEnable";
-	}
-	else {
-		set $DTS_PeriodCheck,$DTS_PeriodCheck+1;
+	} else {
+		++$DTS_PeriodCheck;
 		donpcevent "Vote Timer2#ein::OnEnable";
 	}
 	end;
@@ -259,16 +255,15 @@ OnEnable:
 OnTimer60000:
 	stopnpctimer;
 	if ($DTS_PeriodCheck == 8640) {
-		set $DTS_PeriodCheck,0; //Global Variable
-		set $DTS_Result,0; //Global Variable
-		set $DTS_KafraVotes,0; //Global Variable
-		set $DTS_JondaVotes,0; //Global Variable
-		set $DTS_JondaWins,$DTS_JondaWins-1;
-		set $DTS_VoteCount,$DTS_VoteCount+1;
+		$DTS_PeriodCheck = 0; //Global Variable
+		$DTS_Result = 0; //Global Variable
+		$DTS_KafraVotes = 0; //Global Variable
+		$DTS_JondaVotes = 0; //Global Variable
+		--$DTS_JondaWins;
+		++$DTS_VoteCount;
 		donpcevent "Vote Timer#ein::OnEnable";
-	}
-	else {
-		set $DTS_PeriodCheck,$DTS_PeriodCheck+1; //Global Variable
+	} else {
+		++$DTS_PeriodCheck; //Global Variable
 		donpcevent "Vote Timer3#ein::OnEnable";
 	}
 	end;
@@ -282,16 +277,15 @@ OnEnable:
 OnTimer60000:
 	stopnpctimer;
 	if ($DTS_PeriodCheck == 8640) {
-		set $DTS_PeriodCheck,0; //Global Variable
-		set $DTS_Result,0; //Global Variable
-		set $DTS_KafraVotes,0; //Global Variable
-		set $DTS_JondaVotes,0; //Global Variable
-		set $DTS_KafraWins,$DTS_KafraWins-1;
-		set $DTS_VoteCount,$DTS_VoteCount+1;
+		$DTS_PeriodCheck = 0; //Global Variable
+		$DTS_Result = 0; //Global Variable
+		$DTS_KafraVotes = 0; //Global Variable
+		$DTS_JondaVotes = 0; //Global Variable
+		--$DTS_KafraWins;
+		++$DTS_VoteCount;
 		donpcevent "Vote Timer#ein::OnEnable";
-	}
-	else {
-		set $DTS_PeriodCheck,$DTS_PeriodCheck+1; //Global Variable
+	} else {
+		++$DTS_PeriodCheck; //Global Variable
 		donpcevent "Vote Timer4#ein::OnEnable";
 	}
 	end;
@@ -408,8 +402,8 @@ function	script	F_VoteKafra	{
 						mes "have a good day, adventurer.";
 						break;
 					case 2:
-						set lhz_vote,$DTS_VoteCount+1;
-						set $DTS_KafraVotes,$DTS_KafraVotes+1;
+						lhz_vote = $DTS_VoteCount+1;
+						++$DTS_KafraVotes;
 						mes "[Kafra Voting Staff]";
 						mes "Thanks for your vote!";
 						mes "We'll continue to do our best";
@@ -477,8 +471,8 @@ function	script	F_VoteKafra	{
 						mes "have a good day, adventurer.";
 						break;
 					case 2:
-						set lhz_vote,$DTS_VoteCount+1;
-						set $DTS_KafraVotes,$DTS_KafraVotes+1;
+						lhz_vote = $DTS_VoteCount+1;
+						++$DTS_KafraVotes;
 						mes "[Kafra Voting Staff]";
 						mes "Thanks for your vote!";
 						mes "We'll continue to do our best";
@@ -537,7 +531,7 @@ function	script	F_VoteKafra	{
 				case 1:
 					if (Zeny >= 4000) {
 						cutin "",255;
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						warp "xmas_dun02",130,123;
 						end;
 					}
@@ -561,7 +555,7 @@ function	script	F_VoteKafra	{
 				switch(select("Toy Factory, Level 2 -> 4,000 z:Clock Tower, Level 3 -> 4,000 z:Cancel")) {
 				case 1:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "kafra_09",255;
 						warp "xmas_dun02",130,123;
 						end;
@@ -577,7 +571,7 @@ function	script	F_VoteKafra	{
 					break;
 				case 2:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "kafra_09",255;
 						warp "alde_dun03",265,22;
 						end;
@@ -602,7 +596,7 @@ function	script	F_VoteKafra	{
 				switch(select("Toy Factory, Level 2 -> 4,000 z:Clock Tower, Level 3 -> 4,000 z:Lava Dungeon, Level 2 -> 4,000 z:Cancel")) {
 				case 1:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "kafra_09",255;
 						warp "xmas_dun02",130,123;
 						end;
@@ -618,7 +612,7 @@ function	script	F_VoteKafra	{
 					break;
 				case 2:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "kafra_09",255;
 						warp "alde_dun03",265,22;
 						end;
@@ -634,7 +628,7 @@ function	script	F_VoteKafra	{
 					break;
 				case 3:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "kafra_09",255;
 						warp "mag_dun02",47,40;
 						end;
@@ -685,32 +679,32 @@ function	script	F_VoteKafra	{
 	end;
 }
 
-yuno,162,191,4	script	Kafra Voting Staff#yuno	861,{
+yuno,162,191,4	script	Kafra Voting Staff#yuno	4_F_KAFRA9,{
 	callfunc "F_VoteKafra",9;
 }
-prontera,164,125,4	script	Kafra Voting Staff#prt	116,{
+prontera,164,125,4	script	Kafra Voting Staff#prt	4_F_KAFRA2,{
 	callfunc "F_VoteKafra",2;
 }
-moc_ruins,104,133,4	script	Kafra Voting Staff#moc	116,{
+moc_ruins,97,133,4	script	Kafra Voting Staff#moc	4_F_KAFRA2,{
 	callfunc "F_VoteKafra",2;
 }
-geffen,122,37,4	script	Kafra Voting Staff#gef	116,{
+geffen,122,37,4	script	Kafra Voting Staff#gef	4_F_KAFRA2,{
 	callfunc "F_VoteKafra",2;
 }
-payon,158,182,4	script	Kafra Voting Staff#pay	116,{
+payon,158,182,4	script	Kafra Voting Staff#pay	4_F_KAFRA2,{
 	callfunc "F_VoteKafra",2;
 }
-alberta,119,70,4	script	Kafra Voting Staff#alb	116,{
+alberta,119,70,4	script	Kafra Voting Staff#alb	4_F_KAFRA2,{
 	callfunc "F_VoteKafra",2;
 }
-aldebaran,145,102,4	script	Kafra Voting Staff#alde	116,{
+aldebaran,145,102,4	script	Kafra Voting Staff#alde	4_F_KAFRA2,{
 	callfunc "F_VoteKafra",2;
 }
-lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
+lighthalzen,163,60,4	script	Kafra Voting Staff#lght	4_F_KAFRA9,{
 	callfunc "F_VoteKafra",9;
 }
 
--	script	Cool Event Staff::VotingStaffCCE	874,{
+-	script	Cool Event Staff::VotingStaffCCE	4_M_ZONDAMAN,{
 	callfunc "F_ClearGarbage";				//Clear outdated, unused variables
 	cutin "zonda_01",2;
 	mes "[Cool Event Corp. Voting Staff]";
@@ -813,8 +807,8 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 						mes "Corp, alright? Have a nice day~";
 						break;
 					case 2:
-						set lhz_vote,$DTS_VoteCount+1;
-						set $DTS_JondaVotes,$DTS_JondaVotes+1;
+						lhz_vote = $DTS_VoteCount+1;
+						++$DTS_JondaVotes;
 						mes "[Cool Event Corp. Voting Staff]";
 						mes "Thank you for your vote!";
 						mes "It's customers like you who";
@@ -885,8 +879,8 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 						mes "Corp, alright? Have a nice day~";
 						break;
 					case 2:
-						set lhz_vote,$DTS_VoteCount+1;
-						set $DTS_JondaVotes,$DTS_JondaVotes+1;
+						lhz_vote = $DTS_VoteCount+1;
+						++$DTS_JondaVotes;
 						mes "[Cool Event Corp. Voting Staff]";
 						mes "Thank you for your vote!";
 						mes "It's customers like you who";
@@ -936,7 +930,7 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 				switch(select("Byalan Dungeon, Level 3 -> 4,000 z:Cancel")) {
 				case 1:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "zonda_01",255;
 						warp "iz_dun02",234,206;
 						end;
@@ -964,7 +958,7 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 				switch(select("Byalan Dungeon, Level 3 -> 4,000 z:Clock Tower, 3rd Floor -> 4,000 z:Cancel")) {
 				case 1:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "zonda_01",255;
 						warp "iz_dun02",234,206;
 						end;
@@ -979,7 +973,7 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 					break;
 				case 2:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "zonda_01",255;
 						warp "c_tower3",64,143;
 						end;
@@ -1014,7 +1008,7 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 				switch(select("Byalan Dungeon, Level 3 -> 4,000 z:Clock Tower, 3rd Floor -> 4,000 z:Glast Heim Entrance -> 4,000 z:Cancel")) {
 				case 1:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "zonda_01",255;
 						warp "iz_dun02",234,206;
 						end;
@@ -1029,7 +1023,7 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 					break;
 				case 2:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "zonda_01",255;
 						warp "c_tower3",64,143;
 						end;
@@ -1044,7 +1038,7 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 					break;
 				case 3:
 					if (Zeny >= 4000) {
-						set Zeny, Zeny-4000;
+						Zeny -= 4000;
 						cutin "zonda_01",255;
 						warp "glast_01",368,303;
 						end;
@@ -1102,14 +1096,14 @@ lighthalzen,163,60,4	script	Kafra Voting Staff#lght	861,{
 	end;
 }
 
-yuno,153,191,6	duplicate(VotingStaffCCE)	Cool Event Staff#yuno	874
-prontera,147,125,6	duplicate(VotingStaffCCE)	Cool Event Staff#prt	874
-moc_ruins,97,133,6	duplicate(VotingStaffCCE)	Cool Event Staff#moc	874
-geffen,117,37,6	duplicate(VotingStaffCCE)	Cool Event Staff#gef	874
-payon,153,182,6	duplicate(VotingStaffCCE)	Cool Event Staff#pay	874
-alberta,114,70,6	duplicate(VotingStaffCCE)	Cool Event Staff#alb	874
-aldebaran,138,102,6	duplicate(VotingStaffCCE)	Cool Event Staff#alde	874
-lighthalzen,154,60,6	duplicate(VotingStaffCCE)	Cool Event Staff#lhz	874
+yuno,153,191,6	duplicate(VotingStaffCCE)	Cool Event Staff#yuno	4_M_ZONDAMAN
+prontera,147,125,6	duplicate(VotingStaffCCE)	Cool Event Staff#prt	4_M_ZONDAMAN
+moc_ruins,104,133,6	duplicate(VotingStaffCCE)	Cool Event Staff#moc	4_M_ZONDAMAN
+geffen,117,37,6	duplicate(VotingStaffCCE)	Cool Event Staff#gef	4_M_ZONDAMAN
+payon,153,182,6	duplicate(VotingStaffCCE)	Cool Event Staff#pay	4_M_ZONDAMAN
+alberta,114,70,6	duplicate(VotingStaffCCE)	Cool Event Staff#alb	4_M_ZONDAMAN
+aldebaran,138,102,6	duplicate(VotingStaffCCE)	Cool Event Staff#alde	4_M_ZONDAMAN
+lighthalzen,154,60,6	duplicate(VotingStaffCCE)	Cool Event Staff#lhz	4_M_ZONDAMAN
 
 yuno,103,225,0	script	Scrutiny Association#5	-1,{
 OnInit:
@@ -1178,7 +1172,7 @@ OnTimer15000:
 /*
 // GM only NPC used for modifying values related to the DTS system.
 // Disabled in official script.
-sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
+sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	4_F_OPERATION,{
 	callfunc "F_GM_NPC";
 	mes "[Christy's Maid]";
 	mes "Lady Christy!";
@@ -1205,7 +1199,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 			mes "Current Setitem value is "+lhz_vote+".";
 			close;
 		case 2:
-			set lhz_vote,0;
+			lhz_vote = 0;
 			close;
 		case 3:
 			mes "[Christy's Maid]";
@@ -1222,7 +1216,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 					mes "The value is incorrect.";
 					close;
 				}
-				set $DTS_Time,.@input;
+				$DTS_Time = .@input;
 				mes "[Christy's Maid]";
 				mes "The value has been modified.";
 				close;
@@ -1236,7 +1230,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 					mes "The value is incorrect.";
 					close;
 				}
-				set $DTS_JondaVotes,.@input;
+				$DTS_JondaVotes = .@input;
 				mes "[Christy's Maid]";
 				mes "The value has been modified.";
 				close;
@@ -1250,7 +1244,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 					mes "The value is incorrect.";
 					close;
 				}
-				set $DTS_KafraVotes,.@input;
+				$DTS_KafraVotes = .@input;
 				mes "[Christy's Maid]";
 				mes "The value has been modified.";
 				close;
@@ -1264,7 +1258,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 					mes "The value is incorrect.";
 					close;
 				}
-				set $DTS_Result,.@input;
+				$DTS_Result = .@input;
 				mes "[Christy's Maid]";
 				mes "The value has been modified.";
 				close;
@@ -1278,7 +1272,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 					mes "The value is incorrect.";
 					close;
 				}
-				set $DTS_PeriodCheck,.@input;
+				$DTS_PeriodCheck = .@input;
 				mes "[Christy's Maid]";
 				mes "The value has been modified.";
 				close;
@@ -1292,7 +1286,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 					mes "The value is incorrect.";
 					close;
 				}
-				set $DTS_KafraWins,.@input;
+				$DTS_KafraWins = .@input;
 				mes "[Christy's Maid]";
 				mes "The value has been modified.";
 				close;
@@ -1306,7 +1300,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 					mes "The value is incorrect.";
 					close;
 				}
-				set $DTS_JondaWins,.@input;
+				$DTS_JondaWins = .@input;
 				mes "[Christy's Maid]";
 				mes "The value has been modified.";
 				close;
@@ -1320,7 +1314,7 @@ sec_in02,17,160,4	script	Vote Globalvar Girl#yuno	864,{
 					mes "The value is incorrect.";
 					close;
 				}
-				set $DTS_VoteCount,.@input;
+				$DTS_VoteCount = .@input;
 				mes "[Christy's Maid]";
 				mes "The value has been modified.";
 				close;

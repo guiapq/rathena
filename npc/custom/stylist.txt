@@ -49,3 +49,26 @@ prontera,170,180,1	script	Stylist#custom_stylist	122,{
 		}
 	}
 }
+
+// Duplicatas em Todas as Cidades
+alberta,31,240,6	duplicate(Stylist#custom_stylist)	Stylist#alb	122
+aldebaran,140,118,6	duplicate(Stylist#custom_stylist)	Stylist#alde	122
+amatsu,203,79,4	duplicate(Stylist#custom_stylist)	Stylist#ama	122
+ayothaya,212,169,6	duplicate(Stylist#custom_stylist)	Stylist#ayo	122
+comodo,189,158,6	duplicate(Stylist#custom_stylist)	Stylist#com	122
+einbech,62,36,6	duplicate(Stylist#custom_stylist)	Stylist#einbe	122
+einbroch,62,202,6	duplicate(Stylist#custom_stylist)	Stylist#einbr	122
+geffen,120,72,6	duplicate(Stylist#custom_stylist)	Stylist#gef	122
+gonryun,161,122,6	duplicate(Stylist#custom_stylist)	Stylist#gon	122
+hugel,94,150,6	duplicate(Stylist#custom_stylist)	Stylist#hug	122
+izlude,126,150,6	duplicate(Stylist#custom_stylist)	Stylist#izl	122
+jawaii,255,139,4	duplicate(Stylist#custom_stylist)	Stylist#jaw	122
+lighthalzen,157,100,6	duplicate(Stylist#custom_stylist)	Stylist#lhz	122
+louyang,231,103,4	duplicate(Stylist#custom_stylist)	Stylist#lou	122
+morocc,158,97,6	duplicate(Stylist#custom_stylist)	Stylist#mor	122
+payon,184,106,4	duplicate(Stylist#custom_stylist)	Stylist#pay	122
+rachel,130,116,6	duplicate(Stylist#custom_stylist)	Stylist#rac	122
+umbala,110,148,3	duplicate(Stylist#custom_stylist)	Stylist#umb	122
+veins,222,121,4	duplicate(Stylist#custom_stylist)	Stylist#ve	122
+xmas,148,136,4	duplicate(Stylist#custom_stylist)	Stylist#xmas	122
+yuno,169,45,4	duplicate(Stylist#custom_stylist)	Stylist#yuno	122

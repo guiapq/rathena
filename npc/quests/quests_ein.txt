@@ -1,12 +1,10 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Quest NPCs related to Einbroch and Einbech
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Evera and The rAthena Dev Team
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 2.7
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= Oridecon/Mineral Quest
 //= - Variable in use: ein_gear1 (max 2)
@@ -20,7 +18,7 @@
 //= - Variable in use: Shinokas_Quest (max 11)
 //= Lovers Quest
 //= - Variable in use: EIN_LOVERQ (max 17)
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 Initial Release [Evera]
 //= 1.1 Added more quests [Evera]
 //= 1.2 Added quest bits from Einbech and renamed file to
@@ -51,11 +49,11 @@
 //=     - Murder Quest
 //= 2.6 Updated RE/Pre-RE EXP. [Euphy]
 //= 2.7 Added GM management function. [Euphy]
-//============================================================ 
+//============================================================
 
 // Oridecon Stone OR Mineral Stone Quest :: ein_amano
-//============================================================ 
-einbech,97,167,5	script	Cavitar	847,{
+//============================================================
+einbech,97,167,5	script	Cavitar	4_M_EINOLD,{
 	if (ein_gear1 == 2) {
 		mes "[Cavitar]";
 		mes "It's been a long";
@@ -86,7 +84,7 @@ einbech,97,167,5	script	Cavitar	847,{
 				mes "that you brought before";
 				mes "I give you an Oridecon.";
 				next;
-				if ((MaxWeight - Weight) > 2399) {
+				if (checkweight(618,1)) {
 					mes "[Cavitar]";
 					mes "Good, you brought";
 					mes "everything! Now let me";
@@ -102,7 +100,7 @@ einbech,97,167,5	script	Cavitar	847,{
 					delitem 7126,40;  //Large_Jellopy
 					delitem 1011,10;  //Emveretarcon
 					delitem 912,10;  //Zargon
-					set ein_gear1,0;
+					ein_gear1 = 0;
 					getitem 615,1; // Oridecon
 					close;
 				}
@@ -276,8 +274,8 @@ einbech,97,167,5	script	Cavitar	847,{
 									mes "you a small present";
 									mes "as a token of my gratitute.";
 									mes "If you would, please take this.";
-									set Zeny,Zeny-1000;
-									set ein_gear1,2;
+									Zeny -= 1000;
+									ein_gear1 = 2;
 									switch(rand(1,7)) {
 									case 1:
 										getitem 7290,1; // Phlogopite
@@ -333,8 +331,8 @@ einbech,97,167,5	script	Cavitar	847,{
 									next;
 									switch(select("Sure~!:No, thanks.")) {
 									case 1:
-										set Zeny,Zeny-1000;
-										set ein_gear1,1;
+										Zeny -= 1000;
+										ein_gear1 = 1;
 										mes "[Cavitar]";
 										mes "Great...!";
 										mes "Now I need to go";
@@ -357,7 +355,7 @@ einbech,97,167,5	script	Cavitar	847,{
 										mes "this small gift";
 										mes "as a token of";
 										mes "my gratitude.";
-										set Zeny,Zeny-1000;
+										Zeny -= 1000;
 										getitem 1010,1; // Phracon
 										close;
 									}
@@ -385,10 +383,10 @@ einbech,97,167,5	script	Cavitar	847,{
 								mes "10 Zargon?";
 								next;
 								switch(select("Sure~!:No, thanks.")) {
-						 		case 1:
-									set Zeny,Zeny-1000;
-									set $ein_amano,$ein_amano + 1;
-									set ein_gear1,1;
+								case 1:
+									Zeny -= 1000;
+									++$ein_amano;
+									ein_gear1 = 1;
 									mes "[Cavitar]";
 									mes "Great...!";
 									mes "Now I need to go";
@@ -397,7 +395,7 @@ einbech,97,167,5	script	Cavitar	847,{
 									mes "gather everything I've";
 									mes "asked you to bring.";
 									close;
-						 		case 2:
+								case 2:
 									mes "[Cavitar]";
 									mes "I see.";
 									mes "Well, I understand";
@@ -411,12 +409,12 @@ einbech,97,167,5	script	Cavitar	847,{
 									mes "this small gift";
 									mes "as a token of";
 									mes "my gratitude.";
-									set Zeny,Zeny-1000;
+									Zeny -= 1000;
 									getitem 1010,1; // Phracon
 									close;
 								}
 							}
-					 	}
+						}
 					case 2:
 						mes "[Cavitar]";
 						mes "I understand.";
@@ -426,7 +424,7 @@ einbech,97,167,5	script	Cavitar	847,{
 						mes "that I'm desperate...";
 						close;
 					}
-		 		case 2:
+				case 2:
 					mes "[Cavitar]";
 					mes "You're...";
 					mes "You're heartless!";
@@ -474,10 +472,11 @@ einbech,97,167,5	script	Cavitar	847,{
 
 // Uwe Kleine :: ein_anoz
 //============================================================
-einbroch,215,180,6	script	Uwe Kleine#ein	85,{
+einbroch,215,180,6	script	Uwe Kleine#ein	4_M_03,{
+	EinUwe = 0;
 	if (BaseClass == Job_Blacksmith) {
 		if (ein_cook > 999) {
-			set .@ccc,ein_cook-1000;
+			.@ccc = ein_cook-1000;
 			if (.@ccc > 199) {
 				mes "[Uwe]";
 				mes "Oh hello hello~";
@@ -515,7 +514,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 					mes "in your Kafra Storage?";
 					close;
 				}
-				set ein_cook,219;
+				ein_cook = 219;
 				getitem 612,10; //Portable_Furnace
 				mes "[Uwe]";
 				mes "I had these lying";
@@ -568,7 +567,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 						mes "Here's the Coal I promised~";
 						mes "Oh, and take these Mini Furnaces. They were just lying around, so you know, I thought, well, why don't you take them? *Tee hee hee~*";
 						delitem 7126,6; //Large_Jellopy
-						set ein_cook,219;
+						ein_cook = 219;
 						getitem 1003,1; //Coal
 						getitem 612,10; //Portable_Furnace
 						next;
@@ -587,7 +586,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 						mes "some. I guess you can";
 						mes "still give them to me, but";
 						mes "you'd get less of a reward";
-						if (Sex == SEX_MALE) {
+						if (Sex) {
 							mes "...you ^EEA9B8naughty boy^000000.";
 						}
 						else {
@@ -626,7 +625,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							else {
 								mes "I usually give you cutie Blacksmiths 10 Mini Furnaces, but you can have ^EEA9B811^000000. There's the little something extra I was talking about.";
 							}
-							set ein_cook,219;
+							ein_cook = 219;
 							getitem 612,11; //Portable_Furnace
 							next;
 							mes "[Uwe]";
@@ -653,7 +652,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 								mes "a Black Smith!!";
 							}
 							mes "This is my present for it.";
-							if (Sex == SEX_MALE) {
+							if (Sex) {
 								mes "...you ^EEA9B8naughty boy^000000.";
 							}
 							else {
@@ -671,7 +670,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "in your Kafra Storage?";
 							close;
 						}
-						set ein_cook,219;
+						ein_cook = 219;
 						getitem 612,5; //Portable_Furnace
 						next;
 						mes "[Uwe]";
@@ -682,7 +681,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 						mes "[Uwe]";
 						mes "^666666You didn't bring";
 						mes "any Large Jellopy...?^000000.";
-						set ein_cook,219;
+						ein_cook = 219;
 						next;
 						mes "[Uwe]";
 						mes "It's fine! It's not like I feel ^EEA9B8betrayed^000000 or anything, but I don't need them anymore! Since we're both in the business of smithing, I just hope that you remember to follow through on your favors, 'kay? Buhbye~";
@@ -708,13 +707,13 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 					mes "That doesn't change";
 					mes "the fact that you've";
 					mes "been very, very bad.";
-					if (Sex == SEX_MALE) {
+					if (Sex) {
 						mes "...You ^EEA9B8naughty boy^000000.";
 					}
 					else {
 						mes "...You ^EEA9B8naughty girl^000000.";
 					}
-					set ein_cook,219;
+					ein_cook = 219;
 					getitem 612,10; //Portable_Furnace
 					next;
 					mes "[Uwe]";
@@ -742,7 +741,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "Here's the Coal I promised~";
 							mes "Oh, and take these Mini Furnaces. They were just lying around, so you know, I thought, well, why don't you take them? *Tee hee hee~*";
 							delitem 7126,6; //Large_Jellopy
-							set ein_cook,219;
+							ein_cook = 219;
 							getitem 1003,1; //Coal
 							getitem 612,10; //Portable_Furnace
 							close;
@@ -753,7 +752,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "some. I guess you can";
 							mes "still give them to me, but";
 							mes "you'd get less of a reward";
-							if (Sex == SEX_MALE) {
+							if (Sex) {
 								mes "...You ^EEA9B8naughty boy^000000.";
 							}
 							else {
@@ -782,7 +781,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 								else {
 									mes "I usually give you cutie Blacksmiths 10 Mini Furnaces, but you can have ^EEA9B811^000000. There's the little something extra I was talking about.";
 								}
-								set ein_cook,219;
+								ein_cook = 219;
 								getitem 612,11; //Portable_Furnace
 								next;
 								mes "[Uwe]";
@@ -805,13 +804,13 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 								mes "When you do get all";
 								mes "that Large Jellopy,";
 								mes "just come back to me.";
-								if (Sex == SEX_MALE) {
+								if (Sex) {
 									mes "...you ^EEA9B8naughty boy^000000.";
 								}
 								else {
 									mes "...you ^EEA9B8naughty girl^000000.";
 								}
-								set ein_cook,219;
+								ein_cook = 219;
 								getitem 612,10; //Portable_Furnace
 								next;
 								mes "[Uwe]";
@@ -826,7 +825,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "[Uwe]";
 							mes "^666666You didn't bring";
 							mes "any Large Jellopy...?^000000.";
-							set ein_cook,219;
+							ein_cook = 219;
 							next;
 							mes "[Uwe]";
 							mes "It's fine! It's not like I feel ^EEA9B8betrayed^000000 or anything, but I don't need them anymore! Since we're both in the business of smithing, I just hope that you remember to follow through on your favors, 'kay? Buhbye~";
@@ -853,14 +852,14 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 						else {
 							mes "a Black Smith!!";
 							mes "This is my present for it. Huhuhu.";
-							if (Sex == SEX_MALE) {
+							if (Sex) {
 								mes "...You ^EEA9B8naughty boy^000000.";
 							}
 							else {
 								mes "...You ^EEA9B8naughty girl^000000.";
 							}
 						}
-						set ein_cook,219;
+						ein_cook = 219;
 						getitem 612,10; //Portable_Furnace
 						next;
 						mes "[Uwe]";
@@ -896,7 +895,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 				mes "a craftsman can enjoy. Ooh,";
 				mes "what do you think is the most";
 				mes "important factor in cooking,";
-				if (Sex == SEX_MALE) {
+				if (Sex) {
 					mes "you ^EEA9B8naughty little man^000000?";
 				}
 				else {
@@ -934,7 +933,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 					mes "some Emvertarcons today,";
 					mes "so please have one, 'kay?";
 					mes "Welcome to Einbroch, cutie~";
-					set ein_cook,1;
+					ein_cook = 1;
 					getitem 1011,1; //Emveretarcon
 					break;
 				case 2:
@@ -958,7 +957,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 					mes "someone just gave me some";
 					mes "Steel. Why don't you have 2 of";
 					mes "them as my little way of saying, ''Welcome to Einbroch, cutie~!''";
-					set ein_cook,3;
+					ein_cook = 3;
 					getitem 998,2; //Iron
 					break;
 				case 3:
@@ -995,7 +994,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 					mes "some Emvertarcons today,";
 					mes "so please have one, 'kay?";
 					mes "Welcome to Einbroch, cutie~";
-					set ein_cook,5;
+					ein_cook = 5;
 					getitem 1011,1; //Emveretarcon
 					break;
 				case 4:
@@ -1024,7 +1023,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 					mes "Why don't you have one as";
 					mes "my way of saying ''Welcome";
 					mes "to Einbroch, sugar honey~''";
-					set ein_cook,7;
+					ein_cook = 7;
 					getitem 613,1; //Iron_Hammer
 					break;
 				}
@@ -1166,7 +1165,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "stuff in your Kafra Storage~";
 							close;
 						}
-						set ein_cook,11;
+						ein_cook = 11;
 						getitem 614,1; //Golden_Hammer
 						getitem 613,1; //Iron_Hammer
 						mes "[Uwe]";
@@ -1279,7 +1278,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "stuff in your Kafra Storage~";
 							close;
 						}
-						set ein_cook,13;
+						ein_cook = 13;
 						getitem 614,1; //Golden_Hammer
 						getitem 613,1; //Iron_Hammer
 						mes "[Uwe]";
@@ -1395,7 +1394,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "stuff in your Kafra Storage~";
 							close;
 						}
-						set ein_cook,15;
+						ein_cook = 15;
 						getitem 614,1; //Golden_Hammer
 						getitem 613,1; //Iron_Hammer
 						next;
@@ -1467,7 +1466,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 						mes "Never cut corners and always";
 						mes "dedicate yourself to make the";
 						mes "very best finished product~";
-						set ein_cook,17;
+						ein_cook = 17;
 						next;
 						mes "[Uwe]";
 						mes "Well, that was";
@@ -1492,6 +1491,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 						mes "I know it's the easiest";
 						mes "lame excuse for a person";
 						mes "who never try hard anything.";
+						mes "";
 						next;
 						mes "[Uwe]";
 						mes "It's very same for a smith job.";
@@ -1659,7 +1659,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "stuff in your Kafra Storage~";
 							close;
 						}
-						set ein_cook,19;
+						ein_cook = 19;
 						getitem 614,1; //Golden_Hammer
 						getitem 613,1; //Iron_Hammer
 						next;
@@ -2055,7 +2055,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 				mes "have some of these";
 				mes "cookies I just baked~";
 				next;
-				set ein_cook,9;
+				ein_cook = 9;
 				getitem 538,5; //Well_Baked_Cookie
 				mes "[Uwe]";
 				mes "Okay, enjoy!";
@@ -2071,7 +2071,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 				mes "just thinking about";
 				mes "something but now I just";
 				mes "lost my train of thought.";
-				set ein_cook,219;
+				ein_cook = 219;
 				next;
 				mes "[Uwe]";
 				mes "What was I going";
@@ -2083,26 +2083,26 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 		}
 	}
 	else {
-		set .@aaa,ein_cook % 2;
+		.@aaa = ein_cook % 2;
 		if (.@aaa == 1) {
-			set .@bbb,ein_cook;
+			.@bbb = ein_cook;
 			if (.@bbb > 99) {
-				set .@bbb,.@bbb-100;
+				.@bbb -= 100;
 				if (.@bbb > 99) {
-					set .@bbb,.@bbb-100;
+					.@bbb -= 100;
 					if (.@bbb > 99) {
-						set .@ccc,3;
+						.@ccc = 3;
 					}
 					else {
-						set .@ccc,2;
+						.@ccc = 2;
 					}
 				}
 				else {
-					set .@ccc,1;
+					.@ccc = 1;
 				}
 			}
 			else {
-				set .@ccc,0;
+				.@ccc = 0;
 			}
 			if (.@ccc < 3) {
 				mes "[Uwe]";
@@ -2112,10 +2112,10 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 				mes "we've met somewhere before...";
 				next;
 				if (.@ccc == 0) {
-					set ein_cook,ein_cook+300;
+					ein_cook += 300;
 				}
 				else if (.@ccc == 2) {
-					set ein_cook,ein_cook+100;
+					ein_cook += 100;
 				}
 				mes "[Uwe]";
 				mes "Ah...!";
@@ -2126,7 +2126,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 				next;
 				mes "[Uwe]";
 				mes "What brings to";
-				if (Sex == SEX_MALE) {
+				if (Sex) {
 					mes "me, you ^EEA9B8naughty boy^000000?";
 				}
 				else {
@@ -2343,7 +2343,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 			}
 		}
 		if (ein_cook > 999) {
-			set .@eee,ein_cook-1000;
+			.@eee = ein_cook-1000;
 			if (.@eee > 199) {
 				mes "[Uwe]";
 				mes "Ah, hello again,";
@@ -2688,7 +2688,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 						mes "Thank you ^EEA9B8so^000000 much!";
 						mes "Here's the Coal I promised~";
 						delitem 7126,6; //Large_Jellopy
-						set ein_cook,ein_cook+100;
+						ein_cook += 100;
 						getitem 1003,1; //Coal
 						next;
 					}
@@ -2969,7 +2969,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 					mes "things. Get some paper,";
 					mes "and a pen for this list...";
 					next;
-					set ein_cook,ein_cook+100;
+					ein_cook += 100;
 					mes "[Uwe]";
 					mes "Just kidding!";
 					mes "^333333*Titter~*^000000 I don't need";
@@ -3017,7 +3017,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 			switch(select("Um, isn't this a forge?:Ignore him.")) {
 			case 1:
 				mes "[Uwe]";
-				set ein_cook,1000;
+				ein_cook = 1000;
 				mes "Is this a forge?";
 				mes "Oh, sugar honey,";
 				mes "you haven't been here";
@@ -3034,7 +3034,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 				mes "So, how can";
 				mes "I help you, you";
 				mes "adooooooooorable";
-				if (Sex == SEX_MALE) {
+				if (Sex) {
 					mes "hunk of a man?";
 				}
 				else {
@@ -3158,7 +3158,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 					mes "things. Get some paper,";
 					mes "and a pen for this list...";
 					next;
-					set ein_cook,ein_cook+100;
+					ein_cook += 100;
 					mes "[Uwe]";
 					mes "Just kidding!";
 					mes "^333333*Titter~*^000000 I don't need";
@@ -3215,7 +3215,7 @@ einbroch,1,1,0	script	Einbroch Smog Alert	-1,{
 	end;
 
 OnEnable:
-	set $@AlrdEinPoll,1;
+	$@AlrdEinPoll = 1;
 	mapannounce "einbroch","This is a state of emercency! Harmful smog is reaching high levels of saturation. Residents of Einbroch must find shelter immediately.",bc_map;
 	enablenpc "Einbroch Smog Alert";
 	hideonnpc "Centzu#ein";
@@ -3243,7 +3243,7 @@ OnEnable:
 	hideonnpc "Flu Mask Dealer#ein";
 	hideonnpc "Paddler#ein";
 	hideonnpc "Laboratory Soldier#ein-1";
-	hideonnpc "Laboratory Soldier#ein-2";
+	hideonnpc "Laboratory Soldier#ein=2";
 	initnpctimer;
 	monster "einbroch",82,332,"Toxic Fog",1621,1,"Einbroch Smog Alert::OnMyMobDead";
 	monster "einbroch",99,328,"Toxic Fog",1621,1,"Einbroch Smog Alert::OnMyMobDead";
@@ -3347,8 +3347,8 @@ OnTimer600000:
 	hideoffnpc "Kesunboss#ein";
 	hideoffnpc "Train Station Staff#ein1";
 	hideoffnpc "Train Station Staff#ein2";
-	hideoffnpc "Leslie#ein_1";
-	hideoffnpc "Tan#ein";
+	hideoffnpc "Leslie#ein_1#ein";
+	hideoffnpc "Tan#ein#ein";
 	hideoffnpc "Little Toby#ein-1";
 	hideoffnpc "Airship Engineer#ein-1";
 	hideoffnpc "Kafra Employee#ein1";
@@ -3363,17 +3363,16 @@ OnTimer600000:
 	hideoffnpc "Paddler#ein";
 	hideoffnpc "Laboratory Soldier#ein-1";
 	hideoffnpc "Laboratory Soldier#ein-2";
-	set $@AlrdEinPoll,0;
-	set $EinPolution,0;
+	$@AlrdEinPoll = 0;
+	$EinPolution = 0;
 	stopnpctimer;
 	end;
 }
 
-einbroch,132,84,3	script	Liotzburg#ein	853,2,2,{
-	if (EinFactory == 13 || EinFactory == 14) {
-		if (isbegin_quest(8029) == 1)
-			changequest 8029,8030;
-		set EinFactory,14;
+einbroch,132,84,3	script	Liotzburg#ein	4_M_YURI,2,2,{
+	if ((EinFactory == 13) || (EinFactory == 14)) {
+		changequest 8029,8030;
+		EinFactory = 14;
 		mes "[Liotzburg]";
 		mes "What...?";
 		mes "Factory Repair";
@@ -3424,7 +3423,7 @@ einbroch,132,84,3	script	Liotzburg#ein	853,2,2,{
 	mes "assure you of that!";
 	close;
 
-OnTouch_:
+OnTouch:
 	if ($EinPolution > 9 && !$@AlrdEinPoll) {
 		mes "[Liotzburg]";
 		mes "What's going on?!";
@@ -3439,7 +3438,7 @@ OnTouch_:
 		mes "fix this! I gotta hide and find";
 		mes "someplace safe!";
 		close2;
- 		if ($EinPolution > 9 && !$@AlrdEinPoll) {
+		if ($EinPolution > 9 && !$@AlrdEinPoll) {
 			donpcevent "Einbroch Smog Alert::OnEnable";
 			hideonnpc "Liotzburg#ein";
 		}
@@ -3450,7 +3449,7 @@ OnTouch_:
 	}
 }
 
-ein_in01,67,242,3	script	Zelmeto	851,{
+ein_in01,67,242,3	script	Zelmeto	4_M_REPAIR,{
 	if ($EinPolution > 9) {
 		mes "[Zelmeto]";
 		mes "We've got a big problem";
@@ -3553,10 +3552,10 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 			delitem 7325,20; //Tube
 			delitem 7317,10; //Screw
 			delitem 7319,10; //Old_Steel_Plate
-			set $EinPolution,$EinPolution+1;
+			++$EinPolution;
 			completequest 8031;
-			set EinFactory,16;
-			if (checkre(3)) {
+			EinFactory = 16;
+			if (RENEWAL_EXP) {
 				if (BaseLevel < 41) getexp 61,0;
 				else if (BaseLevel < 51) getexp 307,0;
 				else if (BaseLevel < 61) getexp 660,0;
@@ -3644,7 +3643,7 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 		mes "we could make those repairs.";
 		next;
 		changequest 8030,8031;
-		set EinFactory,15;
+		EinFactory = 15;
 		mes "[Zelmeto]";
 		mes "But without funds, there's";
 		mes "no way we can purchase";
@@ -3690,7 +3689,7 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 		mes "functioning again.";
 		next;
 		changequest 8028,8029;
-		set EinFactory,13;
+		EinFactory = 13;
 		mes "[Zelmeto]";
 		mes "First, I better";
 		mes "hurry and request";
@@ -3744,7 +3743,7 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 		mes "where it could be now.";
 		next;
 		changequest 8026,8027;
-		set EinFactory,11;
+		EinFactory = 11;
 		mes "[Zelmeto]";
 		mes "Still, I'm sure that";
 		mes "it's inside the building,";
@@ -3797,7 +3796,7 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 		mes "be able to find it pretty easily.";
 		next;
 		changequest 8024,8025;
-		set EinFactory,9;
+		EinFactory = 9;
 		mes "[Zelmeto]";
 		mes "Thanks again";
 		mes "for your help,";
@@ -3852,7 +3851,7 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 		mes "and fix it right away.";
 		next;
 		changequest 8022,8023;
-		set EinFactory,7;
+		EinFactory = 7;
 		mes "[Zelmeto]";
 		mes "Thanks again";
 		mes "in advance.";
@@ -3900,7 +3899,7 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 		mes "operating fine for now...";
 		next;
 		changequest 8020,8021;
-		set EinFactory,5;
+		EinFactory = 5;
 		mes "[Zelmeto]";
 		mes "We need to ensure that";
 		mes "it's stable, reliable and";
@@ -3952,7 +3951,7 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 		mes "report it to me. I know it might seem fine now, but I want to prevent an accident if I can.";
 		next;
 		changequest 8018,8019;
-		set EinFactory,3;
+		EinFactory = 3;
 		mes "[Zelmeto]";
 		mes "Thank you";
 		mes "in advance,";
@@ -4045,7 +4044,7 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 			mes "You should find it easily.";
 			next;
 			setquest 8017;
-			set EinFactory,1;
+			EinFactory = 1;
 			mes "[Zelmeto]";
 			mes "When you finish your";
 			mes "inspection, report back";
@@ -4074,11 +4073,10 @@ ein_in01,67,242,3	script	Zelmeto	851,{
 	}
 }
 
-ein_in01,49,232,3	script	2nd Control Panel#ins	111,{
-	if (EinFactory == 1 || EinFactory == 2) {
-		if (isbegin_quest(8017) == 1)
-			changequest 8017,8018;
-		set EinFactory,2;
+ein_in01,49,232,3	script	2nd Control Panel#ins	HIDDEN_NPC,{
+	if ((EinFactory == 1) || (EinFactory == 2)) {
+		changequest 8017,8018;
+		EinFactory = 2;
 		mes "^3355FFIt's the 2nd control panel";
 		mes "Zelmeto asked you to inspect.";
 		mes "It looks totally broken: screws";
@@ -4090,11 +4088,10 @@ ein_in01,49,232,3	script	2nd Control Panel#ins	111,{
 	end;
 }
 
-ein_in01,108,217,3	script	3rd Pressure Governor#1	111,{
-	if (EinFactory == 3 || EinFactory == 4) {
-		if (isbegin_quest(8019) == 1)
-			changequest 8019,8020;
-		set EinFactory,4;
+ein_in01,108,217,3	script	3rd Pressure Governor#1	HIDDEN_NPC,{
+	if ((EinFactory == 3) || (EinFactory == 4)) {
+		changequest 8019,8020;
+		EinFactory = 4;
 		mes "^3355FFAt first glance, this";
 		mes "pressure governor looks";
 		mes "perfectly fine. But after you";
@@ -4107,11 +4104,10 @@ ein_in01,108,217,3	script	3rd Pressure Governor#1	111,{
 	end;
 }
 
-ein_in01,62,258,3	script	Main Control Panel#ins	111,{
-	if (EinFactory == 5 || EinFactory == 6) {
-		if (isbegin_quest(8021) == 1)
-			changequest 8021,8022;
-		set EinFactory,6;
+ein_in01,62,258,3	script	Main Control Panel#ins	HIDDEN_NPC,{
+	if ((EinFactory == 5) || (EinFactory == 6)) {
+		changequest 8021,8022;
+		EinFactory = 6;
 		mes "^3355FFThe main control panel";
 		mes "doesn't look like it has";
 		mes "any problems. But after";
@@ -4124,11 +4120,10 @@ ein_in01,62,258,3	script	Main Control Panel#ins	111,{
 	end;
 }
 
-ein_in01,46,197,3	script	Conveyor#ins	111,{
-	if (EinFactory == 7 || EinFactory == 8) {
-		if (isbegin_quest(8023) == 1)
-			changequest 8023,8024;
-		set EinFactory,8;
+ein_in01,46,197,3	script	Conveyor#ins	HIDDEN_NPC,{
+	if ((EinFactory == 7) || (EinFactory == 8)) {
+		changequest 8023,8024;
+		EinFactory = 8;
 		mes "^3355FFThe conveyor's movements";
 		mes "look jittery and clumsy. The";
 		mes "mechanical arm also doesn't";
@@ -4140,11 +4135,10 @@ ein_in01,46,197,3	script	Conveyor#ins	111,{
 	end;
 }
 
-ein_in01,100,266,3	script	Pipe#ins	111,{
-	if (EinFactory == 9 || EinFactory == 10) {
-		if (isbegin_quest(8025) == 1)
-			changequest 8025,8026;
-		set EinFactory,10;
+ein_in01,100,266,3	script	Pipe#ins	HIDDEN_NPC,{
+	if ((EinFactory == 9) || (EinFactory == 10)) {
+		changequest 8025,8026;
+		EinFactory = 10;
 		mes "^3355FFThe inspection of this";
 		mes "pipe didn't take very long.";
 		mes "It's bloated and worn out";
@@ -4157,11 +4151,10 @@ ein_in01,100,266,3	script	Pipe#ins	111,{
 	end;
 }
 
-ein_in01,95,239,3	script	Conveyor#ins2	111,{
-	if (EinFactory == 11 || EinFactory == 12) {
-		if (isbegin_quest(8027) == 1)
-			changequest 8027,8028;
-		set EinFactory,12;
+ein_in01,95,239,3	script	Conveyor#ins2	HIDDEN_NPC,{
+	if ((EinFactory == 11) || (EinFactory == 12)) {
+		changequest 8027,8028;
+		EinFactory = 12;
 		mes "^3355FFThis conveyor seems";
 		mes "to have similar problems";
 		mes "as its smaller version. Its";
@@ -4174,8 +4167,8 @@ ein_in01,95,239,3	script	Conveyor#ins2	111,{
 }
 
 // Administrator NPC used to rig the invasion in Einbroch.
-sec_in02,127,86,3	script	Factory Quest Test	851,{
-	set .@i, callfunc("F_GM_NPC",8028,0,0,9000);
+sec_in02,127,86,3	script	Factory Quest Test	4_M_REPAIR,{
+	.@i = callfunc("F_GM_NPC",8028,0,0,9000);
 	if (.@i == -2) {
 		mes "[Test1]";
 		mes "Boo~ya.";
@@ -4205,14 +4198,14 @@ sec_in02,127,86,3	script	Factory Quest Test	851,{
 			mes "Okay...!";
 			mes "It's been";
 			mes "changed to ''0.''";
-			set $EinPolution,0;
+			$EinPolution = 0;
 			close;
 		case 2:
 			mes "[Test2]";
 			mes "Okay...!";
 			mes "It's been";
 			mes "changed to ''10.''";
-			set $EinPolution,10;
+			$EinPolution = 10;
 			close;
 		case 3:
 			donpcevent "Einbroch Smog Alert::OnEnable";
@@ -4222,8 +4215,8 @@ sec_in02,127,86,3	script	Factory Quest Test	851,{
 }
 
 // Murder Quest :: ein_main_tre
-//============================================================ 
-einbech,165,105,7	script	Buender Hikeman#ein	847,{
+//============================================================
+einbech,165,105,7	script	Buender Hikeman#ein	4_M_EINOLD,{
 	cutin "ein_hicman",2;
 	if (Shinokas_Quest == 0) {
 		mes "[Buender Hikeman]";
@@ -4234,7 +4227,7 @@ einbech,165,105,7	script	Buender Hikeman#ein	847,{
 		mes "...";
 		mes "......";
 		mes "......You...";
-		emotion ET_QUESTION, playerattached();
+		emotion e_what,1;
 		next;
 		mes "[Buender Hikeman]";
 		mes "...";
@@ -4400,7 +4393,7 @@ einbech,165,105,7	script	Buender Hikeman#ein	847,{
 		mes "Then I learned...";
 		mes "You planned it all along.";
 		setquest 2071;
-		set Shinokas_Quest,1;
+		Shinokas_Quest = 1;
 		close2;
 		cutin "ein_hicman",255;
 		end;
@@ -4512,7 +4505,7 @@ einbech,165,105,7	script	Buender Hikeman#ein	847,{
 		mes "provoke the old man anymore,";
 		mes "intentionally or not.^000000";
 		changequest 2071,2072;
-		set Shinokas_Quest,2;
+		Shinokas_Quest = 2;
 		close2;
 		cutin "ein_hicman",255;
 		end;
@@ -4556,7 +4549,7 @@ einbech,165,105,7	script	Buender Hikeman#ein	847,{
 		next;
 		mes "[Buender Hikeman]";
 		mes "................";
-		emotion ET_SURPRISE;
+		emotion e_gasp;
 		next;
 		mes "[Buender Hikeman]";
 		mes "Uhhhh......";
@@ -4564,7 +4557,7 @@ einbech,165,105,7	script	Buender Hikeman#ein	847,{
 		mes "[Buender Hikeman]";
 		mes "Huh.";
 		next;
-		if (Sex == SEX_FEMALE) {
+		if (Sex == 0) {
 			mes "["+strcharinfo(0)+"]";
 			mes "And...";
 			mes "I'm a cute girl!";
@@ -4671,8 +4664,8 @@ einbech,165,105,7	script	Buender Hikeman#ein	847,{
 			close2;
 			cutin "ein_hicman",255;
 			completequest 2078;
-			set Shinokas_Quest,11;
-			if (checkre(3)) {
+			Shinokas_Quest = 11;
+			if (RENEWAL_EXP) {
 				if (BaseLevel < 70) getexp 30000,30000;
 				else if ((BaseLevel > 69) && (BaseLevel < 80)) getexp 40000,40000;
 				else if ((BaseLevel > 79) && (BaseLevel < 90)) getexp 70000,70000;
@@ -4729,7 +4722,7 @@ einbech,165,105,7	script	Buender Hikeman#ein	847,{
 	}
 }
 
-ein_in01,231,163,7	script	Sick Old Man#ein	849,{
+ein_in01,231,163,7	script	Sick Old Man#ein	4_M_DIEMAN,{
 	if (Shinokas_Quest < 2) {
 		mes "[Sick Old Man]";
 		mes "...!";
@@ -4749,6 +4742,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 		close;
 	}
 	else if (Shinokas_Quest == 2) {
+		einbech = 0;
 		mes "[Sick Old Man]";
 		mes "...!";
 		next;
@@ -4794,7 +4788,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 				mes "^3355FFIt doesn't seem";
 				mes "like this old man";
 				mes "is telling the truth...^000000";
-				set .@einbech,0;
+				einbech = 0;
 				next;
 			}
 			else {
@@ -4806,7 +4800,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 					mes "what the hell";
 					mes "you're talking";
 					mes "about!";
-					set .@einbech,.@einbech+1;
+					++.@einbech;
 					next;
 					break;
 				case 2:
@@ -4815,7 +4809,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 					mes "W-why would you";
 					mes "even ask me that";
 					mes "kind of question?!";
-					set .@einbech,.@einbech+1;
+					++.@einbech;
 					next;
 					break;
 				case 3:
@@ -4829,7 +4823,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 					mes "like this old man";
 					mes "is telling the truth...^000000";
 					if (.@einbech > 0) {
-						set .@einbech,0;
+						.@einbech = 0;
 					}
 					next;
 					break;
@@ -4851,12 +4845,12 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 		mes "[Shinokas]";
 		mes "...";
 		mes ".......";
-		emotion ET_PROFUSELY_SWEAT;
+		emotion e_swt2;
 		next;
 		mes "["+strcharinfo(0)+"]";
 		mes "I was right.";
 		mes "You're Shinokas!";
-		emotion ET_KIK, playerattached();
+		emotion e_gg,1;
 		next;
 		mes "[Shinokas]";
 		mes "Curses!";
@@ -4864,7 +4858,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 		mes "my cover!";
 		mes "W-wait! How much";
 		mes "do you know?!";
-		emotion ET_HUK;
+		emotion e_omg;
 		next;
 		mes "[Shinokas]";
 		mes "Did ^3131FFthey^000000 send you?";
@@ -4891,7 +4885,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 		mes "Errr....";
 		mes "You're not";
 		mes "here to kill me?";
-		emotion ET_QUESTION;
+		emotion e_what;
 		next;
 		mes "["+strcharinfo(0)+"]";
 		mes "No...!";
@@ -4906,7 +4900,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 		mes "happened. But it's a";
 		mes "long story...";
 		changequest 2072,2073;
-		set Shinokas_Quest,3;
+		Shinokas_Quest = 3;
 		close;
 	}
 	else if (Shinokas_Quest == 3) {
@@ -4985,7 +4979,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 		mes "I'm too old and weak to leave";
 		mes "this house, and there's the chance that those men will find me. If you can sympathize with my situation, please find out if the Kapellthaine family has any unique ores...";
 		changequest 2073,2074;
-		set Shinokas_Quest,4;
+		Shinokas_Quest = 4;
 		close;
 	}
 	else if (Shinokas_Quest == 4) {
@@ -5031,7 +5025,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 		mes "Factory for that ore as";
 		mes "soon as you can.";
 		changequest 2074,2075;
-		set Shinokas_Quest,6;
+		Shinokas_Quest = 6;
 		close;
 	}
 	else if (Shinokas_Quest == 6) {
@@ -5112,7 +5106,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 				mes "of place. But I'm sure";
 				mes "you'll figure something out.";
 				changequest 2075,2076;
-				set Shinokas_Quest,7;
+				Shinokas_Quest = 7;
 				close;
 			}
 		}
@@ -5241,7 +5235,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 		mes "Why, God?";
 		mes "Why...";
 		changequest 2077,2078;
-		set Shinokas_Quest,10;
+		Shinokas_Quest = 10;
 		close;
 	}
 	else if (Shinokas_Quest > 9) {
@@ -5258,7 +5252,7 @@ ein_in01,231,163,7	script	Sick Old Man#ein	849,{
 	}
 }
 
-ein_in01,32,133,7	script	Maid#ein	850,{
+ein_in01,32,133,7	script	Maid#ein	4_F_EINWOMAN,{
 	if (Shinokas_Quest == 4) {
 		mes "[Maid]";
 		mes "Did you ask me";
@@ -5279,7 +5273,7 @@ ein_in01,32,133,7	script	Maid#ein	850,{
 		mes "special or otherwise, here";
 		mes "in the manor. What exactly";
 		mes "do you need them for?";
-		set Shinokas_Quest,5;
+		Shinokas_Quest = 5;
 		close;
 	}
 	else {
@@ -5291,7 +5285,7 @@ ein_in01,32,133,7	script	Maid#ein	850,{
 	}
 }
 
-ein_in01,254,35,1	script	Scientist#ein	749,{
+ein_in01,254,35,1	script	Scientist#ein	4_M_ALCHE_B,{
 	mes "[Scientist]";
 	mes "^333333*Grumble grumble*^000000";
 	next;
@@ -5328,7 +5322,7 @@ ein_in01,254,35,1	script	Scientist#ein	749,{
 			mes "flirting with that";
 			mes "woman. God...!";
 			mes "I'm like, so teed off!";
-			set Shinokas_Quest,8;
+			Shinokas_Quest = 8;
 			close;
 		case 2:
 			mes "[Scientist]";
@@ -5356,15 +5350,15 @@ ein_in01,254,35,1	script	Scientist#ein	749,{
 	close;
 }
 
-ein_in01,266,27,3	script	Unknown Stuff#ein	111,{
+ein_in01,266,27,3	script	Unknown Stuff#ein	HIDDEN_NPC,{
 	mes "^3355FFThere's something";
 	mes "attached to a huge";
 	mes "machine with many cords";
 	mes "and folds of barbed wire.^000000";
 	close;
 }
-		
-einbroch,51,46,5	script	Laboratory Soldier#ein-1	852,{
+
+einbroch,51,46,5	script	Laboratory Soldier#ein-1	4_M_EIN_SOLDIER,{
 	mes "[Laboratory Soldier]";
 	mes "This area";
 	mes "is off limits.";
@@ -5372,8 +5366,8 @@ einbroch,51,46,5	script	Laboratory Soldier#ein-1	852,{
 	mes "immediately.";
 	close;
 }
-	
-einbroch,51,56,5	script	Laboratory Soldier#ein-2	852,{
+
+einbroch,51,56,5	script	Laboratory Soldier#ein-2	4_M_EIN_SOLDIER,{
 	mes "[Laboratory Soldier]";
 	mes "Yuck...!";
 	mes "There's this";
@@ -5389,7 +5383,7 @@ einbroch,51,56,5	script	Laboratory Soldier#ein-2	852,{
 	close;
 }
 
-airplane,31,77,5	script	Drunken Man#ein	853,{
+airplane,31,77,5	script	Drunken Man#ein	4_M_YURI,{
 	if (Shinokas_Quest == 8) {
 		mes "[Drunken Man]";
 		mes "Okay okay...";
@@ -5401,7 +5395,7 @@ airplane,31,77,5	script	Drunken Man#ein	853,{
 		mes "Let's do it!";
 		mes "^3131FFYmir's Heart^000000 is";
 		mes "on my side! GO!";
-		emotion ET_GO;
+		emotion e_go;
 		next;
 		mes "["+strcharinfo(0)+"]";
 		mes "Huh...?";
@@ -5410,7 +5404,7 @@ airplane,31,77,5	script	Drunken Man#ein	853,{
 		next;
 		mes "^3355FF*Rolling and rumbling*^000000";
 		next;
-		emotion ET_CHUP;
+		emotion e_kis;
 		mes "[Kaci]";
 		mes "I have a total of ^FF000011^000000";
 		mes "and you have total ^FF00005^000000.";
@@ -5462,7 +5456,7 @@ airplane,31,77,5	script	Drunken Man#ein	853,{
 			mes "^3355FF*Rolling and rumbling*^000000";
 			next;
 			if (rand(1,10) > 7) {
-				emotion ET_CHUP;
+				emotion e_kis;
 				mes "[Kaci]";
 				mes "I got a total of ^FF00008^000000,";
 				mes "and you have total ^FF000011^000000.";
@@ -5472,7 +5466,7 @@ airplane,31,77,5	script	Drunken Man#ein	853,{
 				next;
 			}
 			else {
-				emotion ET_HUK;
+				emotion e_omg;
 				mes "[Kaci]";
 				mes "Oooh...";
 				mes "I got a total of ^FF000010^000000,";
@@ -5578,7 +5572,7 @@ airplane,31,77,5	script	Drunken Man#ein	853,{
 			mes "of ^3131FFYmir's Heart^333333. I better";
 			mes "tell Shinokas about this.)^000000";
 			changequest 2076,2077;
-			set Shinokas_Quest,9;
+			Shinokas_Quest = 9;
 			close;
 		case 2:
 			mes "[Drunken Man]";
@@ -5612,7 +5606,7 @@ airplane,31,77,5	script	Drunken Man#ein	853,{
 		mes "Let's do it!";
 		mes "^3131FFYmir's Heart^000000 is";
 		mes "on my side! GO!";
-		emotion ET_GO;
+		emotion e_go;
 		next;
 		mes "["+strcharinfo(0)+"]";
 		mes "Huh...?";
@@ -5621,7 +5615,7 @@ airplane,31,77,5	script	Drunken Man#ein	853,{
 		next;
 		mes "^3355FF*Rolling and rumbling*^000000";
 		next;
-		emotion ET_CHUP;
+		emotion e_kis;
 		mes "[Kaci]";
 		mes "I have a total of ^FF00003^000000";
 		mes "and you have total ^FF00002^000000.";
@@ -5637,7 +5631,7 @@ airplane,31,77,5	script	Drunken Man#ein	853,{
 }
 
 ein_in01,231,170,0	script	#kenka	-1,2,2,{
-OnTouch_:
+OnTouch:
 	if (Shinokas_Quest > 8) {
 		mes "^3355FFThe open window rattles";
 		mes "as you enter the room and";
@@ -5654,7 +5648,7 @@ OnTouch_:
 	end;
 }
 
-einbech,57,210,3	script	Young Man#Shinokas_Quest	855,{
+einbech,57,210,3	script	Young Man#Shinokas_Quest	4_M_EINMAN,{
 	mes "[Young Man]";
 	mes "Behind the pub,";
 	mes "you'll see this old man";
@@ -5678,11 +5672,11 @@ einbech,57,210,3	script	Young Man#Shinokas_Quest	855,{
 }
 
 // Typing Test :: ein_main_ma1
-//============================================================ 
-einbroch,51,52,0	script	Security#ein	45,1,1,{
+//============================================================
+einbroch,51,52,0	script	Security#ein	WARPNPC,1,1,{
 	end;
 
-OnTouch_:
+OnTouch:
 	if (((Shinokas_Quest == 7) || (lhz_heart == 9)) || (lhz_heart == 10)) {
 		mes "[Security System]";
 		mes "^8B0000*Beep Boop*^000000";
@@ -5698,12 +5692,12 @@ OnTouch_:
 			mes "Failure to do so will result";
 			mes "in lockout. Please wait.";
 			next;
-			set .@startseconds,gettimetick(1);
+			.@startseconds = gettime(3)*60*60+gettime(2)*60+gettime(1);
 			mes "[Security System]";
 			switch(rand(1,7)) {
 			case 1:
-				set .@word1$,"burrdingdingdilidingdingphoohudaambandoorabambarambambamburanbamding";
-				set .@word2$,"burapaphurarlandreamduranbatuhiwooikabamturubamdingding";
+				.@word1$ = "burrdingdingdilidingdingphoohudaambandoorabambarambambamburanbamding";
+				.@word2$ = "burapaphurarlandreamduranbatuhiwooikabamturubamdingding";
 				mes "^3CBCBC"+.@word1$+"^000000";
 				next;
 				input .@input1$;
@@ -5711,8 +5705,8 @@ OnTouch_:
 				mes "^FF1493"+.@word2$+"^000000";
 				break;
 			case 2:
-				set .@word1$,"...silence. quiet benevolence... soul mate... wonder. enigma... cloud.";
-				set .@word2$,"opeN,Open!op3n.openOpen0p3nOpEn0pen`open'0Pen open?open!111OPENSESAME";
+				.@word1$ = "...silence. quiet benevolence... soul mate... wonder. enigma... cloud.";
+				.@word2$ = "opeN,Open!op3n.openOpen0p3nOpEn0pen`open'0Pen open?open!111OPENSESAME";
 				mes "^3CBCBC"+.@word1$+"^000000";
 				next;
 				input .@input1$;
@@ -5720,8 +5714,8 @@ OnTouch_:
 				mes "^FF1493"+.@word2$+"^000000";
 				break;
 			case 3:
-				set .@word1$,"Coboman no chikara-yumei na chikara-daiookii na chikara da ze! COBO ON";
-				set .@word2$,"hfjdkeldjsieldjshfjdjeiskdlefvbd";
+				.@word1$ = "Coboman no chikara-yumei na chikara-daiookii na chikara da ze! COBO ON";
+				.@word2$ = "hfjdkeldjsieldjshfjdjeiskdlefvbd";
 				mes "^3CBCBC"+.@word1$+"^000000";
 				next;
 				input .@input1$;
@@ -5729,8 +5723,8 @@ OnTouch_:
 				mes "^FF1493"+.@word2$+"^000000";
 				break;
 			case 4:
-				set .@word1$,"belief love luck grimace sweat rush folktale rodimus optimus bumblebee";
-				set .@word2$,"LiGhTsPeEd RiGhT SPEed LeFT TURn RiGhT BuRn OrIGInAL GaNgSteR SmACk";
+				.@word1$ = "belief love luck grimace sweat rush folktale rodimus optimus bumblebee";
+				.@word2$ = "LiGhTsPeEd RiGhT SPEed LeFT TURn RiGhT BuRn OrIGInAL GaNgSteR SmACk";
 				mes "^3CBCBC"+.@word1$+"^000000";
 				next;
 				input .@input1$;
@@ -5738,8 +5732,8 @@ OnTouch_:
 				mes "^FF1493"+.@word2$+"^000000";
 				break;
 			case 5:
-				set .@word1$,"By the power of p-po-poi-po-poi-poin-poing GOD-POING. I NEVER LOSE!";
-				set .@word2$,"uNflAPPaBLe LoVaBLe SeCreTs AnD BoWLiNg aGaINST tHe KarMA of YoUtH";
+				.@word1$ = "By the power of p-po-poi-po-poi-poin-poing GOD-POING. I NEVER LOSE!";
+				.@word2$ = "uNflAPPaBLe LoVaBLe SeCreTs AnD BoWLiNg aGaINST tHe KarMA of YoUtH";
 				mes "^3CBCBCBy the power of p-po-poi-po-poi-poin-poing";
 				mes "GOD-POING. I NEVER LOSE!^000000";
 				next;
@@ -5748,8 +5742,8 @@ OnTouch_:
 				mes "^FF1493"+.@word2$+"^000000";
 				break;
 			case 6:
-				set .@word1$,"You give me no choice. I guess it's time for me to reveal my secret...";
-				set .@word2$,"fReeDoM eCstAcy JoUrnaLiSm ArMpIt DisCoverY hEaDaChE MoonbeAmS jUsTiCE";
+				.@word1$ = "You give me no choice. I guess it's time for me to reveal my secret...";
+				.@word2$ = "fReeDoM eCstAcy JoUrnaLiSm ArMpIt DisCoverY hEaDaChE MoonbeAmS jUsTiCE";
 				mes "^3CBCBC"+.@word1$+"^000000";
 				next;
 				input .@input1$;
@@ -5757,8 +5751,8 @@ OnTouch_:
 				mes "^800080"+.@word2$+"^000000";
 				break;
 			case 7:
-				set .@word1$,"I'm the King of All Weirdos! Now you know of my true power. Obey~!";
-				set .@word2$,"0uNflAPPaBLe LoVaBLe SeCreTs AnD BoWLiNg aGaINST tHe KarMA of YoUtH";
+				.@word1$ = "I'm the King of All Weirdos! Now you know of my true power. Obey~!";
+				.@word2$ = "0uNflAPPaBLe LoVaBLe SeCreTs AnD BoWLiNg aGaINST tHe KarMA of YoUtH";
 				mes "^3CBCBC"+.@word1$+"^000000";
 				next;
 				input .@input1$;
@@ -5767,8 +5761,8 @@ OnTouch_:
 			}
 			next;
 			input .@input2$;
-			set .@endtime,gettimetick(1);
-			set .@time,.@endtime-.@startseconds;
+			.@endtime = gettime(3)*60*60+gettime(2)*60+gettime(1);
+			.@time = .@endtime-.@startseconds;
 			mes "[Security System]";
 			if ((.@input1$ == .@word1$) && (.@input2$ == .@word2$)) {
 				if (.@time > 60) {
@@ -5832,8 +5826,8 @@ OnTouch_:
 }
 
 // Lovers Quest :: ein_ryu
-//============================================================ 
-ein_in01,31,138,3	script	Calla#ein	90,{
+//============================================================
+ein_in01,31,138,3	script	Calla#ein	4_F_01,{
 	if (checkweight(908,70) == 0) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
@@ -5942,8 +5936,8 @@ ein_in01,31,138,3	script	Calla#ein	90,{
 		mes "Wait. Now I just";
 		mes "feel goooood~";
 		percentheal 100,0;
-		set EIN_LOVERQ,17;
-		if (checkre(3)) {
+		EIN_LOVERQ = 17;
+		if (RENEWAL_EXP) {
 			if (BaseLevel < 41) getexp 61,0;
 			else if (BaseLevel < 61) getexp 600,0;
 			else if (BaseLevel < 81) getexp 3000,0;
@@ -6009,8 +6003,8 @@ ein_in01,31,138,3	script	Calla#ein	90,{
 			mes "I really miss him a lot.";
 			mes "^333333*Sob Sob...*^000000";
 			delitem 712,1; //Flower
-			set EIN_LOVERQ,6;
-			changequest 8079,8080;
+			EIN_LOVERQ = 6;
+			changequest 8079,808;
 			close;
 		}
 		else {
@@ -6043,7 +6037,7 @@ ein_in01,31,138,3	script	Calla#ein	90,{
 		mes "try to make it to Klitzer";
 		mes "this time? Thank you";
 		mes "for your help~";
-		set EIN_LOVERQ,3;
+		EIN_LOVERQ = 3;
 		changequest 8078,8077;
 		getitem 1901,1; //Violin
 		close;
@@ -6086,7 +6080,7 @@ ein_in01,31,138,3	script	Calla#ein	90,{
 		mes "I used to play this for him";
 		mes "all the time...";
 		next;
-		set EIN_LOVERQ,3;
+		EIN_LOVERQ = 3;
 		changequest 8076,8077;
 		getitem 1901,1; //Violin
 		mes "[Calla]";
@@ -6115,7 +6109,7 @@ ein_in01,31,138,3	script	Calla#ein	90,{
 		mes "much less change things here...";
 		next;
 		if (EIN_LOVERQ == 0) {
-			set EIN_LOVERQ,1;
+			EIN_LOVERQ = 1;
 		}
 		mes "[Calla]";
 		mes "How is it like?";
@@ -6128,7 +6122,7 @@ ein_in01,31,138,3	script	Calla#ein	90,{
 	}
 }
 
-ein_in01,200,101,5	script	Klitzer#ein	854,{
+ein_in01,200,101,5	script	Klitzer#ein	4_M_EINMAN2,{
 	if (EIN_LOVERQ == 16) {
 		mes "[Klitzer]";
 		mes "Look out, world!";
@@ -6177,7 +6171,7 @@ ein_in01,200,101,5	script	Klitzer#ein	854,{
 			mes "that it's pretty rare. It may";
 			mes "even be useful to you later~";
 			delitem 7170,1; //Tuxedo
-			set EIN_LOVERQ,16;
+			EIN_LOVERQ = 16;
 			changequest 8087,8088;
 			switch(rand(1,7)) {
 			case 1:
@@ -6275,7 +6269,7 @@ ein_in01,200,101,5	script	Klitzer#ein	854,{
 		mes "Wow. This is so sudden!";
 		mes "W-what should I do?";
 		next;
-		set EIN_LOVERQ,14;
+		EIN_LOVERQ = 14;
 		changequest 8085,8086;
 		mes "[Klitzer]";
 		mes "This monkey suit";
@@ -6324,7 +6318,7 @@ ein_in01,200,101,5	script	Klitzer#ein	854,{
 			mes "person, I can at least send";
 			mes "my regards if you help me.";
 			next;
-			set EIN_LOVERQ,7;
+			EIN_LOVERQ = 7;
 			changequest 8080,8081;
 			mes "[Klitzer]";
 			mes "I feel so much";
@@ -6417,9 +6411,9 @@ ein_in01,200,101,5	script	Klitzer#ein	854,{
 		mes "That's the stuff!";
 		percentheal 100,0;
 		delitem 1901,1; //Violin
-		set EIN_LOVERQ,5;
+		EIN_LOVERQ = 5;
 		changequest 8077,8079;
-		if (checkre(3)) {
+		if (RENEWAL_EXP) {
 			if (BaseLevel < 41) getexp 61,0;
 			else if (BaseLevel < 61) getexp 600,0;
 			else if (BaseLevel < 81) getexp 3000,0;
@@ -6480,7 +6474,7 @@ ein_in01,200,101,5	script	Klitzer#ein	854,{
 		mes "a complete idiot. But I'd";
 		mes "give anything to see her...";
 		next;
-		set EIN_LOVERQ,2;
+		EIN_LOVERQ = 2;
 		setquest 8076;
 		mes "[Klitzer]";
 		mes "Just...";
@@ -6514,10 +6508,10 @@ ein_in01,200,101,5	script	Klitzer#ein	854,{
 	close;
 }
 
-ein_in01,21,147,3	script	Megass#EIN	853,3,3,{
+ein_in01,21,147,3	script	Megass#EIN	4_M_YURI,3,3,{
 	end;
 
-OnTouch_:
+OnTouch:
 	if ((EIN_LOVERQ == 4) && (EIN_LOVERQ == 5)) {
 		mes "[Megass]";
 		mes "You again?!";
@@ -6559,7 +6553,7 @@ OnTouch_:
 		mes "Make sure that if this punk";
 		mes "wakes up, it won't be today!";
 		delitem 1901,1; //Violin
-		set EIN_LOVERQ,4;
+		EIN_LOVERQ = 4;
 		changequest 8077,8078;
 		percentheal -90,0;
 		close2;
@@ -6583,7 +6577,7 @@ OnTouch_:
 	close;
 }
 
-ein_in01,31,151,3	script	Satra#ein	850,{
+ein_in01,31,151,3	script	Satra#ein	4_F_EINWOMAN,{
 	if (EIN_LOVERQ > 12) {
 		mes "[Satra]";
 		mes "I understand that my";
@@ -6674,7 +6668,7 @@ ein_in01,31,151,3	script	Satra#ein	850,{
 			mes "marry that oafish Megass~";
 			next;
 			delitem 1003,10; //Coal
-			set EIN_LOVERQ,13;
+			EIN_LOVERQ = 13;
 			changequest 8084,8085;
 			mes "[Satra]";
 			mes "Anyway, when you next";
@@ -6760,7 +6754,7 @@ ein_in01,31,151,3	script	Satra#ein	850,{
 		mes "chance to prove their worth.";
 		next;
 		delitem 1003,10; //Coal
-		set EIN_LOVERQ,12;
+		EIN_LOVERQ = 12;
 		mes "[Satra]";
 		mes "Why should I deprive";
 		mes "the lowly of my gracious";
@@ -6842,7 +6836,7 @@ ein_in01,31,151,3	script	Satra#ein	850,{
 		mes "living here than in Einbech.";
 		next;
 		delitem 1003,10; //Coal
-		set EIN_LOVERQ,11;
+		EIN_LOVERQ = 11;
 		mes "[Satra]";
 		mes "Goodness, I believe";
 		mes "it's time for a spot of tea~";
@@ -6900,7 +6894,7 @@ ein_in01,31,151,3	script	Satra#ein	850,{
 		mes "and Jawaii is very lovely.";
 		next;
 		delitem 1003,10; //Coal
-		set EIN_LOVERQ,10;
+		EIN_LOVERQ = 10;
 		changequest 8083,8084;
 		mes "[Satra]";
 		mes "Well, I shall try to";
@@ -7051,11 +7045,8 @@ ein_in01,31,151,3	script	Satra#ein	850,{
 		mes "for someone like yourself, but";
 		mes "this kind of task will require";
 		mes "some effort on your part.";
-		set EIN_LOVERQ,9;
-		if (isbegin_quest(8081) == 1)
-			changequest 8081,8083;
-		else
-			changequest 8082,8083;
+		EIN_LOVERQ = 9;
+		changequest 8082,8083;
 		next;
 		mes "[Satra]";
 		mes "Tah tah,";
@@ -7085,7 +7076,7 @@ ein_in01,31,151,3	script	Satra#ein	850,{
 	close;
 }
 
-ein_in01,191,102,5	script	Kaijeta#ein	846,{
+ein_in01,191,102,5	script	Kaijeta#ein	4_F_EINOLD,{
 	if (EIN_LOVERQ > 15) {
 		mes "[Kaijeta]";
 		mes "My son learned";
@@ -7129,7 +7120,7 @@ ein_in01,191,102,5	script	Kaijeta#ein	846,{
 		mes "things like choosing clothing.";
 		mes "He gets so nervous about it!";
 		next;
-		set EIN_LOVERQ,15;
+		EIN_LOVERQ = 15;
 		changequest 8086,8087;
 		mes "[Kaijeta]";
 		mes "A man should wear nice";
@@ -7145,8 +7136,7 @@ ein_in01,191,102,5	script	Kaijeta#ein	846,{
 		mes "petty hatred between our";
 		mes "two towns stop my son from";
 		mes "seeing the woman he loves...";
-		if (isbegin_quest(8081) == 1)
-			changequest 8081,8082;
+		changequest 8081,8082;
 		close;
 	}
 	if (EIN_LOVERQ == 7) {
@@ -7177,7 +7167,7 @@ ein_in01,191,102,5	script	Kaijeta#ein	846,{
 		mes "when his heart's broken. And";
 		mes "I still have no idea how he got together with such a rich woman.";
 		next;
-		set EIN_LOVERQ,8;
+		EIN_LOVERQ = 8;
 		mes "[Kaijeta]";
 		mes "Do you have any idea";
 		mes "how we can put an end";
@@ -7209,7 +7199,7 @@ ein_in01,191,102,5	script	Kaijeta#ein	846,{
 	close;
 }
 
-einbroch,188,72,3	script	Keneshiotz#ein	855,{
+einbroch,188,72,3	script	Keneshiotz#ein	4_M_EINMAN,{
 	mes "[Keneshiotz]";
 	mes "This city is full of sky";
 	mes "high smokestacks and";
@@ -7232,7 +7222,7 @@ einbroch,188,72,3	script	Keneshiotz#ein	855,{
 	close;
 }
 
-einbech,216,118,3	script	Catzllanpu#ein	854,{
+einbech,216,118,3	script	Catzllanpu#ein	4_M_EINMAN2,{
 	mes "[Catzllanpu]";
 	mes "^333333*Sigh...*^000000";
 	mes "Simple pleasures.";
@@ -7258,7 +7248,7 @@ einbech,216,118,3	script	Catzllanpu#ein	854,{
 	close;
 }
 
-einbroch,208,208,3	script	Kesunboss#ein	850,{
+einbroch,208,208,3	script	Kesunboss#ein	4_F_EINWOMAN,{
 	mes "[Kesunboss]";
 	mes "Lady Calla is the";
 	mes "epitome of elegance,";
@@ -7289,7 +7279,7 @@ einbroch,208,208,3	script	Kesunboss#ein	850,{
 	close;
 }
 
-einbech,176,125,3	script	Ellhenje#ein	850,{
+einbech,176,125,3	script	Ellhenje#ein	4_F_EINWOMAN,{
 	mes "[Ellhenje]";
 	mes "Things might be";
 	mes "bad in this town";
@@ -7325,7 +7315,7 @@ einbech,176,125,3	script	Ellhenje#ein	850,{
 	close;
 }
 
-ein_in01,208,86,3	script	Decii#ein	855,{
+ein_in01,208,86,3	script	Decii#ein	4_M_EINMAN,{
 	mes "[Decii]";
 	mes "This is so";
 	mes "frustrating!";
@@ -7341,7 +7331,7 @@ ein_in01,208,86,3	script	Decii#ein	855,{
 	close;
 }
 
-ein_in01,192,90,3	script	Supineque#ein	849,{
+ein_in01,192,90,3	script	Supineque#ein	4_M_DIEMAN,{
 	mes "[Supineque]";
 	mes "Ugh...";
 	mes "I'm starving!";

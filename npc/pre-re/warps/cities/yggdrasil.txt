@@ -14,7 +14,7 @@
 //============================================================
 
 //Umbala Entrance
-umbala,106,285,0	warp	um_dun1-1	1,1,um_dun01,42,30
+// [DISABLED_INACTIVE_CITY] umbala,106,285,0	warp	um_dun1-1	1,1,um_dun01,42,30
 um_dun02,125,163,0	warp	nwarp1	1,1,yggdrasil01,40,63
 
 //Niflheim Exit

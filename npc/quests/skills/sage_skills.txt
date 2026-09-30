@@ -1,20 +1,18 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Sage Skills Quests
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Lupus, Reddozen
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.5
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= Quests for skills: Create Converter, Elemental Change
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.4 Rescripted to Aegis 10.3 standards. [5511]
 //= 1.5 Optimized. [Euphy]
 //============================================================
 
-yuno_in03,176,24,3	script	Mischna	755,{
+yuno_in03,176,24,3	script	Mischna	4_M_SAGE_C,{
 	if(BaseJob != Job_Sage) {
 		mes "[Mishuna]";
 		mes "Good day, I'm Mishuna, one";
@@ -38,8 +36,8 @@ yuno_in03,176,24,3	script	Mischna	755,{
 		close;
 	}
 	if(SAG_SK == 100) {
-		set .@Element, getskilllv("SA_ELEMENTFIRE") + getskilllv("SA_ELEMENTGROUND") + getskilllv("SA_ELEMENTWIND") + getskilllv("SA_ELEMENTWATER");
-		set .@Convert, getskilllv("SA_CREATECON");
+		.@Element = getskilllv(SA_ELEMENTFIRE) + getskilllv(SA_ELEMENTGROUND) + getskilllv(SA_ELEMENTWIND) + getskilllv(SA_ELEMENTWATER);
+		.@Convert = getskilllv(SA_CREATECON);
 		if(.@Element && .@Convert) {
 			mes "[Mishuna]";
 			mes "If you have any Sage or";
@@ -82,15 +80,15 @@ yuno_in03,176,24,3	script	Mischna	755,{
 			next;
 			setarray .@ReqSkill[0],280,283,282,281;
 			setarray .@ReqSkill$[0],"Blaze","Quake","Tornado","Tsunami";
-			setarray .@Skill[0],1018,1017,1019,1008;
-			setarray .@Skill$[0],"Fire","Earth","Wind","Water";
+			setarray .@skill[0],1018,1017,1019,1008;
+			setarray .@skill$[0],"Fire","Earth","Wind","Water";
 			while(1) {
-				set .@i, select("Fire Elemental Change:Earth Elemental Change:Wind Elemental Change:Water Elemental Change")-1;
+				.@i = select("Fire Elemental Change:Earth Elemental Change:Wind Elemental Change:Water Elemental Change")-1;
 				if(getskilllv(.@ReqSkill[.@i]) == 0) {
 					mes "[Mishuna]";
 					mes "I'm sorry, but you haven't";
 					mes "learned ^FF0000Endow "+.@ReqSkill$[.@i]+"^000000, the skill";
-					mes "required for ^FF0000"+.@Skill$[.@i]+" Elemental";
+					mes "required for ^FF0000"+.@skill$[.@i]+" Elemental";
 					mes "Change^000000. You'll need to learn";
 					mes "Endow "+.@ReqSkill$[.@i]+" or select another";
 					mes "Elemental Change skill.";
@@ -99,7 +97,7 @@ yuno_in03,176,24,3	script	Mischna	755,{
 				else {
 					mes "[Mishuna]";
 					mes "Very well, I shall";
-					mes "teach you the ^FF0000"+.@Skill$[.@i];
+					mes "teach you the ^FF0000"+.@skill$[.@i];
 					mes "Elemental Change^000000 skill";
 					mes "and the ^FF0000Elemental Converter";
 					mes "Creation skill^000000. Please remain";
@@ -114,12 +112,12 @@ yuno_in03,176,24,3	script	Mischna	755,{
 					specialeffect2 EF_BRANDISHSPEAR;
 					next;
 					mes "^3355FFYou've successfully";
-					mes "learned the "+.@Skill$[.@i]+" Elemental";
+					mes "learned the "+.@skill$[.@i]+" Elemental";
 					mes "Change skill and the Elemental";
 					mes "Converter Creation skill.^000000";
-					skill .@Skill[.@i],1,SKILL_PERM;
+					skill .@skill[.@i],1,0;
 					if(.@Convert == 0)
-						skill "SA_CREATECON",1,SKILL_PERM;
+						skill "SA_CREATECON",1,0;
 					next;
 					break;
 				}
@@ -146,7 +144,7 @@ yuno_in03,176,24,3	script	Mischna	755,{
 			mes "the Elemental Coverter";
 			mes "Creation skill and are";
 			mes "able to use it again.^000000";
-			skill "SA_CREATECON",1,SKILL_PERM;
+			skill "SA_CREATECON",1,0;
 			next;
 		}
 		mes "[Mishuna]";
@@ -239,7 +237,7 @@ yuno_in03,176,24,3	script	Mischna	755,{
 		mes "return. Remember that we";
 		mes "need these items to create";
 		mes "a converter so that you can learn the skill from my example...";
-		set SAG_SK,1;
+		SAG_SK = 1;
 		close;
 	}
 	else if(SAG_SK == 1) {
@@ -315,8 +313,8 @@ yuno_in03,176,24,3	script	Mischna	755,{
 			delitem 1013,12; // Rainbow_Shell
 			delitem 946,10; // Snail's_Shell
 			delitem 7433,4; // Blank_Scroll
-			set SAG_SK,2;
-			skill "SA_CREATECON",1,SKILL_PERM;
+			SAG_SK = 2;
+			skill "SA_CREATECON",1,0;
 			next;
 			mes "[Mishuna]";
 			mes "Wow, "+strcharinfo(0)+"!";
@@ -337,7 +335,7 @@ yuno_in03,176,24,3	script	Mischna	755,{
 	}
 	else if(SAG_SK == 2) {
 		if(getskilllv("SA_CREATECON") == 0) {
-			skill "SA_CREATECON",1,SKILL_PERM;
+			skill "SA_CREATECON",1,0;
 			mes "- I recalled ^ff0000Elemental Converter Creation skill^000000 While I talk to Mishuna! -";
 			next;
 		}
@@ -358,14 +356,14 @@ yuno_in03,176,24,3	script	Mischna	755,{
 		setarray .@ReqSkill[0],280,283,282,281;
 		setarray .@ReqSkill$[0],"Blaze","Quake","Tornado","Tsunami";
 		setarray .@ReqItem$[0],"Red Bloods","Green Lives","Wind of Verdure","Crystal Blues";
-		setarray .@Skill$[0],"Fire","Earth","Wind","Water";
+		setarray .@skill$[0],"Fire","Earth","Wind","Water";
 		while(1) {
-			set .@i, select("Fire Elemental Change:Earth Elemental Change:Wind Elemental Change:Water Elemental Change")-1;
+			.@i = select("Fire Elemental Change:Earth Elemental Change:Wind Elemental Change:Water Elemental Change")-1;
 			if(getskilllv(.@ReqSkill[.@i]) == 0) {
 				mes "[Mishuna]";
 				mes "I'm sorry, but you have not";
 				mes "learned ^FF0000Endow "+.@ReqSkill$[.@i]+"^000000, the skill";
-				mes "required for the "+.@Skill$[.@i]+" Elemental Change skill. Please learn Endow";
+				mes "required for the "+.@skill$[.@i]+" Elemental Change skill. Please learn Endow";
 				mes .@ReqSkill$[.@i]+" or select another Elemental Change skill for me to teach you.";
 				next;
 			}
@@ -374,7 +372,7 @@ yuno_in03,176,24,3	script	Mischna	755,{
 				mes "Very well, then. Please";
 				mes "bring the following items";
 				mes "so that you can learn the";
-				mes .@Skill$[.@i]+" Elemental Change skill.";
+				mes .@skill$[.@i]+" Elemental Change skill.";
 				next;
 				mes "[Mishuna]";
 				mes "^FF000020 "+.@ReqItem$[.@i]+"^000000,";
@@ -382,29 +380,29 @@ yuno_in03,176,24,3	script	Mischna	755,{
 				mes "^FF00001 Morroc Solution^000000. Please";
 				mes "return to me once you have";
 				mes "all the materials ready.";
-				set SAG_SK, 10 * (.@i+1); //10,20,30,40
+				SAG_SK = 10 * (.@i+1); //10,20,30,40
 				close;
 			}
 		}
 	}
 	else if(SAG_SK == 10 || SAG_SK == 20 || SAG_SK == 30 || SAG_SK == 40) {
 		if(getskilllv("SA_CREATECON") == 0) {
-			skill "SA_CREATECON",1,SKILL_PERM;
+			skill "SA_CREATECON",1,0;
 			mes "- I recalled ^ff0000Elemental Converter Creation skill^000000 While I talk to Mishuna! -";
 			next;
 		}
-		set .@i, (SAG_SK/10) - 1;
+		.@i = (SAG_SK/10) - 1;
 		setarray .@ReqItem[0],990,993,992,991;
 		setarray .@ReqItem$[0],"Red Bloods","Green Lives","Wind of Verdure","Crystal Blues";
-		setarray .@Skill[0],1018,1017,1019,1008;
-		setarray .@Skill$[0],"Fire","Earth","Wind","Water";
+		setarray .@skill[0],1018,1017,1019,1008;
+		setarray .@skill$[0],"Fire","Earth","Wind","Water";
 		if (countitem(.@ReqItem[.@i]) < 20 || countitem(1089) < 1 || countitem(1088) < 1) {
 			mes "[Mishuna]";
 			mes "Are you having trouble";
 			mes "gathering all the required";
 			mes "items? Just in case, let me";
 			mes "remind you of what you need";
-			mes "to bring me to learn the "+.@Skill$[.@i];
+			mes "to bring me to learn the "+.@skill$[.@i];
 			mes "Elemental Change skill.";
 			next;
 			mes "[Mishuna]";
@@ -419,10 +417,10 @@ yuno_in03,176,24,3	script	Mischna	755,{
 		mes "[Mishuna]";
 		mes "Ah, you're back. I can now";
 		mes "finally teach you about the";
-		mes .@Skill$[.@i]+" Elemental Change skill.";
+		mes .@skill$[.@i]+" Elemental Change skill.";
 		mes "This skill has the chance to";
 		mes "permanently change a targeted";
-		mes "monster's attribute to "+.@Skill$[.@i]+".";
+		mes "monster's attribute to "+.@skill$[.@i]+".";
 		next;
 		mes "[Mishuna]";
 		mes "Remember that you must";
@@ -435,7 +433,7 @@ yuno_in03,176,24,3	script	Mischna	755,{
 		mes "Now, "+strcharinfo(0)+",";
 		mes "I'm going to cast a spell";
 		mes "that will help you memorize";
-		mes "the "+.@Skill$[.@i]+" Elemental Change";
+		mes "the "+.@skill$[.@i]+" Elemental Change";
 		mes "skill. Try to stay still...";
 		next;
 		mes "^3355FFMishuna begins to chant";
@@ -451,14 +449,14 @@ yuno_in03,176,24,3	script	Mischna	755,{
 		delitem .@ReqItem[.@i],20;
 		delitem 1089,1; // Payon Potion
 		delitem 1088,1; // Morocc Potion
-		set SAG_SK,100;
-		skill .@Skill[.@i],1,0;
+		SAG_SK = 100;
+		skill .@skill[.@i],1,0;
 		next;
 		mes "[Mishuna]";
 		mes strcharinfo(0)+"...";
 		mes "I'm happy to say that you've";
 		mes "successfully memorized the";
-		mes .@Skill$[.@i]+" Elemental Change skill.";
+		mes .@skill$[.@i]+" Elemental Change skill.";
 		mes "I hope that it serves you well";
 		mes "in battle. Farewell for now~";
 		close;
@@ -482,15 +480,15 @@ yuno_in03,176,24,3	script	Mischna	755,{
 	}
 }
 
-//============================================================ 
+//============================================================
 // Old changelog
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 for fully working skills only [Lupus]
 //= 1.1 Added more new skill quests for more classes [Lupus]
 //= Somehow eA engine doesn't let you keep learn't skill V_V'
 //= 1.2 Added to correct locations, correct NPC's, fixed
 //= some of the items required and made them into real
-//= quests. [Reddozen] 
+//= quests. [Reddozen]
 //= 1.3 Fixed bugs and minor typos. Optimized [Lupus]
 //= 1.3a fixed an item ID typo, thx 2Spiritual Kid
 //= 1.3b Splitted into different files [DracoRPG]

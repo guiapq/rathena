@@ -454,14 +454,14 @@ OnInit:
 	.NPCName$ = "[Job Master]";
 	
 	// Settings
-	.ThirdClass = true;			// Enable third classes?
+	.ThirdClass = false;			// Enable third classes? (DESATIVADO - Apenas até Transcendente/2nd)
 	.RebirthClass = true;			// Enable rebirth classes?
 	.SecondExpanded = true;		// Enable new expanded second classes: Ex. Super Novice, Kagerou/Oboro, Rebellion?
 	.BabyNovice = true;	// Enable Baby novice classes? Disable it if you like player must have parent to get job baby.
 	.BabyClass = true;				// Enable Baby classes?
-	.BabyThird = true;				// Enable Baby third classes?
+	.BabyThird = false;				// Enable Baby third classes? (DESATIVADO)
 	.BabyExpanded = true;			// Enable Baby Expanded classes: Ex. Baby Ninja, Baby Taekwon, etc.
-	.BabySummoner = true;			// Enable Baby Summoner?
+	.BabySummoner = false;			// Enable Baby Summoner?
 	.LastJob = true;				// Enforce linear class changes?
 	.SkillPointCheck = true;		// Force player to use up all skill points?
 	.Platinum = true;				// Get platinum skills automatically?
@@ -488,3 +488,32 @@ OnInit:
 	end;
 }
 
+// Duplicatas em Todas as Cidades
+alberta,26,240,6	duplicate(Job Master)	Job Master#alb	123
+aldebaran,136,118,6	duplicate(Job Master)	Job Master#alde	123
+amatsu,199,79,4	duplicate(Job Master)	Job Master#ama	123
+ayothaya,208,169,6	duplicate(Job Master)	Job Master#ayo	123
+comodo,185,158,6	duplicate(Job Master)	Job Master#com	123
+einbech,58,36,6	duplicate(Job Master)	Job Master#einbe	123
+einbroch,58,202,6	duplicate(Job Master)	Job Master#einbr	123
+geffen,116,72,6	duplicate(Job Master)	Job Master#gef	123
+gonryun,157,122,6	duplicate(Job Master)	Job Master#gon	123
+hugel,90,150,6	duplicate(Job Master)	Job Master#hug	123
+izlude,122,150,6	duplicate(Job Master)	Job Master#izl	123
+jawaii,251,139,4	duplicate(Job Master)	Job Master#jaw	123
+lighthalzen,153,100,6	duplicate(Job Master)	Job Master#lhz	123
+louyang,227,103,4	duplicate(Job Master)	Job Master#lou	123
+morocc,154,97,6	duplicate(Job Master)	Job Master#mor	123
+payon,180,106,4	duplicate(Job Master)	Job Master#pay	123
+rachel,126,116,6	duplicate(Job Master)	Job Master#rac	123
+umbala,106,148,3	duplicate(Job Master)	Job Master#umb	123
+veins,218,121,4	duplicate(Job Master)	Job Master#ve	123
+xmas,144,136,4	duplicate(Job Master)	Job Master#xmas	123
+yuno,165,45,4	duplicate(Job Master)	Job Master#yuno	123
+
+// Duplicatas no Campo de Treinamento (ao lado do Test Examiner)
+new_1-3,94,174,5	duplicate(Job Master)	Job Master#nv1	123
+new_2-3,94,174,5	duplicate(Job Master)	Job Master#nv2	123
+new_3-3,94,174,5	duplicate(Job Master)	Job Master#nv3	123
+new_4-3,94,174,5	duplicate(Job Master)	Job Master#nv4	123
+new_5-3,94,174,5	duplicate(Job Master)	Job Master#nv5	123

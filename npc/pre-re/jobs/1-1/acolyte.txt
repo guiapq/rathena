@@ -1,15 +1,13 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Acolyte Job Quest
-//===== By: ================================================== 
+//===== By: ==================================================
 //= kobra_k88; L0ne_W0lf
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 2.2
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= Job quest for Acolyte classes
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 Fully working.
 //= 1.1 Added function calls for Priest Quest.
 //= 1.2 Fixed Marthilda, Yosuke bugs. [Lupus]
@@ -28,9 +26,9 @@
 //= 2.0 Fixed High Acolytesnot being given holy light. [L0ne_W0lf]
 //= 2.1 Added Quest Log commands. [L0ne_W0lf]
 //= 2.2 Fixed an issue with completequest by adding checkquest. [Kisuka]
-//============================================================ 
+//============================================================
 
-prt_church,184,41,4	script	Cleric#aco	60,{
+prt_church,184,41,4	script	Cleric#aco	1_M_PASTOR,{
 	if (Upper == 1) {
 		if (ADVJOB == Job_High_Priest || ADVJOB == Job_Champion) {
 			if (Class == Job_Novice_High) {
@@ -38,7 +36,7 @@ prt_church,184,41,4	script	Cleric#aco	60,{
 				mes "Ah, I sense you have endured";
 				mes "a past life experience. You must have learned many things before entering Valhalla.";
 				next;
-				if (!callfunc("F_CanChangeJob")) {
+				if (getskilllv("NV_BASIC") < 9) {
 					mes "[Father Mareusis]";
 					mes "Unfortunately, I don't think you're ready to become an Acolyte yet. Please finish learning all of the Basic Skills first.";
 					next;
@@ -56,9 +54,9 @@ prt_church,184,41,4	script	Cleric#aco	60,{
 				mes "wish you luck on your";
 				mes "new life's journey.";
 				next;
-				skill "NV_TRICKDEAD",0,SKILL_PERM;
+				skill 143,0,0;
 				jobchange Job_Acolyte_High;
-				skill "AL_HOLYLIGHT",1,SKILL_PERM;
+				skill 156,1,0;
 				mes "[Father Mareusis]";
 				mes "Now, venture forth and seek those who need your help. May God light your path.";
 				close;
@@ -106,17 +104,17 @@ prt_church,184,41,4	script	Cleric#aco	60,{
 				mes "give you a mission...";
 				switch(rand(3)) {
 				default:
-					set job_acolyte_q,2;
+					job_acolyte_q = 2;
 					mes "Please visit ^000077Father Rubalkabara^000000, a member of the Prontera Parish, and return here. He has been practicing asceticism in the ^000077Relics NorthEast of Prontera City^000000.";
 					setquest 1001;
 					break;
 				case 1:
-					set job_acolyte_q,3;
+					job_acolyte_q = 3;
 					mes "Please visit ^000077Mother Mathilda^000000 and then return to me. She has been practicing asceticism near ^000077Morroc Town, SouthWest of Prontera City^000000.";
 					setquest 1002;
 					break;
 				case 2:
-					set job_acolyte_q,4;
+					job_acolyte_q = 4;
 					mes "Please visit ^000077Father Yosuke^000000 and return here. He has been practicing asceticism around ^000077a bridge somewhere NorthWest of Prontera^000000.";
 					setquest 1003;
 					break;
@@ -137,7 +135,7 @@ prt_church,184,41,4	script	Cleric#aco	60,{
 		mes "Oh, you've come back. Let me check and see if you are ready to serve God. Let's see...";
 		next;
 		mes "[Father Mareusis]";
-		if (!callfunc("F_CanChangeJob")) {
+		if (getskilllv("NV_BASIC") < 9) {
 			mes "Good Lord! Haven't you accomplished the Basic Training yet?! It's important that you finish that!";
 			next;
 			mes "[Father Mareusis]";
@@ -181,13 +179,13 @@ prt_church,184,41,4	script	Cleric#aco	60,{
 		mes "[Father Mareusis]";
 		mes "I am proud to say that you are now ready to become an Acolyte!";
 		next;
-		skill "NV_TRICKDEAD",0,SKILL_PERM;
+		skill 143,0,0;
 		callfunc "Job_Change",Job_Acolyte;
 		callfunc "F_ClearJobVar";
-		if(checkquest(1001) != -1) {
+		if (questprogress(1001)) {
 			completequest 1001;
 		}
-		else if(checkquest(1002) != -1) {
+		else if (questprogress(1002)) {
 			completequest 1002;
 		}
 		else {
@@ -247,7 +245,7 @@ prt_church,184,41,4	script	Cleric#aco	60,{
 	}
 }
 
-prt_fild03,365,255,2	script	Ascetic#aco	89,{
+prt_fild03,365,255,2	script	Ascetic#aco	4_M_ORIENT02,{
 	mes "[Father Rubalkabara]";
 	if (BaseJob == Job_Novice) {
 		if (job_acolyte_q == 6) {
@@ -279,8 +277,8 @@ prt_fild03,365,255,2	script	Ascetic#aco	89,{
 				mes "[Father Rubalkabara]";
 				mes "Farewell.";
 				close2;
-				savepoint "prt_fild03",361,255,1,1;
-				set job_acolyte_q,6;
+				savepoint "prt_fild03",361,255;
+				job_acolyte_q = 6;
 				end;
 			}
 			else {
@@ -324,7 +322,7 @@ prt_fild03,365,255,2	script	Ascetic#aco	89,{
 	}
 }
 
-moc_fild07,41,355,4	script	Ascetic#2aco	95,{
+moc_fild07,41,355,4	script	Ascetic#2aco	4_F_SISTER,{
 	mes "[Mother Mathilda]";
 	if (BaseJob == Job_Novice) {
 		if (job_acolyte_q == 7) {
@@ -347,8 +345,8 @@ moc_fild07,41,355,4	script	Ascetic#2aco	95,{
 				mes "[Mother Mathilda]";
 				mes "Please return to the Prontera Sanctuary and speak to the Priest in charge.";
 				close2;
-				savepoint "moc_fild07",35,355,1,1;
-				set job_acolyte_q,7;
+				savepoint "moc_fild07",35,355;
+				job_acolyte_q = 7;
 				end;
 			}
 			else {
@@ -393,7 +391,7 @@ moc_fild07,41,355,4	script	Ascetic#2aco	95,{
 	}
 }
 
-prt_fild00,208,218,6	script	Ascetic#3aco	98,{
+prt_fild00,208,218,6	script	Ascetic#3aco	4W_M_02,{
 	mes "[Father Yosuke]";
 	if (BaseJob == Job_Novice) {
 		if (job_acolyte_q == 8) {
@@ -424,8 +422,8 @@ prt_fild00,208,218,6	script	Ascetic#3aco	98,{
 				mes "[Father Yosuke]";
 				mes "Now go back to the Santuary and finish becoming an Acolyte, kid.";
 				close2;
-				savepoint "prt_fild00",206,230,1,1;
-				set job_acolyte_q,8;
+				savepoint "prt_fild00",206,230;
+				job_acolyte_q = 8;
 				end;
 			}
 			else {

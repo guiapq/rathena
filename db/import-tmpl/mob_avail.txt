@@ -13,4 +13,11 @@
 //
 // SpriteID is a job class value.
 // Weapon and Shield uses Item ID, while Head uses View ID.
-
+// 7 Devoradores do Cometa (RagnaRogue)
+2901,1039 // Baphomet Cósmico -> Sprite Baphomet
+2902,1159 // Phreeoni Estelar -> Sprite Phreeoni
+2903,1115 // Eddga Incandescente -> Sprite Eddga
+2904,1150 // Moonlight Astral -> Sprite Moonlight Flower
+2905,1252 // Garm do Meteoro -> Sprite Garm
+2906,1272 // Dark Lord do Vazio -> Sprite Dark Lord
+2907,1373 // Lord of Death Celestial -> Sprite Lord of Death

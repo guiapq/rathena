@@ -15,6 +15,7 @@ OnInit:
 	bindatcmd("rura", "MapConquest::OnWarpCommand", 0, 99);
 	bindatcmd("mapmove", "MapConquest::OnWarpCommand", 0, 99);
 	bindatcmd("go", "MapConquest::OnGoCommand", 0, 99);
+	bindatcmd("sos", "MapConquest::OnSOSCommand", 0, 99);
 
 	// Carregar seed ativa do mundo
 	$@current_world_seed$ = "v3-world";
@@ -23,15 +24,29 @@ OnInit:
 		$@current_world_seed$ = .@seed$[0];
 	}
 
-	// Cidades capitais seguras (conquistadas por padrão)
-	setarray .@safe_cities$[0], "prontera", "izlude", "geffen", "morocc", "payon", "alberta", "aldebaran", "comodo", "yuno", "amatsu", "gonryun", "umbala", "lighthalzen", "louyang", "ayothaya", "einbroch", "einbech", "hugel", "rachel", "veins", "lutie", "jawaii";
-	for (.@i = 0; .@i < getarraysize(.@safe_cities$); .@i++) {
-		query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('" + .@safe_cities$[.@i] + "', '" + $@current_world_seed$ + "', 'Sistema', NOW())");
+	// Apenas a Cidade Inicial ativa da seed e conquistada por padrao
+	.@sc_rc = query_sql("SELECT `value` FROM `world_metadata` WHERE `key` = 'start_city' LIMIT 1", .@sc$);
+	if (.@sc_rc > 0 && .@sc$[0] != "") {
+		.@start_c$ = .@sc$[0];
+	} else {
+		.@start_c$ = "amatsu";
 	}
+	query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('" + .@start_c$ + "', '" + $@current_world_seed$ + "', 'Sistema', NOW())");
 	end;
 
 OnPCLoadMapEvent:
 	.@map$ = strcharinfo(3);
+	getmapxy(.@cur_m$, .@cur_x, .@cur_y, 0);
+
+	// Atualizar rastreamento do @sos (portal de entrada e mapa de origem)
+	if (@sos_curr_map$ != .@cur_m$) {
+		@sos_prev_map$ = @sos_curr_map$;
+		@sos_prev_x = @sos_curr_x;
+		@sos_prev_y = @sos_curr_y;
+		@sos_curr_map$ = .@cur_m$;
+		@sos_curr_x = .@cur_x;
+		@sos_curr_y = .@cur_y;
+	}
 
 	// Se for cidade inicial ou interior/castelo/instancia protegida, ignorar
 	if (compare(.@map$, "_in") || compare(.@map$, "cas") || compare(.@map$, "sec_in") || compare(.@map$, "job_") || compare(.@map$, "gld_") || compare(.@map$, "pvp_")) end;
@@ -57,6 +72,7 @@ OnPCLoadMapEvent:
 	if (.@mob_spawns == 0 && .@active_mobs <= 0) {
 		// Mapas sem monstros são conquistados automaticamente com mensagem pacífica!
 		query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('" + .@map$ + "', '" + $@current_world_seed$ + "', '" + escape_sql(strcharinfo(0)) + "', NOW())");
+		donpcevent "EventTelemetry::OnMapConquered";
 
 		// Contar quantas novas rotas foram abertas a partir daqui
 		.@new_maps_count = 0;
@@ -112,6 +128,8 @@ OnNPCKillEvent:
 		// Conquista de combate concluída com sucesso!
 		query_sql("INSERT IGNORE INTO `world_map_conquests` (`map_name`, `seed`, `conquered_by`, `conquered_at`) VALUES ('" + .@map$ + "', '" + $@current_world_seed$ + "', '" + escape_sql(strcharinfo(0)) + "', NOW())");
 		@conquest_map_kills = 0;
+		donpcevent "CometSystem::OnMapPurified";
+		donpcevent "EventTelemetry::OnMapConquered";
 
 		// Quantos novos mapas ainda não conquistados foram abertos a partir deste mapa?
 		.@new_maps_count = 0;
@@ -195,4 +213,46 @@ OnGoCommand:
 		end;
 	}
 	return;
+
+OnSOSCommand:
+	getmapxy(.@my_m$, .@my_x, .@my_y, 0);
+
+	// Se for executado em uma cidade, teleporta direto para o ponto central (@warp da cidade)
+	.@is_town = query_sql("SELECT `x`, `y`, `note` FROM `world_map_spawns` WHERE `map_name` = '" + escape_sql(.@my_m$) + "' AND `type` = 'town' LIMIT 1", .@tx, .@ty, .@tnote$);
+	if (.@is_town > 0) {
+		message strcharinfo(0), "[SOS] Retornando ao ponto central de " + .@my_m$ + " (" + .@tnote$[0] + ")...";
+		specialeffect2 568;
+		warp .@my_m$, .@tx[0], .@ty[0];
+		end;
+	}
+
+	// Se for executado em um interior de cidade (ex: prt_in, morocc_in), também retorna ao ponto central da cidade
+	.@is_town_in = query_sql("SELECT s2.`map_name`, s2.`x`, s2.`y`, s2.`note` FROM `world_map_spawns` s1 JOIN `world_map_spawns` s2 ON s1.`note` = CONCAT('Portal de ', s2.`map_name`) WHERE s1.`map_name` = '" + escape_sql(.@my_m$) + "' AND s2.`type` = 'town' LIMIT 1", .@tm$, .@tx, .@ty, .@tnote$);
+	if (.@is_town_in > 0) {
+		message strcharinfo(0), "[SOS] Retornando ao ponto central de " + .@tm$[0] + " (" + .@tnote$[0] + ")...";
+		specialeffect2 568;
+		warp .@tm$[0], .@tx[0], .@ty[0];
+		end;
+	}
+
+	// PROTOCOLO DE RESGATE DEFINITIVO (SOS):
+	// Em qualquer campo ou masmorra hostil, evacua o jogador imediatamente para o SavePoint (cidade segura)
+	message strcharinfo(0), "=========================================================";
+	message strcharinfo(0), "🚨 [SOS RESGATE] Protocolo de Emergência acionado!";
+	message strcharinfo(0), "Evacuando com segurança para o seu Ponto de Retorno (SavePoint)...";
+	message strcharinfo(0), "=========================================================";
+
+	deltimer "CometSystem::OnMiasmaTick";
+	deltimer "CometSystem::OnThematicDebuffTick";
+	@miasma_stage = 0;
+	sc_end SC_SLOWDOWN;
+	sc_end SC_BLIND;
+	sc_end SC_HALLUCINATION;
+	sc_end SC_CURSE;
+	sc_end SC_BLEEDING;
+	sc_end SC_DECREASEAGI;
+
+	specialeffect2 568;
+	warp "SavePoint", 0, 0;
+	end;
 }

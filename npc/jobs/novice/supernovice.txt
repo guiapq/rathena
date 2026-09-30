@@ -1,27 +1,25 @@
-//===== rAthena Script ======================================= 
+//===== Hercules Script ======================================
 //= Super Novice Job Quest
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Darkchild
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 2.4
-//===== Compatible With: ===================================== 
-//= rAthena Project; SVN r15340+
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= [Official Conversion]
 //= Super Novice Job Change Npc
 //= Super Novice Cart Rental Npc
 //= Some Other Useless Super Novice Npc
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.9 Rescripted to the Aegis 10.3 Standars. [Samuray22]
 //= 2.0 Rescripted again, this time using an iRO base. [L0ne_W0lf]
 //= 2.1 Swapped use of baseclass for basejob. [L0ne_W0lf]
 //= 2.2 Added Quest Log commands. [Kisuka]
 //= 2.3 NPC "Esseray" calls Ex. Super Novice script when enabled. [Euphy]
 //= 2.4 Added an Ex. Super Novice dialog check. [Euphy]
-//============================================================ 
+//============================================================
 
-aldeba_in,223,167,3	script	Tzerero#sn	709,{
-	if (BaseJob == Job_Super_Novice) {
+aldeba_in,223,167,3	script	Tzerero#sn	4_M_SEAMAN,{
+	if (BaseJob == Job_SuperNovice) {
 		mes "[Tzerero]";
 		mes "I trust that you are enjoying";
 		mes "life as a Super Novice? Ah,";
@@ -59,7 +57,7 @@ aldeba_in,223,167,3	script	Tzerero#sn	709,{
 		completequest 6010;
 		callfunc "F_ClearJobVar";
 		getitem 2339,1; //G_Strings
-		if (Upper==0) jobchange Job_Super_Novice;
+		if (Upper==0) jobchange Job_SuperNovice;
 		if (Upper==2) jobchange Job_Super_Baby;
 		mes "[Tzerero]";
 		mes "Bwaha! I got you!";
@@ -117,7 +115,7 @@ aldeba_in,223,167,3	script	Tzerero#sn	709,{
 		mes ".....";
 		mes ".......";
 		mes ".........";
-		emotion ET_THINK;
+		emotion e_dots;
 		next;
 		mes "[Tzerero]";
 		mes "I see that the light";
@@ -142,7 +140,7 @@ aldeba_in,223,167,3	script	Tzerero#sn	709,{
 		next;
 		switch(select("Accept his offer.:Reject his offer.:Listen more carefully.")) {
 		case 1:
-			if (!callfunc("F_CanChangeJob")) {
+			if (getskilllv("NV_BASIC") < 9) {
 				mes "[Tzerero]";
 				mes "Hmm...But do you truly";
 				mes "appreciate the value of";
@@ -211,7 +209,7 @@ aldeba_in,223,167,3	script	Tzerero#sn	709,{
 			mes "an ordinary number.";
 			mes "Hahahahaha~";
 			next;
-			set SUPNOV_Q,1;
+			SUPNOV_Q = 1;
 			setquest 6010;
 			mes "[Tzerero]";
 			mes "Good luck, my friend.";
@@ -275,7 +273,7 @@ aldeba_in,223,167,3	script	Tzerero#sn	709,{
 		}
 	}
 	else {
-		if (BaseJob == Job_Super_Novice) {
+		if (BaseJob == Job_SuperNovice) {
 			mes "[Tzerero]";
 			mes "How do you like living";
 			mes "life simply as a Super";
@@ -328,15 +326,15 @@ aldeba_in,223,167,3	script	Tzerero#sn	709,{
 	}
 }
 
-aldeba_in,216,169,5	script	Esseray#sn	86,{
+aldeba_in,216,169,5	script	Esseray#sn	4_M_04,{
 	if (Class == Job_Super_Novice_E || Class == Job_Super_Baby_E) {
 		mes "[Esseray]";
 		mes "You! Stronger than before.";
 		mes "I knew you could pass the test~";
 		close;
 	}
-	if (BaseJob == Job_Super_Novice) {
-		if (checkre(0))
+	if (BaseJob == Job_SuperNovice) {
+		if (RENEWAL)
 			callfunc "Esseray_Ex";
 		mes "[Esseray]";
 		mes "Hm? Hey, you're a member";
@@ -384,10 +382,10 @@ aldeba_in,216,169,5	script	Esseray#sn	86,{
 	}
 }
 
-aldebaran,54,238,5	script	Kafra Employee#sn	117,{
-	if (BaseJob == Job_Super_Novice) {
+aldebaran,54,238,5	script	Kafra Employee#sn	4_F_KAFRA1,{
+	if (BaseJob == Job_SuperNovice) {
 		mes "[Kafra Employee]";
-		if (Sex == SEX_MALE)
+		if (Sex )
 			mes "Hello, Mister Super Novice~";
 		else
 			mes "Hello, Super Novice, Ma'am.";
@@ -432,8 +430,8 @@ aldebaran,54,238,5	script	Kafra Employee#sn	117,{
 					close;
 				}
 				if (Zeny >= 1899) {
-					set RESRVPTS, RESRVPTS + 190;
-					set Zeny, Zeny-1900;
+					RESRVPTS += 190;
+					Zeny -= 1900;
 					if (getskilllv("MC_PUSHCART") > 0) setcart;
 					mes "[Kafra Employee]";
 					mes "Thank you for using my service.";
@@ -469,9 +467,9 @@ aldebaran,54,238,5	script	Kafra Employee#sn	117,{
 	close;
 }
 
-//============================================================ 
+//============================================================
 // Old changelog
-//============================================================ 
+//============================================================
 //= Dialogs From Some Other Scripts (Most Of It)
 //= 1.3-1.5 Added Baby class support (and to the Kafta SN Cart
 //=     renter, too) [Lupus]
@@ -479,4 +477,4 @@ aldebaran,54,238,5	script	Kafra Employee#sn	117,{
 //=     this Job Quests again. [Lupus]
 //= 1.7 Fixed Baby Class Support. [Lupus]
 //= 1.8 Now a Baby can become a Super Baby [Lupus]
-//============================================================ 
+//============================================================
