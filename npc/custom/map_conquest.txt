@@ -252,6 +252,7 @@ OnSOSCommand:
 	sc_end SC_BLEEDING;
 	sc_end SC_DECREASEAGI;
 
+	killmonster @sos_curr_map$, "CometSystem::OnMiasmaMobKill";
 	specialeffect2 568;
 	warp "SavePoint", 0, 0;
 	end;

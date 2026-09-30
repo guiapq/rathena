@@ -1,0 +1,111 @@
+// ==============================================================================
+// RagnaRogue - Densidade Reforçada para Mapas Iniciais (Starter Spawns Boost)
+// Garante mapas vivos, vibrantes e cheios de monstros com respawn imediato.
+// ==============================================================================
+
+// Map: ama_fild01
+ama_fild01,0,0,0,0	monster	Karakasa	1400,60,0,0,0
+ama_fild01,0,0,0,0	monster	Poporing	1031,40,0,0,0
+ama_fild01,0,0,0,0	monster	Bigfoot	1060,40,0,0,0
+ama_fild01,0,0,0,0	monster	Kapha	1406,30,0,0,0
+
+// Map: gef_fild00
+gef_fild00,0,0,0,0	monster	Poring	1002,45,0,0,0
+gef_fild00,0,0,0,0	monster	Fabre	1007,35,0,0,0
+gef_fild00,0,0,0,0	monster	Chonchon	1011,35,0,0,0
+gef_fild00,0,0,0,0	monster	Lunatic	1063,30,0,0,0
+
+// Map: gef_fild04
+gef_fild04,0,0,0,0	monster	Poring	1002,45,0,0,0
+gef_fild04,0,0,0,0	monster	Spore	1014,45,0,0,0
+gef_fild04,0,0,0,0	monster	Rocker	1061,35,0,0,0
+gef_fild04,0,0,0,0	monster	Poporing	1031,25,0,0,0
+
+// Map: gef_fild07
+gef_fild07,0,0,0,0	monster	Poring	1002,50,0,0,0
+gef_fild07,0,0,0,0	monster	Savage Babe	1056,40,0,0,0
+gef_fild07,0,0,0,0	monster	Lunatic	1063,35,0,0,0
+gef_fild07,0,0,0,0	monster	Poporing	1031,25,0,0,0
+
+// Map: iz_dun00
+iz_dun00,0,0,0,0	monster	Plankton	1161,60,0,0,0
+iz_dun00,0,0,0,0	monster	Marina	1141,50,0,0,0
+iz_dun00,0,0,0,0	monster	Kukre	1070,40,0,0,0
+iz_dun00,0,0,0,0	monster	Vadon	1066,35,0,0,0
+iz_dun00,0,0,0,0	monster	Hydra	1068,30,0,0,0
+
+// Map: moc_fild01
+moc_fild01,0,0,0,0	monster	Picky	1050,50,0,0,0
+moc_fild01,0,0,0,0	monster	Condor	1013,40,0,0,0
+moc_fild01,0,0,0,0	monster	Drops	1113,35,0,0,0
+moc_fild01,0,0,0,0	monster	Peco Peco Egg	1047,30,0,0,0
+
+// Map: moc_fild07
+moc_fild07,0,0,0,0	monster	Picky	1049,50,0,0,0
+moc_fild07,0,0,0,0	monster	Condor	1013,40,0,0,0
+moc_fild07,0,0,0,0	monster	Drops	1113,35,0,0,0
+moc_fild07,0,0,0,0	monster	Peco Peco Egg	1047,30,0,0,0
+
+// Map: moc_fild12
+moc_fild12,0,0,0,0	monster	Picky	1050,60,0,0,0
+moc_fild12,0,0,0,0	monster	Peco Peco Egg	1047,50,0,0,0
+moc_fild12,0,0,0,0	monster	Drops	1113,40,0,0,0
+moc_fild12,0,0,0,0	monster	Condor	1013,35,0,0,0
+
+// Map: pay_fild01
+pay_fild01,0,0,0,0	monster	Poring	1002,50,0,0,0
+pay_fild01,0,0,0,0	monster	Spore	1014,45,0,0,0
+pay_fild01,0,0,0,0	monster	Willow	1010,35,0,0,0
+pay_fild01,0,0,0,0	monster	Poporing	1031,25,0,0,0
+
+// Map: pay_fild08
+pay_fild08,0,0,0,0	monster	Spore	1014,60,0,0,0
+pay_fild08,0,0,0,0	monster	Willow	1010,50,0,0,0
+pay_fild08,0,0,0,0	monster	Poring	1002,45,0,0,0
+pay_fild08,0,0,0,0	monster	Poporing	1031,30,0,0,0
+pay_fild08,0,0,0,0	monster	Pupa	1008,25,0,0,0
+
+// Map: prt_fild01
+prt_fild01,0,0,0,0	monster	Poring	1002,50,0,0,0
+prt_fild01,0,0,0,0	monster	Lunatic	1063,35,0,0,0
+prt_fild01,0,0,0,0	monster	Fabre	1007,30,0,0,0
+prt_fild01,0,0,0,0	monster	Chonchon	1011,30,0,0,0
+prt_fild01,0,0,0,0	monster	Poporing	1031,20,0,0,0
+
+// Map: prt_fild05
+prt_fild05,0,0,0,0	monster	Poring	1002,50,0,0,0
+prt_fild05,0,0,0,0	monster	Rocker	1061,40,0,0,0
+prt_fild05,0,0,0,0	monster	Pupa	1008,30,0,0,0
+prt_fild05,0,0,0,0	monster	Poporing	1031,25,0,0,0
+
+// Map: prt_fild06
+prt_fild06,0,0,0,0	monster	Poring	1002,50,0,0,0
+prt_fild06,0,0,0,0	monster	Spore	1014,40,0,0,0
+prt_fild06,0,0,0,0	monster	Fabre	1007,30,0,0,0
+prt_fild06,0,0,0,0	monster	Chonchon	1011,30,0,0,0
+
+// Map: prt_fild07
+prt_fild07,0,0,0,0	monster	Poring	1002,50,0,0,0
+prt_fild07,0,0,0,0	monster	Rocker	1061,45,0,0,0
+prt_fild07,0,0,0,0	monster	Lunatic	1063,35,0,0,0
+prt_fild07,0,0,0,0	monster	Poporing	1031,25,0,0,0
+
+// Map: prt_fild08
+prt_fild08,0,0,0,0	monster	Poring	1002,80,0,0,0
+prt_fild08,0,0,0,0	monster	Lunatic	1063,40,0,0,0
+prt_fild08,0,0,0,0	monster	Fabre	1007,30,0,0,0
+prt_fild08,0,0,0,0	monster	Pupa	1008,30,0,0,0
+prt_fild08,0,0,0,0	monster	Drops	1113,30,0,0,0
+prt_fild08,0,0,0,0	monster	Poporing	1031,25,0,0,0
+
+// Map: prt_sewb1
+prt_sewb1,0,0,0,0	monster	Thief Bug	1051,60,0,0,0
+prt_sewb1,0,0,0,0	monster	Tarou	1017,50,0,0,0
+prt_sewb1,0,0,0,0	monster	Spore	1014,40,0,0,0
+prt_sewb1,0,0,0,0	monster	Familiar	1005,30,0,0,0
+
+// Map: xmas_fild01
+xmas_fild01,0,0,0,0	monster	Marin	1242,60,0,0,0
+xmas_fild01,0,0,0,0	monster	Sasquatch	1243,35,0,0,0
+xmas_fild01,0,0,0,0	monster	Cookie	1245,35,0,0,0
+xmas_fild01,0,0,0,0	monster	Poring	1002,40,0,0,0

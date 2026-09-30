@@ -93,6 +93,7 @@ OnPCLoadMapEvent:
 
 	if (.@conquered > 0) {
 		// Mapa já libertado: interrompe miasma e limpa efeitos
+		killmonster .@map$, "CometSystem::OnMiasmaMobKill";
 		deltimer "CometSystem::OnMiasmaTick";
 		deltimer "CometSystem::OnThematicDebuffTick";
 		@miasma_stage = 0;
@@ -101,6 +102,7 @@ OnPCLoadMapEvent:
 		sc_end SC_HALLUCINATION;
 		sc_end SC_CURSE;
 		sc_end SC_BLEEDING;
+		sc_end SC_DECREASEAGI;
 		sc_start SC_EXPBOOST, 86400000, 50;
 		sc_start SC_ITEMBOOST, 86400000, 50;
 		dispbottom "a nevoa se dissipa e voce respira aliviado: este mapa está livre da maldição do cometa", 0x00FF00;
@@ -121,10 +123,54 @@ OnPCLoadMapEvent:
 		end;
 	}
 
-	// Iniciar contagem do miasma progressivo suave (2 minutos)
+	// -------------------------------------------------------------
+	// 2.1 Invocar Monstros Agressivos da Névoa (Corrupção do Cometa)
+	// -------------------------------------------------------------
+	.@tier = 1;
+	if (compare(.@map$, "fild") || compare(.@map$, "ship") || compare(.@map$, "sewb1") || compare(.@map$, "iz_dun00") || compare(.@map$, "iz_dun01")) {
+		.@tier = 1;
+	} else if (compare(.@map$, "dun01") || compare(.@map$, "dun02") || compare(.@map$, "pryd01") || compare(.@map$, "pryd02") || compare(.@map$, "anthell") || compare(.@map$, "sewb")) {
+		.@tier = 2;
+	} else if (compare(.@map$, "dun03") || compare(.@map$, "dun04") || compare(.@map$, "pryd04") || compare(.@map$, "sphinx") || compare(.@map$, "ra_san") || compare(.@map$, "ice_dun") || compare(.@map$, "thor_v01")) {
+		.@tier = 3;
+	} else {
+		.@tier = 4;
+	}
+
+	if (mobcount(.@map$, "CometSystem::OnMiasmaMobKill") == 0) {
+		if (.@tier == 1) {
+			monster .@map$, 0, 0, "Familiar Sombrio", 1005, 10, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Zumbi da Névoa", 1015, 8, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Esqueleto Corrompido", 1076, 6, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Esporo Venenoso", 1077, 6, "CometSystem::OnMiasmaMobKill";
+		} else if (.@tier == 2) {
+			monster .@map$, 0, 0, "Múmia Espectral", 1041, 8, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Soldado Esqueleto", 1028, 8, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Carniçal Faminto", 1036, 6, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Drainliar Sanguinário", 1111, 8, "CometSystem::OnMiasmaMobKill";
+		} else if (.@tier == 3) {
+			monster .@map$, 0, 0, "Ísis Abissal", 1029, 8, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Múmia Anciã da Praga", 1297, 6, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Esqueleto Arqueiro", 1016, 8, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Minotauro Titânico", 1149, 6, "CometSystem::OnMiasmaMobKill";
+		} else {
+			monster .@map$, 0, 0, "Raydric Caído", 1163, 8, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Raydric Atirador", 1276, 6, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Cavaleiro do Abismo", 1219, 3, "CometSystem::OnMiasmaMobKill";
+			monster .@map$, 0, 0, "Wraith Espectral", 1192, 6, "CometSystem::OnMiasmaMobKill";
+		}
+	}
+
+	// -------------------------------------------------------------
+	// 2.2 Alerta e Contagem do Miasma Letal (Morte em 3 Minutos)
+	// -------------------------------------------------------------
+	dispbottom "⚠️ [ALERTA DE MIASMA] A névoa tóxica do Cometa domina este território!", 0xFF3333;
+	dispbottom "☠️ O ar é rarefeito e corrosivo. Purifique o mapa abatendo monstros ou você perecerá em 3 minutos!", 0xFFAA00;
+	specialeffect2 458;
+
 	@miasma_stage = 0;
 	deltimer "CometSystem::OnMiasmaTick";
-	addtimer 120000, "CometSystem::OnMiasmaTick";
+	addtimer 20000, "CometSystem::OnMiasmaTick";
 	end;
 
 OnThematicDebuffTick:
@@ -201,33 +247,73 @@ OnMiasmaTick:
 	}
 
 	@miasma_stage = @miasma_stage + 1;
+	.@rem_sec = (9 - @miasma_stage) * 20;
+	if (.@rem_sec < 0) .@rem_sec = 0;
+
 	specialeffect2 458;
 
 	if (@miasma_stage == 1) {
-		dispbottom "[MIASMA - ESTÁGIO 1] A névoa se adensa... Suas pernas pesam e seus reflexos diminuem (-20% MoveSpeed)!", 0xFF8800;
-		sc_start SC_SLOWDOWN, 65000, 1;
+		dispbottom "☠️ [MIASMA - ESTÁGIO 1] A névoa se adensa! (-10% HP/SP, Lentidão) [" + .@rem_sec + "s restantes]", 0xFF8800;
+		sc_start SC_SLOWDOWN, 25000, 1;
+		percentheal -10, -10;
+		addtimer 20000, "CometSystem::OnMiasmaTick";
 	} else if (@miasma_stage == 2) {
-		dispbottom "[MIASMA - ESTÁGIO 2] O ar rarefeito sufoca seus pulmões! Você perde energia cósmica (-20% SP)!", 0xFF5500;
-		percentheal 0, -20;
+		dispbottom "☠️ [MIASMA - ESTÁGIO 2] O ar infecta suas feridas! (-15% HP/SP, Sangramento) [" + .@rem_sec + "s restantes]", 0xFF6600;
+		sc_start SC_BLEEDING, 25000, 1;
+		percentheal -15, -15;
+		addtimer 20000, "CometSystem::OnMiasmaTick";
 	} else if (@miasma_stage == 3) {
-		dispbottom "[MIASMA - ESTÁGIO 3] As sombras se distorcem! A névoa cega sua visão e causa alucinações!", 0xFF0055;
-		sc_start SC_BLIND, 65000, 1;
-		sc_start SC_HALLUCINATION, 30000, 1;
-	} else {
-		dispbottom "[MIASMA - ESTÁGIO 4] CORROSÃO CÓSMICA FATAL! Seu corpo está se dissolvendo no miasma! Purifique o mapa ou use @sos!", 0xFF0000;
+		dispbottom "☠️ [MIASMA - ESTÁGIO 3] O peso da corrupção drena sua vitalidade! (-15% HP/SP, Maldição) [" + .@rem_sec + "s restantes]", 0xFF4400;
+		sc_start SC_CURSE, 25000, 1;
+		percentheal -15, -15;
+		addtimer 20000, "CometSystem::OnMiasmaTick";
+	} else if (@miasma_stage == 4) {
+		dispbottom "☠️ [MIASMA - ESTÁGIO 4] As trevas fecham seus olhos! (-20% HP/SP, Cegueira) [" + .@rem_sec + "s restantes]", 0xFF2200;
+		sc_start SC_BLIND, 25000, 1;
+		percentheal -20, -20;
+		addtimer 20000, "CometSystem::OnMiasmaTick";
+	} else if (@miasma_stage == 5) {
+		dispbottom "☠️ [MIASMA - ESTÁGIO 5] A névoa distorce a realidade! (-20% HP/SP, Alucinações) [" + .@rem_sec + "s restantes]", 0xFF0055;
+		sc_start SC_HALLUCINATION, 25000, 1;
+		percentheal -20, -20;
+		addtimer 20000, "CometSystem::OnMiasmaTick";
+	} else if (@miasma_stage == 6) {
+		dispbottom "☠️ [MIASMA - ESTÁGIO 6] Seus membros perdem a força motriz! (-25% HP/SP, Desaceleração) [" + .@rem_sec + "s restantes]", 0xFF0033;
+		sc_start SC_DECREASEAGI, 25000, 5;
 		percentheal -25, -25;
+		addtimer 20000, "CometSystem::OnMiasmaTick";
+	} else if (@miasma_stage == 7) {
+		dispbottom "☠️ [MIASMA CRÍTICO] ASFIXIA SEVERA! Seus pulmões ardem em brasa! (-30% HP/SP) [40s restantes!]", 0xFF0000;
+		percentheal -30, -30;
+		addtimer 20000, "CometSystem::OnMiasmaTick";
+	} else if (@miasma_stage == 8) {
+		dispbottom "☠️ [MIASMA TERMINAL] COLAPSO ORGÂNICO TOTAL! PURIFIQUE OU USE @SOS! (-35% HP/SP) [20s restantes!]", 0xFF0000;
+		percentheal -35, -35;
+		addtimer 20000, "CometSystem::OnMiasmaTick";
+	} else {
+		dispbottom "☠️ [MORTE POR ASFIXIA] O miasma corrosivo consumiu todo o seu ar vital!", 0xFF0000;
+		specialeffect2 568;
+		percentheal -100, -100;
+		unitkill getcharid(3);
+		@miasma_stage = 0;
 	}
+	end;
 
-	// Próximo estágio em 60 segundos
-	addtimer 60000, "CometSystem::OnMiasmaTick";
+OnMiasmaMobKill:
+	specialeffect2 568;
 	end;
 
 OnMapPurified:
+	.@map$ = strcharinfo(3);
+	killmonster .@map$, "CometSystem::OnMiasmaMobKill";
 	deltimer "CometSystem::OnMiasmaTick";
 	@miasma_stage = 0;
 	sc_end SC_SLOWDOWN;
 	sc_end SC_BLIND;
 	sc_end SC_HALLUCINATION;
+	sc_end SC_CURSE;
+	sc_end SC_BLEEDING;
+	sc_end SC_DECREASEAGI;
 	sc_start SC_EXPBOOST, 86400000, 50;
 	sc_start SC_ITEMBOOST, 86400000, 50;
 	dispbottom "a nevoa se dissipa e voce respira aliviado: este mapa está livre da maldição do cometa", 0x00FF00;
